@@ -1474,8 +1474,229 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ```
 
 ### Barratt Impulsivity Scale
-#### Total
+#### Total Score
+```{r bis_tot}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(bis_tot)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  ggplot(aes(x = session, y = bis_tot, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(0, 100)) +
+  labs(title = "Total Score on Barratt Impulsivity Scale by Session", 
+       x = "Session", y = "Total Score") )
 
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(bis_tot)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  summarize(mean=mean(bis_tot), sd = sd(bis_tot), se=std.error(bis_tot)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0, 100)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#43a2ca", "#0868ac")) +
+  labs(title = "Total Score on Barratt Impulsivity Scale by Session", 
+       x = "Session", y = "Total Score")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(bis_tot)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(bis_tot)) #, sd = sd(mr3d_acc)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+(J4 <- J3 + theme_bw() + 
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          panel.border = element_rect(colour = "black", size=0.5),
+          axis.title.x = element_text(face = "bold"),
+          legend.position = "none",
+          axis.title.y = element_text(face = "bold"),
+          axis.text.x=element_text(size=10, colour="black"),
+          axis.text.y=element_text(colour="black")))  
+```
+
+#### Attention Score
+```{r bis_att}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(bis_att)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  ggplot(aes(x = session, y = bis_att, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(0, 40)) +
+  labs(title = "Attention Score on Barratt Impulsivity Scale by Session", 
+       x = "Session", y = "Attention Score") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(bis_att)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  summarize(mean=mean(bis_att), sd = sd(bis_att), se=std.error(bis_att)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0, 40)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#43a2ca", "#0868ac")) +
+  labs(title = "Attention Score on Barratt Impulsivity Scale by Session", 
+       x = "Session", y = "Attention Score")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(bis_att)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(bis_att)) #, sd = sd(mr3d_acc)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+(J4 <- J3 + theme_bw() + 
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          panel.border = element_rect(colour = "black", size=0.5),
+          axis.title.x = element_text(face = "bold"),
+          legend.position = "none",
+          axis.title.y = element_text(face = "bold"),
+          axis.text.x=element_text(size=10, colour="black"),
+          axis.text.y=element_text(colour="black")))  
+```
+
+#### Motor Score
+```{r bis_mot}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(bis_mot)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  ggplot(aes(x = session, y = bis_mot, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(0, 40)) +
+  labs(title = "Motor Score on Barratt Impulsivity Scale by Session", 
+       x = "Session", y = "Motor Score") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(bis_mot)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  summarize(mean=mean(bis_mot), sd = sd(bis_mot), se=std.error(bis_mot)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0, 40)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#43a2ca", "#0868ac")) +
+  labs(title = "Motor Score on Barratt Impulsivity Scale by Session", 
+       x = "Session", y = "Motor Score")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(bis_mot)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(bis_mot)) #, sd = sd(mr3d_acc)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+(J4 <- J3 + theme_bw() + 
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          panel.border = element_rect(colour = "black", size=0.5),
+          axis.title.x = element_text(face = "bold"),
+          legend.position = "none",
+          axis.title.y = element_text(face = "bold"),
+          axis.text.x=element_text(size=10, colour="black"),
+          axis.text.y=element_text(colour="black")))  
+```
+
+#### Non-planning Score
+```{r bis_nplan}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(bis_nplan)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  ggplot(aes(x = session, y = bis_nplan, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(0, 40)) +
+  labs(title = "Non-planning Score on Barratt Impulsivity Scale by Session", 
+       x = "Session", y = "Non-planning Score") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(bis_nplan)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  summarize(mean=mean(bis_nplan), sd = sd(bis_nplan), se=std.error(bis_nplan)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0, 40)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#43a2ca", "#0868ac")) +
+  labs(title = "Non-planning Score on Barratt Impulsivity Scale by Session", 
+       x = "Session", y = "Non-planning Score")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(bis_nplan)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(bis_nplan)) #, sd = sd(mr3d_acc)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+(J4 <- J3 + theme_bw() + 
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          panel.border = element_rect(colour = "black", size=0.5),
+          axis.title.x = element_text(face = "bold"),
+          legend.position = "none",
+          axis.title.y = element_text(face = "bold"),
+          axis.text.x=element_text(size=10, colour="black"),
+          axis.text.y=element_text(colour="black")))  
+```
 
 ## Effects of predictors on outcome variables
 
@@ -2967,6 +3188,29 @@ bis_tot_grade_bsl_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title= "Does Total Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+
+# Does Total Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study predict BSL grades at the end of 1st year?
+bis_tot_grade_bsl_wide %>%
+  filter(`bis_tot_3rd year` != "na") %>% 
+  filter(`grade_bsl_1st year` != "na") %>% 
+  ggplot(aes(x = `bis_tot_3rd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Total Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Total Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study predict BSL grades at the end of 2nd year?
+bis_tot_grade_bsl_wide %>%
+  filter(`bis_tot_3rd year` != "na") %>% 
+  filter(`grade_bsl_2nd year` != "na") %>% 
+  ggplot(aes(x = `bis_tot_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Total Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+
 ```
 
 Not sure why geom_smooth() line does not appear in knitted output (works in .Rmd file)
