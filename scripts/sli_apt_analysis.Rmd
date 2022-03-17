@@ -428,7 +428,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
+theme_details <- theme_bw() + 
     theme(panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank(),
           panel.border = element_rect(colour = "black", size=0.5),
@@ -436,8 +436,9 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
           legend.position = "none",
           axis.title.y = element_text(face = "bold"),
           axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+          axis.text.y=element_text(colour="black"))
 
+( J4 <- J3 + theme_details )
 ```
 
 #### Accuracy in spatial matching
@@ -484,15 +485,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+( J4 <- J3 + theme_details )
 ```
 
 #### Combined accuracy
@@ -539,15 +532,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+( J4 <- J3 + theme_details ) 
 ```
 
 ### Corsi Blocks
@@ -592,15 +577,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+( J4 <- J3 + theme_details ) 
 ```
 
 #### Raw Score
@@ -644,15 +621,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+( J4 <- J3 + theme_details )
 ```
 
 #### Correct Responses
@@ -698,15 +667,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+( J4 <- J3 + theme_details ) 
 ```
 
 #### Memory Span
@@ -750,15 +711,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+( J4 <- J3 + theme_details )
 ```
 
 ### Kirklees Sentence Reading
@@ -803,15 +756,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+( J4 <- J3 + theme_details )
 ```
 
 #### Raw Score
@@ -855,15 +800,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+( J4 <- J3 + theme_details )
 ```
 
 #### Accuracy
@@ -910,15 +847,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+( J4 <- J3 + theme_details ) 
 ```
 
 ### KBIT-2 Matrices
@@ -964,15 +893,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+( J4 <- J3 + theme_details )
 ```
 
 #### Raw Score
@@ -1016,15 +937,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+( J4 <- J3 + theme_details ) 
 ```
 
 #### Accuracy
@@ -1072,15 +985,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+( J4 <- J3 + theme_details )  
 ```
 
 ### Digit Span
@@ -1128,15 +1033,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+( J4 <- J3 + theme_details )
 ```
 
 #### Memory Span
@@ -1183,15 +1080,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+( J4 <- J3 + theme_details )
 ```
 
 #### Time spent
@@ -1238,15 +1127,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+( J4 <- J3 + theme_details )  
 ```
 
 ### 2D Mental Rotation
@@ -1294,15 +1175,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+( J4 <- J3 + theme_details ) 
 ```
 
 #### Reaction Time
@@ -1347,15 +1220,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+( J4 <- J3 + theme_details )
 ```
 
 ### 3D Mental Rotation
@@ -1406,15 +1271,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+( J4 <- J3 + theme_details ) 
 ```
 
 #### Reaction Time
@@ -1462,15 +1319,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+( J4 <- J3 + theme_details )
 ```
 
 ### Barratt Impulsivity Scale
@@ -1519,15 +1368,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+( J4 <- J3 + theme_details ) 
 ```
 
 #### Attention Score
@@ -1575,15 +1416,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+( J4 <- J3 + theme_details ) 
 ```
 
 #### Motor Score
@@ -1631,15 +1464,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+( J4 <- J3 + theme_details )  
 ```
 
 #### Non-planning Score
@@ -1687,15 +1512,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-(J4 <- J3 + theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black")))  
+( J4 <- J3 + theme_details ) 
 ```
 
 ## Effects of predictors on outcome variables
@@ -4941,24 +4758,7 @@ bis_mot_grade_terp_wide %>%
   theme_minimal() +
   labs(title= "Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
 ```
-
-
-#########################################################################
-# Analysis 1. Dropped out vs. Continuing Students vs. Rejected
-```{r}
-
-```
-
-
-
-
-
-
-
-
-
-
-#########################################################################
+##############################################################################
 
 # Factor Analysis
 
