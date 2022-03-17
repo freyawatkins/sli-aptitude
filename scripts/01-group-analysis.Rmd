@@ -819,7 +819,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
                    adjust = 2, trim = TRUE, alpha = 0.3) +
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5)  +
-  coord_cartesian(ylim = c(0.5, 1)) +
+  coord_cartesian(ylim = c(0, 1)) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
   labs(title = "Accuracy on 2D Mental Rotation Task by Group", 
        x = "Group", y = "Accuracy") )
@@ -830,7 +830,7 @@ J1 <- apt %>%
   filter(!is.na(mr2d_acc)) %>% 
   summarize(mean=mean(mr2d_acc), sd = sd(mr2d_acc), se=std.error(mr2d_acc)) %>%
   ggplot(aes(x = drop_out, y = mean, fill = drop_out)) +
-  coord_cartesian(ylim = c(0.5, 1)) +
+  coord_cartesian(ylim = c(0, 1)) +
   geom_bar(stat = 'identity', position = position_dodge()) +
   theme_minimal() +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
@@ -854,4 +854,49 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
                       size = 0.1, position = pd)
 
 ( J4 <- J3 + theme_details ) 
+```
+
+#### Reaction Time
+```{r mr2d_rt}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(mr2d_rt)) %>% 
+  ggplot(aes(x = drop_out, y = mr2d_rt, group = drop_out)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(0, 9000)) +
+  labs(title = "Reaction Time on 2D Mental Rotation Task by Group", 
+       x = "Group", y = "RT (ms)") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(drop_out) %>% 
+  filter(!is.na(mr2d_rt)) %>% 
+  summarize(mean=mean(mr2d_rt), sd = sd(mr2d_rt), se=std.error(mr2d_rt)) %>%
+  ggplot(aes(x = drop_out, y = mean, fill = drop_out)) +
+  coord_cartesian(ylim = c(0, 9000)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  labs(title = "Reaction Time on 2D Mental Rotation Task by Group", 
+       x = "Group", y = "RT (ms)")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(mr2d_rt)) %>% 
+  group_by(drop_out, ppt) %>% 
+  summarise(mean = mean(mr2d_rt)) #, sd = sd(mr2d_rt)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details )
 ```
