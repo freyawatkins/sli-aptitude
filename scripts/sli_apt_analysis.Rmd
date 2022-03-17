@@ -40,7 +40,7 @@ packageVersion('psych')
 ## Read in data
 ```{r read_in_data}
 here::here()
-apt <- read_csv(here("data", "2022-03-11_SLI_aptitude_data.csv"))
+apt <- read_csv(here("data", "2022-03-17_SLI_aptitude_data.csv"))
 apt <- as_tibble(apt)
 ```
 
@@ -3241,6 +3241,24 @@ bis_att_grade_bsl_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title= "Does Attentional Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Attentional Impulsiveness after 3 years predict BSL grades at the end of 1st year?
+bis_att_grade_bsl_wide %>%
+  filter(`bis_att_3rd year` != "na") %>% 
+  ggplot(aes(x = `bis_att_3rd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Attentional Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Attentional Impulsiveness after 2 years predict BSL grades at the end of 2nd year?
+bis_att_grade_bsl_wide %>%
+  filter(`bis_att_3rd year` != "na") %>% 
+  ggplot(aes(x = `bis_att_3rd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Attentional Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
 ```
 
 ##### Motor Impulsiveness
@@ -3269,6 +3287,24 @@ bis_nplan_grade_bsl_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title= "Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 3 years predict BSL grades at the end of 1st year?
+bis_nplan_grade_bsl_wide %>%
+  filter(`bis_nplan_3rd year` != "na") %>% 
+  ggplot(aes(x = `bis_nplan_3rd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 3 years predict BSL grades at the end of 2nd year?
+bis_nplan_grade_bsl_wide %>%
+  filter(`bis_nplan_3rd year` != "na") %>% 
+  ggplot(aes(x = `bis_nplan_3rd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
 ```
 
 ##### Non-Planning Impulsiveness
@@ -3280,7 +3316,7 @@ bis_mot_grade_bsl_wide <- apt %>%
     names_from = session,
     values_from = c(bis_mot, grade_bsl))
 
-# Does Non-PLanning Impulsiveness on the Barratt Impulsiveness Scale after 2 years predict BSL grades at the end of 1st year?
+# Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 2 years predict BSL grades at the end of 1st year?
 bis_mot_grade_bsl_wide %>%
   filter(`bis_mot_2nd year` != "NA") %>% 
   ggplot(aes(x = `bis_mot_2nd year`, y = `grade_bsl_1st year`)) +
@@ -3289,7 +3325,7 @@ bis_mot_grade_bsl_wide %>%
   theme_minimal() +
   labs(title= "Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
 
-# Does Non-PLanning Impulsiveness on the Barratt Impulsiveness Scale after 2 years predict BSL grades at the end of 2nd year?
+# Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 2 years predict BSL grades at the end of 2nd year?
 bis_mot_grade_bsl_wide %>%
   filter(`bis_mot_2nd year` != "na") %>% 
   ggplot(aes(x = `bis_mot_2nd year`, y = `grade_bsl_2nd year`)) +
@@ -3297,6 +3333,24 @@ bis_mot_grade_bsl_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title= "Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 3 years predict BSL grades at the end of 1st year?
+bis_mot_grade_bsl_wide %>%
+  filter(`bis_mot_3rd year` != "NA") %>% 
+  ggplot(aes(x = `bis_mot_3rd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 3 years predict BSL grades at the end of 2nd year?
+bis_mot_grade_bsl_wide %>%
+  filter(`bis_mot_3rd year` != "na") %>% 
+  ggplot(aes(x = `bis_mot_3rd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
 ```
 
 ### Effects of predictors on Interpreting Grades
@@ -4726,6 +4780,26 @@ bis_tot_grade_terp_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title= "Does Total Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Total Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study predict Interpreting Grades at the end of 1st year?
+bis_tot_grade_terp_wide %>%
+  filter(`bis_tot_3rd year` != "na") %>% 
+  filter(`grade_terp_1st year` != "na") %>% 
+  ggplot(aes(x = `bis_tot_3rd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Total Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Total Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study predict Interpreting Grades at the end of 2nd year?
+bis_tot_grade_terp_wide %>%
+  filter(`bis_tot_3rd year` != "na") %>% 
+  filter(`grade_terp_2nd year` != "na") %>% 
+  ggplot(aes(x = `bis_tot_3rd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Total Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
 ```
 
 Not sure why geom_smooth() line does not appear in knitted output (works in .Rmd file)
@@ -4756,6 +4830,24 @@ bis_att_grade_terp_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title= "Does Attentional Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Attentional Impulsiveness after 3 years predict Interpreting Grades at the end of 1st year?
+bis_att_grade_terp_wide %>%
+  filter(`bis_att_3rd year` != "na") %>% 
+  ggplot(aes(x = `bis_att_3rd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Attentional Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Attentional Impulsiveness after 3 years predict Interpreting Grades at the end of 2nd year?
+bis_att_grade_terp_wide %>%
+  filter(`bis_att_3rd year` != "na") %>% 
+  ggplot(aes(x = `bis_att_3rd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Attentional Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
 ```
 
 ##### Motor Impulsiveness
@@ -4784,6 +4876,24 @@ bis_nplan_grade_terp_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title= "Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 3 years predict Interpreting Grades at the end of 1st year?
+bis_nplan_grade_terp_wide %>%
+  filter(`bis_nplan_3rd year` != "na") %>% 
+  ggplot(aes(x = `bis_nplan_3rd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 3 years predict Interpreting Grades at the end of 2nd year?
+bis_nplan_grade_terp_wide %>%
+  filter(`bis_nplan_3rd year` != "na") %>% 
+  ggplot(aes(x = `bis_nplan_3rd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
 ```
 
 ##### Non-Planning Impulsiveness
@@ -4795,7 +4905,7 @@ bis_mot_grade_terp_wide <- apt %>%
     names_from = session,
     values_from = c(bis_mot, grade_terp))
 
-# Does Non-PLanning Impulsiveness on the Barratt Impulsiveness Scale after 2 years predict Interpreting Grades at the end of 1st year?
+# Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 2 years predict Interpreting Grades at the end of 1st year?
 bis_mot_grade_terp_wide %>%
   filter(`bis_mot_2nd year` != "NA") %>% 
   ggplot(aes(x = `bis_mot_2nd year`, y = `grade_terp_1st year`)) +
@@ -4804,7 +4914,7 @@ bis_mot_grade_terp_wide %>%
   theme_minimal() +
   labs(title= "Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
 
-# Does Non-PLanning Impulsiveness on the Barratt Impulsiveness Scale after 2 years predict Interpreting Grades at the end of 2nd year?
+# Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 2 years predict Interpreting Grades at the end of 2nd year?
 bis_mot_grade_terp_wide %>%
   filter(`bis_mot_2nd year` != "na") %>% 
   ggplot(aes(x = `bis_mot_2nd year`, y = `grade_terp_2nd year`)) +
@@ -4812,8 +4922,42 @@ bis_mot_grade_terp_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title= "Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 3 years predict Interpreting Grades at the end of 1st year?
+bis_mot_grade_terp_wide %>%
+  filter(`bis_mot_3rd year` != "NA") %>% 
+  ggplot(aes(x = `bis_mot_3rd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 3 years predict Interpreting Grades at the end of 2nd year?
+bis_mot_grade_terp_wide %>%
+  filter(`bis_mot_3rd year` != "na") %>% 
+  ggplot(aes(x = `bis_mot_3rd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
 ```
+
+
 #########################################################################
+# Analysis 1. Dropped out vs. Continuing Students vs. Rejected
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
 #########################################################################
 
 # Factor Analysis
