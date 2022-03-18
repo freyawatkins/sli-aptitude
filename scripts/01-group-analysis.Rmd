@@ -78,12 +78,10 @@ apt$session <- plyr::revalue(apt$session, c("1" = "pre-degree",
 
 ```{r tibble}
 apt <- filter(apt, session == "pre-degree")
-apt$drop_out <- as.factor(apt$drop_out)
+apt$status <- as.factor(apt$status)
 
-apt$drop_out <- plyr::revalue(apt$drop_out, c("0" = "continuing", 
-                                             "1" = "withdrew"))
 apt %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   count()
 ```
 
@@ -913,14 +911,9 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 
 Which initial assessments best predict remaining in the degree?
 ```{r bsl-grade-models}
-apt$drop_out <- as.numeric(apt$drop_out)
-apt$drop_out <- plyr::revalue(apt$drop_out, c("3" = "1", 
-                                             "1" = "0",
-                                             "2" =))
+( drop_out_mdl <- glm(continue ~ nback_comb + corsi_corr + kirk_acc + 
+                        kbit_acc, family = binomial, apt) ) 
 
-( drop_out_mdl <- mixed(drop_out ~ nback_comb + corsi_corr, apt, 
-                     all_fit = TRUE, method = "LRT", #remove for lmer model
-                 control = lmerControl(optCtrl = list(maxfun = 1e6))) )
 
 summary(drop_out_mdl)
 ```
