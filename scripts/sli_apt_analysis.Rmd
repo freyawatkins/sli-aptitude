@@ -1584,23 +1584,6 @@ nback_lett_grade_bsl_wide %>%
   labs(title = "Does Accuracy in Letter Matching on the Dual N-Back Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Accuracy in Letter Matching on the Dual N-Back Task after 2 years")
 ```
 
-```{r}
-library(lme4)
-library(afex)
-( bsl_grade_mdl <- mixed(grade_bsl ~ nback_lett + mr3d_acc + corsi_corr + 
-                       (1|ppt), apt, 
-                     all_fit = TRUE, method = "LRT", #remove for lmer model
-                 control = lmerControl(optCtrl = list(maxfun = 1e6))) )
-summary(bsl_grade_mdl)
-
-
-( bsl_grade_mdl_2 <- mixed(grade_bsl ~ kirk_acc + kbit_acc + dspan_corr + 
-                       (1|ppt), apt, 
-                     all_fit = TRUE, method = "LRT", #remove for lmer model
-                 control = lmerControl(optCtrl = list(maxfun = 1e6))) )
-summary(bsl_grade_mdl_2)
-```
-
 
 ##### Accuracy in Spatial Matching
 ```{r nback_spat_grade_bsl}
@@ -4757,35 +4740,4 @@ bis_mot_grade_terp_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title= "Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
-```
-##############################################################################
-
-# Factor Analysis
-
-reduce tibble to just independent variables:
-``` {r reduce_tibble}
-# apt <- select(apt, -session, - group, -ppt, -copy_score, -srt_score, -town_map, -bsl_grade)
-```
-
-filter out rows with incomplete data
-``` {r filter_rows}
-#apt_reduced <- filter(apt, corsi_corr != "na")
-#apt_reduced <- filter(apt_reduced, nback_spat != "na")
-#apt_reduced <- filter(apt_reduced, kirk_ceil != "na")
-```
-
-reduce to just four tasks that were done at all 3 sessions
-```{r}
-#apt_reduced <- select(apt_reduced, nback_lett:kbit_acc)
-```
-
-## FA using psych package
-
-```{r }
-# fapsych <- fa(apt_reduced, nfactors=3, rotate="oblimin", scores="regression", residuals=FALSE, fm="minres")
-```
-
-## run FA using factanal package
-``` {r}
-# FA <- factanal(apt_reduced, factors=2, rotation="varimax", scores="regression")
 ```

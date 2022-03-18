@@ -1,5 +1,5 @@
 ---
-title: "Sign Language Interpreter Cognitive Aptitude analysis"
+title: "SLI Aptitude - Group Analysis"
 author:
   - name: "Freya Watkins"
 date: "`r format(Sys.Date(), '%d %B %Y')`"
@@ -25,6 +25,9 @@ library(tidyverse) # data wrangling & plotting
 library(PupillometryR) # raincloud plots
 library(plotrix) # for calculating standard error
 library(scales) # scales on plots
+library(lme4) # for linear mixed models
+library(afex) # for linear mixed models
+library(psych) # for factor analysis
 ```
 
 ### R / package versions used
@@ -35,6 +38,9 @@ packageVersion('tidyverse')
 packageVersion('PupillometryR') 
 packageVersion('plotrix') 
 packageVersion('scales') 
+packageVersion('lme4') 
+packageVersion('afex')
+packageVersion('psych')
 ```
 
 ## Read in data
@@ -900,3 +906,22 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 
 ( J4 <- J3 + theme_details )
 ```
+
+
+
+# Models
+
+Which initial assessments best predict remaining in the degree?
+```{r bsl-grade-models}
+apt$drop_out <- as.numeric(apt$drop_out)
+apt$drop_out <- plyr::revalue(apt$drop_out, c("3" = "1", 
+                                             "1" = "0",
+                                             "2" =))
+
+( drop_out_mdl <- mixed(drop_out ~ nback_comb + corsi_corr, apt, 
+                     all_fit = TRUE, method = "LRT", #remove for lmer model
+                 control = lmerControl(optCtrl = list(maxfun = 1e6))) )
+
+summary(drop_out_mdl)
+```
+

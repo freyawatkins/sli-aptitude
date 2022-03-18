@@ -1,0 +1,100 @@
+---
+title: "SLI Aptitude - Best Predictors Analysis"
+author:
+  - name: "Freya Watkins"
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 5
+    number_sections: false
+    theme: flatly
+    highlight: haddock
+---
+# Setup
+```{r setup, include=FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+```
+
+## Load packages
+```{r load_packages, message = FALSE, warning = FALSE}
+library(here) # file organisation & folder location
+library(tidyverse) # data wrangling & plotting
+#library(PupillometryR) # raincloud plots
+#library(plotrix) # for calculating standard error
+#library(scales) # scales on plots
+library(lme4) # for linear mixed models
+library(afex) # for linear mixed models
+library(psych) # for factor analysis
+```
+
+### R / package versions used
+```{r r_package_versions, message = FALSE, warning = FALSE}
+R.Version() 
+packageVersion('here')
+packageVersion('tidyverse')
+#packageVersion('PupillometryR') 
+#packageVersion('plotrix') 
+#packageVersion('scales') 
+packageVersion('lme4') 
+packageVersion('afex')
+packageVersion('psych')
+```
+
+## Read in data
+```{r read_in_data}
+here::here()
+apt <- read_csv(here("data", "2022-03-17_SLI_aptitude_data.csv"))
+apt <- as_tibble(apt)
+```
+
+# Models
+
+What best predicts BSL grades?
+```{r bsl-grade-models}
+( bsl_grade_mdl <- mixed(grade_bsl ~ nback_lett + mr3d_acc + corsi_corr + 
+                       (1|ppt), apt, 
+                     all_fit = TRUE, method = "LRT", #remove for lmer model
+                 control = lmerControl(optCtrl = list(maxfun = 1e6))) )
+summary(bsl_grade_mdl)
+
+
+( bsl_grade_mdl_2 <- mixed(grade_bsl ~ kirk_acc + kbit_acc + dspan_corr + 
+                       (1|ppt), apt, 
+                     all_fit = TRUE, method = "LRT", #remove for lmer model
+                 control = lmerControl(optCtrl = list(maxfun = 1e6))) )
+summary(bsl_grade_mdl_2)
+```
+
+##############################################################################
+
+# Factor Analysis
+
+reduce tibble to just independent variables:
+``` {r reduce_tibble}
+# apt <- select(apt, -session, - group, -ppt, -copy_score, -srt_score, -town_map, -bsl_grade)
+```
+
+filter out rows with incomplete data
+``` {r filter_rows}
+#apt_reduced <- filter(apt, corsi_corr != "na")
+#apt_reduced <- filter(apt_reduced, nback_spat != "na")
+#apt_reduced <- filter(apt_reduced, kirk_ceil != "na")
+```
+
+reduce to just four tasks that were done at all 3 sessions
+```{r}
+#apt_reduced <- select(apt_reduced, nback_lett:kbit_acc)
+```
+
+## FA using psych package
+
+```{r }
+# fapsych <- fa(apt_reduced, nfactors=3, rotate="oblimin", scores="regression", residuals=FALSE, fm="minres")
+```
+
+## run FA using factanal package
+``` {r}
+# FA <- factanal(apt_reduced, factors=2, rotation="varimax", scores="regression")
+```
