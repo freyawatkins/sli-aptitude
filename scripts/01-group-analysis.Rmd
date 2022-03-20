@@ -89,21 +89,21 @@ apt %>%
 ```{r nback_summary}
 apt %>% 
   filter(!is.na(nback_lett)) %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   summarise(nback_lett_mean = mean(nback_lett), 
             sd = sd(nback_lett),
             se = std.error(nback_lett))
 
 apt %>% 
   filter(!is.na(nback_spat)) %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   summarise(nback_spat_mean = mean(nback_spat), 
             sd = sd(nback_spat),
             se = std.error(nback_spat))
 
 apt %>% 
   filter(!is.na(nback_comb)) %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   summarise(nback_comb_mean = mean(nback_comb), 
             sd = sd(nback_comb),
             se = std.error(nback_comb))
@@ -113,28 +113,28 @@ apt %>%
 ```{r corsi_summary}
 apt %>% 
   filter(!is.na(corsi_bspan)) %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   summarise(corsi_bspan_mean = mean(corsi_bspan), 
             sd = sd(corsi_bspan),
             se = std.error(corsi_bspan))
 
 apt %>% 
   filter(!is.na(corsi_score)) %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   summarise(corsi_score_mean = mean(corsi_score), 
             sd = sd(corsi_score),
             se = std.error(corsi_score))
 
 apt %>% 
   filter(!is.na(corsi_corr)) %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   summarise(corsi_corr_mean = mean(corsi_corr), 
             sd = sd(corsi_corr),
             se = std.error(corsi_corr))
 
 apt %>% 
   filter(!is.na(corsi_mspan)) %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   summarise(corsi_mspan_mean = mean(corsi_mspan), 
             sd = sd(corsi_mspan),
             se = std.error(corsi_mspan))
@@ -144,21 +144,21 @@ apt %>%
 ```{r kirklees_summary}
 apt %>% 
   filter(!is.na(kirk_ceil)) %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   summarise(kirk_ceil_mean = mean(kirk_ceil), 
             sd = sd(kirk_ceil),
             se = std.error(kirk_ceil))
 
 apt %>% 
   filter(!is.na(kirk_raw)) %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   summarise(kirk_raw_mean = mean(kirk_raw), 
             sd = sd(kirk_raw),
             se = std.error(kirk_raw))
 
 apt %>% 
   filter(!is.na(kirk_acc)) %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   summarise(kirk_acc_mean = mean(kirk_acc), 
             sd = sd(kirk_acc),
             se = std.error(kirk_acc))
@@ -168,21 +168,21 @@ apt %>%
 ```{r kbit_summary}
 apt %>% 
   filter(!is.na(kbit_ceil)) %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   summarise(kirk_ceil_mean = mean(kbit_ceil), 
             sd = sd(kbit_ceil),
             se = std.error(kbit_ceil))
 
 apt %>% 
   filter(!is.na(kbit_raw)) %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   summarise(kbit_raw_mean = mean(kbit_raw), 
             sd = sd(kbit_raw),
             se = std.error(kbit_raw))
 
 apt %>% 
   filter(!is.na(kbit_acc)) %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   summarise(kbit_acc_mean = mean(kbit_acc), 
             sd = sd(kbit_acc),
             se = std.error(kbit_acc))
@@ -192,14 +192,14 @@ apt %>%
 ```{r 2dmr_summary}
 apt %>% 
   filter(!is.na(mr2d_acc)) %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   summarise(mr2d_acc_mean = mean(mr2d_acc), 
             sd = sd(mr2d_acc),
             se = std.error(mr2d_acc))
 
 apt %>% 
   filter(!is.na(mr2d_rt)) %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   summarise(mr2d_rt_mean = mean(mr2d_rt), 
             sd = sd(mr2d_rt),
             se = std.error(mr2d_rt))
@@ -213,7 +213,7 @@ apt %>%
 # Raincloud plot
 ( R1 <- apt %>% 
   filter(!is.na(nback_lett)) %>% 
-  ggplot(aes(x = drop_out, y = nback_lett, group = drop_out)) +
+  ggplot(aes(x = status, y = nback_lett, group = status)) +
   geom_flat_violin(position = position_nudge(x = .25, y = 0),
                    adjust = 2, trim = TRUE, alpha = 0.3) +
   geom_point(position = position_jitter(width = .15), 
@@ -224,10 +224,10 @@ apt %>%
   
 # Jitter plot
 J1 <- apt %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   filter(!is.na(nback_lett)) %>% 
   summarize(mean=mean(nback_lett), sd = sd(nback_lett), se=std.error(nback_lett)) %>%
-  ggplot(aes(x = drop_out, y = mean, fill = drop_out)) +
+  ggplot(aes(x = status, y = mean, fill = status)) +
   geom_bar(stat = 'identity', position = position_dodge()) +
   coord_cartesian(ylim = c(0.5, 0.8)) +
   theme_minimal() +
@@ -243,7 +243,7 @@ J2 <- J1 + geom_errorbar(position = position_dodge(),
 
 indiv <- apt %>% 
   filter(!is.na(nback_lett)) %>% 
-  group_by(drop_out, ppt) %>% 
+  group_by(status, ppt) %>% 
   summarise(mean = mean(nback_lett)) #, sd = sd(nback_lett)) # requires trial level data
 
 pd <- position_dodge(0.5)
@@ -270,7 +270,7 @@ theme_details <- theme_bw() +
 # Raincloud plot
 ( R1 <- apt %>% 
   filter(!is.na(nback_spat)) %>% 
-  ggplot(aes(x = drop_out, y = nback_spat, group = drop_out)) +
+  ggplot(aes(x = status, y = nback_spat, group = status)) +
   geom_flat_violin(position = position_nudge(x = .25, y = 0),
                    adjust = 2, trim = TRUE, alpha = 0.3) +
   geom_point(position = position_jitter(width = .15), 
@@ -281,10 +281,10 @@ theme_details <- theme_bw() +
   
 # Jitter plot
 J1 <- apt %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   filter(!is.na(nback_spat)) %>% 
   summarize(mean=mean(nback_spat), sd = sd(nback_spat), se=std.error(nback_spat)) %>%
-  ggplot(aes(x = drop_out, y = mean, fill = drop_out)) +
+  ggplot(aes(x = status, y = mean, fill = status)) +
   geom_bar(stat = 'identity', position = position_dodge()) +
   coord_cartesian(ylim = c(0.5, 0.8)) +
   theme_minimal() +
@@ -300,7 +300,7 @@ J2 <- J1 + geom_errorbar(position = position_dodge(),
 
 indiv <- apt %>% 
   filter(!is.na(nback_spat)) %>% 
-  group_by(drop_out, ppt) %>% 
+  group_by(status, ppt) %>% 
   summarise(mean = mean(nback_spat)) #, sd = sd(nback_spat)) # requires trial-level data
 
 pd <- position_dodge(0.5)
@@ -317,7 +317,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ## Raincloud plot
 apt %>% 
   filter(!is.na(nback_comb)) %>% 
-  ggplot(aes(x = drop_out, y = nback_comb, group = drop_out)) +
+  ggplot(aes(x = status, y = nback_comb, group = status)) +
   geom_flat_violin(position = position_nudge(x = .25, y = 0),
                    adjust = 2, trim = TRUE, alpha = 0.3) +
   geom_point(position = position_jitter(width = .15), 
@@ -328,10 +328,10 @@ apt %>%
 
 # Jitter plot  
 J1 <- apt %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   filter(!is.na(nback_comb)) %>% 
   summarize(mean=mean(nback_comb), sd = sd(nback_comb), se=std.error(nback_comb)) %>%
-  ggplot(aes(x = drop_out, y = mean, fill = drop_out)) +
+  ggplot(aes(x = status, y = mean, fill = status)) +
   geom_bar(stat = 'identity', position = position_dodge()) +
   coord_cartesian(ylim = c(0.5, 0.8)) +
   theme_minimal() +
@@ -347,7 +347,7 @@ J2 <- J1 + geom_errorbar(position = position_dodge(),
 
 indiv <- apt %>% 
   filter(!is.na(nback_comb)) %>% 
-  group_by(drop_out, ppt) %>% 
+  group_by(status, ppt) %>% 
   summarise(mean = mean(nback_comb)) #, sd = sd(nback_comb)) # requires trial-level data
 
 pd <- position_dodge(0.5)
@@ -365,7 +365,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 # Raincloud plot
 ( R1 <- apt %>% 
   filter(!is.na(corsi_bspan)) %>% 
-  ggplot(aes(x = drop_out, y = corsi_bspan, group = drop_out)) +
+  ggplot(aes(x = status, y = corsi_bspan, group = status)) +
   geom_flat_violin(position = position_nudge(x = .25, y = 0),
                    adjust = 2, trim = TRUE, alpha = 0.3) +
   geom_point(position = position_jitter(width = .15), 
@@ -375,10 +375,10 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 
 # Jitter plot
 J1 <- apt %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   filter(!is.na(corsi_bspan)) %>% 
   summarize(mean=mean(corsi_bspan), sd = sd(corsi_bspan), se=std.error(corsi_bspan)) %>%
-  ggplot(aes(x = drop_out, y = mean, fill = drop_out)) +
+  ggplot(aes(x = status, y = mean, fill = status)) +
   coord_cartesian(ylim = c(0, 10)) +
   geom_bar(stat = 'identity', position = position_dodge()) +
   theme_minimal() +
@@ -392,7 +392,7 @@ J2 <- J1 + geom_errorbar(position = position_dodge(),
 
 indiv <- apt %>% 
   filter(!is.na(corsi_bspan)) %>% 
-  group_by(drop_out, ppt) %>% 
+  group_by(status, ppt) %>% 
   summarise(mean = mean(corsi_bspan)) #, sd = sd(corsi_bspan)) # requires trial-level data
 
 pd <- position_dodge(0.5)
@@ -409,7 +409,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 # Raincloud plot
 ( R1 <- apt %>% 
   filter(!is.na(corsi_score)) %>% 
-  ggplot(aes(x = drop_out, y = corsi_score, group = drop_out)) +
+  ggplot(aes(x = status, y = corsi_score, group = status)) +
   geom_flat_violin(position = position_nudge(x = .25, y = 0),
                    adjust = 2, trim = TRUE, alpha = 0.3) +
   geom_point(position = position_jitter(width = .15), 
@@ -419,10 +419,10 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   
 # Jitter plot
 J1 <- apt %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   filter(!is.na(corsi_score)) %>% 
   summarize(mean=mean(corsi_score), sd = sd(corsi_score), se=std.error(corsi_score)) %>%
-  ggplot(aes(x = drop_out, y = mean, fill = drop_out)) +
+  ggplot(aes(x = status, y = mean, fill = status)) +
   coord_cartesian(ylim = c(0, 125)) +
   geom_bar(stat = 'identity', position = position_dodge()) +
   theme_minimal() +
@@ -436,7 +436,7 @@ J2 <- J1 + geom_errorbar(position = position_dodge(),
 
 indiv <- apt %>% 
   filter(!is.na(corsi_score)) %>% 
-  group_by(drop_out, ppt) %>% 
+  group_by(status, ppt) %>% 
   summarise(mean = mean(corsi_score)) #, sd = sd(corsi_score)) # requires trial-level data
 
 pd <- position_dodge(0.5)
@@ -453,7 +453,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 # Raincloud plot
 ( R1 <- apt %>% 
   filter(!is.na(corsi_corr)) %>% 
-  ggplot(aes(x = drop_out, y = corsi_corr, group = drop_out)) +
+  ggplot(aes(x = status, y = corsi_corr, group = status)) +
   geom_flat_violin(position = position_nudge(x = .25, y = 0),
                    adjust = 2, trim = TRUE, alpha = 0.3) +
   geom_point(position = position_jitter(width = .15), 
@@ -465,10 +465,10 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 
 # Jitter plot
 J1 <- apt %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   filter(!is.na(corsi_corr)) %>% 
   summarize(mean=mean(corsi_corr), sd = sd(corsi_corr), se=std.error(corsi_corr)) %>%
-  ggplot(aes(x = drop_out, y = mean, fill = drop_out)) +
+  ggplot(aes(x = status, y = mean, fill = status)) +
   coord_cartesian(ylim = c(0, 15)) +
   geom_bar(stat = 'identity', position = position_dodge()) +
   theme_minimal() +
@@ -482,7 +482,7 @@ J2 <- J1 + geom_errorbar(position = position_dodge(),
 
 indiv <- apt %>% 
   filter(!is.na(corsi_corr)) %>% 
-  group_by(drop_out, ppt) %>% 
+  group_by(status, ppt) %>% 
   summarise(mean = mean(corsi_corr)) #, sd = sd(corsi_corr)) # requires trial-level data
 
 pd <- position_dodge(0.5)
@@ -499,7 +499,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 # Raincloud plot
 ( R1 <- apt %>% 
   filter(!is.na(corsi_mspan)) %>% 
-  ggplot(aes(x = drop_out, y = corsi_mspan, group = drop_out)) +
+  ggplot(aes(x = status, y = corsi_mspan, group = status)) +
   geom_flat_violin(position = position_nudge(x = .25, y = 0),
                    adjust = 2, trim = TRUE, alpha = 0.3) +
   geom_point(position = position_jitter(width = .15), 
@@ -509,10 +509,10 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   
 # Jitter plot
 J1 <- apt %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   filter(!is.na(corsi_mspan)) %>% 
   summarize(mean=mean(corsi_mspan), sd = sd(corsi_mspan), se=std.error(corsi_mspan)) %>%
-  ggplot(aes(x = drop_out, y = mean, fill = drop_out)) +
+  ggplot(aes(x = status, y = mean, fill = status)) +
   coord_cartesian(ylim = c(0, 8)) +
   geom_bar(stat = 'identity', position = position_dodge()) +
   theme_minimal() +
@@ -526,7 +526,7 @@ J2 <- J1 + geom_errorbar(position = position_dodge(),
 
 indiv <- apt %>% 
   filter(!is.na(corsi_mspan)) %>% 
-  group_by(drop_out, ppt) %>% 
+  group_by(status, ppt) %>% 
   summarise(mean = mean(corsi_mspan)) #, sd = sd(corsi_mspan)) # requires trial-level data
 
 pd <- position_dodge(0.5)
@@ -544,7 +544,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 # Raincloud plot
 ( R1 <- apt %>% 
   filter(!is.na(kirk_ceil)) %>% 
-  ggplot(aes(x = drop_out, y = kirk_ceil, group = drop_out)) +
+  ggplot(aes(x = status, y = kirk_ceil, group = status)) +
   geom_flat_violin(position = position_nudge(x = .25, y = 0),
                    adjust = 2, trim = TRUE, alpha = 0.3) +
   geom_point(position = position_jitter(width = .15), 
@@ -554,10 +554,10 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   
 # Jitter plot
 J1 <- apt %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   filter(!is.na(kirk_ceil)) %>% 
   summarize(mean=mean(kirk_ceil), sd = sd(kirk_ceil), se=std.error(kirk_ceil)) %>%
-  ggplot(aes(x = drop_out, y = mean, fill = drop_out)) +
+  ggplot(aes(x = status, y = mean, fill = status)) +
   coord_cartesian(ylim = c(0, 45)) +
   geom_bar(stat = 'identity', position = position_dodge()) +
   theme_minimal() +
@@ -571,7 +571,7 @@ J2 <- J1 + geom_errorbar(position = position_dodge(),
 
 indiv <- apt %>% 
   filter(!is.na(kirk_ceil)) %>% 
-  group_by(drop_out, ppt) %>% 
+  group_by(status, ppt) %>% 
   summarise(mean = mean(kirk_ceil)) #, sd = sd(kirk_ceil) # requires trial-level data
 
 pd <- position_dodge(0.5)
@@ -588,7 +588,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 # Raincloud plot
 ( R1 <- apt %>% 
   filter(!is.na(kirk_raw)) %>% 
-  ggplot(aes(x = drop_out, y = kirk_raw, group = drop_out)) +
+  ggplot(aes(x = status, y = kirk_raw, group = status)) +
   geom_flat_violin(position = position_nudge(x = .25, y = 0),
                    adjust = 2, trim = TRUE, alpha = 0.3) +
   geom_point(position = position_jitter(width = .15), 
@@ -598,10 +598,10 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   
 # Jitter plot
 J1 <- apt %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   filter(!is.na(kirk_raw)) %>% 
   summarize(mean=mean(kirk_raw), sd = sd(kirk_raw), se=std.error(kirk_raw)) %>%
-  ggplot(aes(x = drop_out, y = mean, fill = drop_out)) +
+  ggplot(aes(x = status, y = mean, fill = status)) +
   coord_cartesian(ylim = c(0, 45)) +
   geom_bar(stat = 'identity', position = position_dodge()) +
   theme_minimal() +
@@ -615,7 +615,7 @@ J2 <- J1 + geom_errorbar(position = position_dodge(),
 
 indiv <- apt %>% 
   filter(!is.na(kirk_raw)) %>% 
-  group_by(drop_out, ppt) %>% 
+  group_by(status, ppt) %>% 
   summarise(mean = mean(kirk_raw)) #, sd = sd(kirk_raw) # requires trial-level data
 
 pd <- position_dodge(0.5)
@@ -632,7 +632,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 # Raincloud plot
 ( R1 <- apt %>% 
   filter(!is.na(kirk_acc)) %>% 
-  ggplot(aes(x = drop_out, y = kirk_acc, group = drop_out)) +
+  ggplot(aes(x = status, y = kirk_acc, group = status)) +
   geom_flat_violin(position = position_nudge(x = .25, y = 0),
                    adjust = 2, trim = TRUE, alpha = 0.3) +
   geom_point(position = position_jitter(width = .15), 
@@ -644,10 +644,10 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   
 # Jitter plot
 J1 <- apt %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   filter(!is.na(kirk_acc)) %>% 
   summarize(mean=mean(kirk_acc), sd = sd(kirk_acc), se=std.error(kirk_acc)) %>%
-  ggplot(aes(x = drop_out, y = mean, fill = drop_out)) +
+  ggplot(aes(x = status, y = mean, fill = status)) +
   coord_cartesian(ylim = c(0, 1)) +
   geom_bar(stat = 'identity', position = position_dodge()) +
   theme_minimal() +
@@ -662,7 +662,7 @@ J2 <- J1 + geom_errorbar(position = position_dodge(),
 
 indiv <- apt %>% 
   filter(!is.na(kirk_acc)) %>% 
-  group_by(drop_out, ppt) %>% 
+  group_by(status, ppt) %>% 
   summarise(mean = mean(kirk_acc)) #, sd = sd(kirk_acc) # requires trial-level data
 
 pd <- position_dodge(0.5)
@@ -681,7 +681,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 # Raincloud plot
 ( R1 <- apt %>% 
   filter(!is.na(kbit_ceil)) %>% 
-  ggplot(aes(x = drop_out, y = kbit_ceil, group = drop_out)) +
+  ggplot(aes(x = status, y = kbit_ceil, group = status)) +
   geom_flat_violin(position = position_nudge(x = .25, y = 0),
                    adjust = 2, trim = TRUE, alpha = 0.3) +
   geom_point(position = position_jitter(width = .15), 
@@ -691,10 +691,10 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   
 # Jitter plot
 J1 <- apt %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   filter(!is.na(kbit_ceil)) %>% 
   summarize(mean=mean(kbit_ceil), sd = sd(kbit_ceil), se=std.error(kbit_ceil)) %>%
-  ggplot(aes(x = drop_out, y = mean, fill = drop_out)) +
+  ggplot(aes(x = status, y = mean, fill = status)) +
   coord_cartesian(ylim = c(0, 48)) +
   geom_bar(stat = 'identity', position = position_dodge()) +
   theme_minimal() +
@@ -708,7 +708,7 @@ J2 <- J1 + geom_errorbar(position = position_dodge(),
 
 indiv <- apt %>% 
   filter(!is.na(kirk_ceil)) %>% 
-  group_by(drop_out, ppt) %>% 
+  group_by(status, ppt) %>% 
   summarise(mean = mean(kbit_ceil)) #, sd = sd(kbit_ceil) # requires trial-level data
 
 pd <- position_dodge(0.5)
@@ -725,7 +725,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 # Raincloud plot
 ( R1 <- apt %>% 
   filter(!is.na(kbit_raw)) %>% 
-  ggplot(aes(x = drop_out, y = kbit_raw, group = drop_out)) +
+  ggplot(aes(x = status, y = kbit_raw, group = status)) +
   geom_flat_violin(position = position_nudge(x = .25, y = 0),
                    adjust = 2, trim = TRUE, alpha = 0.3) +
   geom_point(position = position_jitter(width = .15), 
@@ -735,10 +735,10 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   
 # Jitter plot
 J1 <- apt %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   filter(!is.na(kbit_raw)) %>% 
   summarize(mean=mean(kbit_raw), sd = sd(kbit_raw), se=std.error(kbit_raw)) %>%
-  ggplot(aes(x = drop_out, y = mean, fill = drop_out)) +
+  ggplot(aes(x = status, y = mean, fill = status)) +
   coord_cartesian(ylim = c(0, 45)) +
   geom_bar(stat = 'identity', position = position_dodge()) +
   theme_minimal() +
@@ -752,7 +752,7 @@ J2 <- J1 + geom_errorbar(position = position_dodge(),
 
 indiv <- apt %>% 
   filter(!is.na(kbit_raw)) %>% 
-  group_by(drop_out, ppt) %>% 
+  group_by(status, ppt) %>% 
   summarise(mean = mean(kbit_raw)) #, sd = sd(kbit_raw) # requires trial-level data
 
 pd <- position_dodge(0.5)
@@ -769,7 +769,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 # Raincloud plot
 ( R1 <- apt %>% 
   filter(!is.na(kbit_acc)) %>% 
-  ggplot(aes(x = drop_out, y = kbit_acc, group = drop_out)) +
+  ggplot(aes(x = status, y = kbit_acc, group = status)) +
   geom_flat_violin(position = position_nudge(x = .25, y = 0),
                    adjust = 2, trim = TRUE, alpha = 0.3) +
   geom_point(position = position_jitter(width = .15), 
@@ -781,11 +781,11 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   
 # Jitter plot
 J1 <- apt %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   filter(!is.na(kbit_acc)) %>% 
   summarize(mean=mean(kbit_acc), 
             sd = sd(kbit_acc), se=std.error(kbit_acc)) %>%
-  ggplot(aes(x = drop_out, y = mean, fill = drop_out)) +
+  ggplot(aes(x = status, y = mean, fill = status)) +
   coord_cartesian(ylim = c(.5, 1)) +
   geom_bar(stat = 'identity', position = position_dodge()) +
   theme_minimal() +
@@ -800,7 +800,7 @@ J2 <- J1 + geom_errorbar(position = position_dodge(),
 
 indiv <- apt %>% 
   filter(!is.na(kbit_acc)) %>% 
-  group_by(drop_out, ppt) %>% 
+  group_by(status, ppt) %>% 
   summarise(mean = mean(kbit_acc)) #, sd = sd(kbit_acc) # requires trial-level data
 
 pd <- position_dodge(0.5)
@@ -818,7 +818,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 # Raincloud plot
 ( R1 <- apt %>% 
   filter(!is.na(mr2d_acc)) %>% 
-  ggplot(aes(x = drop_out, y = mr2d_acc, group = drop_out)) +
+  ggplot(aes(x = status, y = mr2d_acc, group = status)) +
   geom_flat_violin(position = position_nudge(x = .25, y = 0),
                    adjust = 2, trim = TRUE, alpha = 0.3) +
   geom_point(position = position_jitter(width = .15), 
@@ -830,10 +830,10 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 
 # Jitter plot
 J1 <- apt %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   filter(!is.na(mr2d_acc)) %>% 
   summarize(mean=mean(mr2d_acc), sd = sd(mr2d_acc), se=std.error(mr2d_acc)) %>%
-  ggplot(aes(x = drop_out, y = mean, fill = drop_out)) +
+  ggplot(aes(x = status, y = mean, fill = status)) +
   coord_cartesian(ylim = c(0, 1)) +
   geom_bar(stat = 'identity', position = position_dodge()) +
   theme_minimal() +
@@ -848,7 +848,7 @@ J2 <- J1 + geom_errorbar(position = position_dodge(),
 
 indiv <- apt %>% 
   filter(!is.na(mr2d_acc)) %>% 
-  group_by(drop_out, ppt) %>% 
+  group_by(status, ppt) %>% 
   summarise(mean = mean(mr2d_acc)) #, sd = sd(mr2d_acc)) # requires trial-level data
 
 pd <- position_dodge(0.5)
@@ -865,7 +865,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 # Raincloud plot
 ( R1 <- apt %>% 
   filter(!is.na(mr2d_rt)) %>% 
-  ggplot(aes(x = drop_out, y = mr2d_rt, group = drop_out)) +
+  ggplot(aes(x = status, y = mr2d_rt, group = status)) +
   geom_flat_violin(position = position_nudge(x = .25, y = 0),
                    adjust = 2, trim = TRUE, alpha = 0.3) +
   geom_point(position = position_jitter(width = .15), 
@@ -876,10 +876,10 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 
 # Jitter plot
 J1 <- apt %>% 
-  group_by(drop_out) %>% 
+  group_by(status) %>% 
   filter(!is.na(mr2d_rt)) %>% 
   summarize(mean=mean(mr2d_rt), sd = sd(mr2d_rt), se=std.error(mr2d_rt)) %>%
-  ggplot(aes(x = drop_out, y = mean, fill = drop_out)) +
+  ggplot(aes(x = status, y = mean, fill = status)) +
   coord_cartesian(ylim = c(0, 9000)) +
   geom_bar(stat = 'identity', position = position_dodge()) +
   theme_minimal() +
@@ -893,7 +893,7 @@ J2 <- J1 + geom_errorbar(position = position_dodge(),
 
 indiv <- apt %>% 
   filter(!is.na(mr2d_rt)) %>% 
-  group_by(drop_out, ppt) %>% 
+  group_by(status, ppt) %>% 
   summarise(mean = mean(mr2d_rt)) #, sd = sd(mr2d_rt)) # requires trial-level data
 
 pd <- position_dodge(0.5)
@@ -906,15 +906,14 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ```
 
 
-
 # Models
 
 Which initial assessments best predict remaining in the degree?
 ```{r bsl-grade-models}
-( drop_out_mdl <- glm(continue ~ nback_comb + corsi_corr + kirk_acc + 
+( status_mdl <- glm(continue ~ nback_comb + corsi_corr + kirk_acc + 
                         kbit_acc, family = binomial, apt) ) 
 
 
-summary(drop_out_mdl)
+summary(status_mdl)
 ```
 
