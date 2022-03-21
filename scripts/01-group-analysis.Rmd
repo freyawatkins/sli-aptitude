@@ -54,35 +54,35 @@ apt <- as_tibble(apt)
 
 ### Convert variables   
 
-Session and Group should be factors:  
+Fix the variables that are character when they should be factor, or numeric:  
 ```{r convert_variables}
 # convert session, group, ppt & status to factor
-apt <- mutate(apt, across(1:4, factor))
+apt <- mutate(apt, across(c("session", "group", "ppt", "status"), factor))
 
-# convert remaining character variables to numeric
-apt <- mutate(apt, across(7:9, as.numeric))
-apt <- mutate(apt, across(25, as.numeric))
-apt <- mutate(apt, across(30:33, as.numeric))
-apt <- mutate(apt, across(36:40, as.numeric))
+# convert these character variables to numeric
+apt <- mutate(apt, across(c("L1_bsl", "prior_BSL", "age_s1", "dspan_time",
+                            "bis_tot", "bis_att","bis_mot", "bis_nplan", "summ",
+                            "copy_sign", "copy_sign", "bsl_srt", "town_map",
+                            "terp_b2e"), as.numeric))
 ```
 
 Rename levels of session:  
 ```{r relevel_session}
-#apt$session <- plyr::revalue(apt$session, c("1" = "pre-degree", 
- #                                           "2" = "1st year", 
-  #                                          "3" = "2nd year",
-   #                                         "4" = "3rd year"))
+apt$session <- plyr::revalue(apt$session, c("1" = "pre-degree", 
+                                            "2" = "1st year", 
+                                            "3" = "2nd year",
+                                            "4" = "3rd year"))
 ```
 
 # Group Analysis
 ## Summary tables
 
 ```{r grouping}
-apt <- filter(apt, session == 1)
+apt <- filter(apt, session == "pre-degree")
 
-#apt %>% 
- # dplyr::group_by(status) %>% 
-  #count()
+apt %>% 
+  dplyr::group_by(status) %>% 
+  count()
 ```
 
 ### Dual N-Back
@@ -909,16 +909,28 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 # Models
 Which initial assessments best predict being selected for the degree?
 ```{r selected-model}
+
+# Fit linear model based on Dual N-Back, Corsi, Kirklees & KBIT-2 predictors
 ( selected_mdl <- glm(selected ~ nback_comb + 
+                                 corsi_corr + 
+                                 kirk_acc + 
+                                 kbit_acc, 
+                                 family = binomial, 
+                                 data = apt) ) 
+summary(selected_mdl)
+
+# Filter to just the pilot cohort
+pilot_dat <- apt %>% filter(group == "pilot")
+
+# Re-run model on just pilot cohort with 2D mental rotation task predictor too
+( pilot_selected_mdl <- glm(selected ~ nback_comb + 
                                  corsi_corr + 
                                  kirk_acc + 
                                  kbit_acc + 
                                  mr2d_acc, 
-                                 family = binomial, apt) ) 
-
-summary(selected_mdl)
-
-
+                                 family = binomial, 
+                                 data = pilot_dat) ) 
+summary(pilot_selected_mdl)
 ```
 
 
@@ -932,11 +944,24 @@ selected <- apt %>% filter(status != "rejected")
 ( continue_mdl <- glm(continue ~ nback_comb + 
                                  corsi_corr + 
                                  kirk_acc + 
-                                 kbit_acc + 
-                                 mr3d_acc, 
-                                 family = binomial, selected) ) 
+                                 kbit_acc,
+                                 family = binomial, 
+                                 data = selected) ) 
 
 summary(continue_mdl)
 ```
 
-+ smaller analysis with the extra assesments done at S1 for the grant cohort
++ smaller analysis with the extra assessments done at S1 for the grant cohort
+```{r}
+# Filter to just the pilot cohort
+grant_dat <- apt %>% filter(group == "grant")
+
+# fit logistic regression model
+( continue_mdl2 <- glm(continue ~ dspan_corr + 
+                                  mr3d_acc,
+                                  family = binomial, 
+                                  data = grant_dat) ) 
+
+summary(continue_mdl2)
+```
+

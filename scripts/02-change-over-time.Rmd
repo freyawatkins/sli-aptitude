@@ -1,7 +1,9 @@
 ---
-title: "SLI Aptitude - Change over Time Analysis"
+title: "Sign Language Interpreter Aptitude"
+subtitle: "02 - Change over Time Analysis"
 author:
   - name: "Freya Watkins"
+    affiliation: "University of Birmingham"
 date: "`r format(Sys.Date(), '%d %B %Y')`"
 output:
   html_document:

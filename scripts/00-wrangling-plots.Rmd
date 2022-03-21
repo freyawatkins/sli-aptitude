@@ -1,7 +1,9 @@
 ---
-title: "Sign Language Interpreter Cognitive Aptitude - wrangling & plotting"
+title: "Sign Language Interpreter Aptitude"
+subtitle: "00 - Wrangling & Plotting"
 author:
   - name: "Freya Watkins"
+    affiliation: "University of Birmingham"
 date: "`r format(Sys.Date(), '%d %B %Y')`"
 output:
   html_document:
@@ -120,20 +122,56 @@ apt_wide_m <- as.matrix(apt_wide_m)
 
 ### Convert variables   
 
-Session and Group should be factors:  
+Fix the variables that are character when they should be factor, or numeric:  
 ```{r convert_variables}
-apt$session <- as.factor(apt$session)
-apt$group <- as.factor(apt$group)
-apt$ppt <- as.factor(apt$ppt)
+# convert session, group, ppt & status to factor
+apt <- mutate(apt, across(c("session", "group", "ppt", "status"), factor))
 
-apt$bis_tot <- as.numeric(apt$bis_tot)
-apt$bis_att <- as.numeric(apt$bis_att)
-apt$bis_mot <- as.numeric(apt$bis_mot)
-apt$bis_nplan <- as.numeric(apt$bis_nplan)
-apt$dspan_time <- as.numeric(apt$dspan_time)
+# convert these character variables to numeric
+apt <- mutate(apt, across(c("L1_bsl", "prior_BSL", "age_s1", "dspan_time",
+                            "bis_tot", "bis_att","bis_mot", "bis_nplan", "summ",
+                            "copy_sign", "copy_sign", "bsl_srt", "town_map",
+                            "terp_b2e"), as.numeric))
 ```
 
-Rename levels of Session:  
+
+
+Add speed-accuracy trade off-scores for mental rotation data:
+```{r}
+# Create function 'Balanced Integration Score' (speed accuracy trade-off score)
+# (Liesefeld, Fu, & Zimmer, 2015; Liesefeld & Janczyk, in press)
+
+BIS <- function(data) {
+  n <- length(data$group)   # sample size to correct var()-function result (which uses n-1)
+  srt <- sqrt( ((n-1)/n) * var(data$mean_rt_c) )  # sample standard deviation across all rts
+  spc <- sqrt( ((n-1)/n) * var(data$pc) ) # sample standard deviation across all rts
+  mrt <- mean(data$mean_rt_c)                      # mean across all rts
+  mpc <- mean(data$pc)                             # mean across all pcs
+  zrt <- (data$mean_rt_c-mrt)/srt                  # standardized rts
+  zpc <- (data$pc-mpc)/spc                         # z-standardized pcs
+  data$bis <- zpc - zrt                            # Balanced Integration Score
+  
+  return(data)             # return data.frame with added variable 'bis'
+}
+
+mean_rt_c <- apt$mr2d_rt 
+pc <- apt$mr2d_acc
+group <- apt$session
+ppt <- apt$ppt
+data <- data.frame(group,ppt,mean_rt_c,pc)
+data <- data %>% drop_na() # remove NAs
+
+( BIS_2DMR <- BIS(data) )
+
+mean_rt_c <- apt$mr3d_rt 
+pc <- apt$mr3d_acc
+data <- data.frame(group,ppt,mean_rt_c,pc)
+data <- data %>% drop_na() # remove NAs
+
+( BIS_3DMR <- BIS(data) )
+```
+
+Rename levels of Session for tables/plotting:  
 ```{r relevel_session}
 apt$session <- plyr::revalue(apt$session, c("1" = "pre-degree", 
                                             "2" = "1st year", 
@@ -1250,7 +1288,7 @@ J1 <- apt %>%
   coord_cartesian(ylim = c(0, 1)) +
   geom_bar(stat = 'identity', position = position_dodge()) +
   theme_minimal() +
-  scale_fill_manual(values = c("#bae4bc", "#43a2ca", "#0868ac")) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
   labs(title = "Accuracy on 3D Mental Rotation Task by Session", 
        x = "Session", y = "Accuracy")
