@@ -9,9 +9,11 @@ purrr
 dplyr
 stringr
 forcats
-naniar
 rlang
 PupillometryR
 plotrix
 scales
+Matrix
+lme4
+afex
 psych

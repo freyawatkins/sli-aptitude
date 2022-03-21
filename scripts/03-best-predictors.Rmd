@@ -73,7 +73,7 @@ summary(bsl_grade_mdl_2)
 
 reduce tibble to just independent variables:
 ``` {r reduce_tibble}
-# apt <- select(apt, -session, - group, -ppt, -copy_score, -srt_score, -town_map, -bsl_grade)
+# apt <- select(apt, -session, -group, -ppt, -copy_score, -srt_score, -town_map, -bsl_grade)
 ```
 
 filter out rows with incomplete data
@@ -94,7 +94,7 @@ reduce to just four tasks that were done at all 3 sessions
 # fapsych <- fa(apt_reduced, nfactors=3, rotate="oblimin", scores="regression", residuals=FALSE, fm="minres")
 ```
 
-## run FA using factanal package
+## run factor analysis
 ``` {r}
 # FA <- factanal(apt_reduced, factors=2, rotation="varimax", scores="regression")
 ```

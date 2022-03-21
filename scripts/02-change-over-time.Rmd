@@ -1,0 +1,44 @@
+---
+title: "SLI Aptitude - Change over Time Analysis"
+author:
+  - name: "Freya Watkins"
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 5
+    number_sections: false
+    theme: flatly
+    highlight: haddock
+---
+
+# Setup
+```{r setup, include=FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+```
+
+## Load packages
+```{r load_packages, message = FALSE, warning = FALSE}
+library(here) # file organisation & folder location
+library(tidyverse) # data wrangling & plotting
+library(PupillometryR) # raincloud plots
+library(plotrix) # for calculating standard error
+library(scales) # scales on plots
+library(lme4) # for linear mixed models
+library(afex) # for linear mixed models
+library(psych) # for factor analysis
+```
+
+### R / package versions used
+```{r r_package_versions, message = FALSE, warning = FALSE}
+R.Version() 
+packageVersion('here')
+packageVersion('tidyverse')
+packageVersion('PupillometryR') 
+packageVersion('plotrix') 
+packageVersion('scales') 
+packageVersion('lme4') 
+packageVersion('afex')
+packageVersion('psych')
+```

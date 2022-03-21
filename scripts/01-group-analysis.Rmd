@@ -1,7 +1,9 @@
 ---
-title: "SLI Aptitude - Group Analysis"
+title: "Sign Language Interpreter Aptitude"
+subtitle: "01 - Group Analysis"
 author:
   - name: "Freya Watkins"
+    affiliation: "University of Birmingham"
 date: "`r format(Sys.Date(), '%d %B %Y')`"
 output:
   html_document:
@@ -54,35 +56,33 @@ apt <- as_tibble(apt)
 
 Session and Group should be factors:  
 ```{r convert_variables}
-apt$session <- as.factor(apt$session)
-apt$group <- as.factor(apt$group)
-apt$ppt <- as.factor(apt$ppt)
+# convert session, group, ppt & status to factor
+apt <- mutate(apt, across(1:4, factor))
 
-apt$bis_tot <- as.numeric(apt$bis_tot)
-apt$bis_att <- as.numeric(apt$bis_att)
-apt$bis_mot <- as.numeric(apt$bis_mot)
-apt$bis_nplan <- as.numeric(apt$bis_nplan)
-apt$dspan_time <- as.numeric(apt$dspan_time)
+# convert remaining character variables to numeric
+apt <- mutate(apt, across(7:9, as.numeric))
+apt <- mutate(apt, across(25, as.numeric))
+apt <- mutate(apt, across(30:33, as.numeric))
+apt <- mutate(apt, across(36:40, as.numeric))
 ```
 
-Rename levels of Session:  
+Rename levels of session:  
 ```{r relevel_session}
-apt$session <- plyr::revalue(apt$session, c("1" = "pre-degree", 
-                                            "2" = "1st year", 
-                                            "3" = "2nd year",
-                                            "4" = "3rd year"))
+#apt$session <- plyr::revalue(apt$session, c("1" = "pre-degree", 
+ #                                           "2" = "1st year", 
+  #                                          "3" = "2nd year",
+   #                                         "4" = "3rd year"))
 ```
 
 # Group Analysis
 ## Summary tables
 
-```{r tibble}
-apt <- filter(apt, session == "pre-degree")
-apt$status <- as.factor(apt$status)
+```{r grouping}
+apt <- filter(apt, session == 1)
 
-apt %>% 
-  group_by(status) %>% 
-  count()
+#apt %>% 
+ # dplyr::group_by(status) %>% 
+  #count()
 ```
 
 ### Dual N-Back
@@ -907,13 +907,36 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 
 
 # Models
+Which initial assessments best predict being selected for the degree?
+```{r selected-model}
+( selected_mdl <- glm(selected ~ nback_comb + 
+                                 corsi_corr + 
+                                 kirk_acc + 
+                                 kbit_acc + 
+                                 mr2d_acc, 
+                                 family = binomial, apt) ) 
 
-Which initial assessments best predict remaining in the degree?
-```{r bsl-grade-models}
-( status_mdl <- glm(continue ~ nback_comb + corsi_corr + kirk_acc + 
-                        kbit_acc, family = binomial, apt) ) 
+summary(selected_mdl)
 
 
-summary(status_mdl)
 ```
 
+
+
+Which initial assessments best predict remaining in the degree?
+```{r drop-out-model}
+# filter out rejected-at-interview participants
+selected <- apt %>% filter(status != "rejected")
+
+# fit logistic regression model
+( continue_mdl <- glm(continue ~ nback_comb + 
+                                 corsi_corr + 
+                                 kirk_acc + 
+                                 kbit_acc + 
+                                 mr3d_acc, 
+                                 family = binomial, selected) ) 
+
+summary(continue_mdl)
+```
+
++ smaller analysis with the extra assesments done at S1 for the grant cohort
