@@ -194,5 +194,7 @@ apt$session <- plyr::revalue(apt$session, c("1" = "pre-degree",
 ```
 
 # Export data 
-Export the wrangled data file for use in other analysis scripts:
-
+Export the wrangled data file for use in other analysis scripts as R data object:
+```{r}
+saveRDS(apt, here("data", "apt-data.rds"))
+```

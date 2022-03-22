@@ -45,40 +45,16 @@ packageVersion('afex')
 packageVersion('psych')
 ```
 
-## Read in data
+## Read pre-wrangled data (see `00-wrangling-setup.Rmd` script)
 ```{r read_in_data}
 here::here()
-apt <- read_csv(here("data", "2022-03-17_SLI_aptitude_data.csv"))
+apt <- readRDS(here("data", "apt-data.rds"))
 apt <- as_tibble(apt)
-```
-
-### Convert variables   
-
-Fix the variables that are character when they should be factor, or numeric:  
-```{r convert_variables}
-# convert session, group, ppt & status to factor
-apt <- mutate(apt, across(c("session", "group", "ppt", "status"), factor))
-
-# convert these character variables to numeric
-apt <- mutate(apt, across(c("L1_bsl", "prior_BSL", "age_s1", "dspan_time",
-                            "bis_tot", "bis_att","bis_mot", "bis_nplan", "summ",
-                            "copy_sign", "copy_sign", "bsl_srt", "town_map",
-                            "terp_b2e"), as.numeric))
-```
-
-Rename levels of session:  
-```{r relevel_session}
-apt$session <- plyr::revalue(apt$session, c("1" = "pre-degree", 
-                                            "2" = "1st year", 
-                                            "3" = "2nd year",
-                                            "4" = "3rd year"))
+head(apt)
 ```
 
 # Group Analysis
 Here we are going to analyse data from session one across three groups (continuing, rejected, withdrew)
-
-## Summary tables
-
 
 ```{r grouping}
 apt <- filter(apt, session == "pre-degree")
@@ -87,6 +63,7 @@ apt %>%
   dplyr::group_by(status) %>% 
   count()
 ```
+## Summary tables
 
 ### Dual N-Back
 ```{r nback_summary}
@@ -210,6 +187,13 @@ apt %>%
 apt %>% 
   filter(!is.na(mr2d_sats)) %>% 
   group_by(status) %>% 
+  summarise(mr2d_sats_mean = mean(mr2d_sats), 
+            sd = sd(mr2d_sats),
+            se = std.error(mr2d_sats))
+
+apt %>% 
+  filter(!is.na(mr2d_sats)) %>% 
+  group_by(selected) %>% 
   summarise(mr2d_sats_mean = mean(mr2d_sats), 
             sd = sd(mr2d_sats),
             se = std.error(mr2d_sats))
@@ -915,34 +899,42 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ( J4 <- J3 + theme_details )
 ```
 
+#### Speed-Accuracy Trade-off Score
+```{r mr2d-sats}
+apt$selected <- as.factor(apt$selected) %>% plyr::revalue(c("0" = "not selected", 
+                                            "1" = "selected"))
+
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(mr2d_sats)) %>% 
+  ggplot(aes(x = selected, y = mr2d_sats, group = selected)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(-5, 5)) +
+  labs(title = "Speed-Accuracy Trade-off Score on 2D Mental Rotation Task by Group", 
+       x = "Group", y = "Speed-Accuracy Trade-off Score\n(Balanced Integration Score") )
+
+# Jitter plot would not work for a trade-off score with bars above and below y=0
+```
 
 # Models
 Which initial assessments best predict being selected for the degree?
 ```{r selected-model}
+# Save #selected' as binary numeric variable again for regression models
+apt$selected <- as.numeric(apt$selected) %>% -1
 
 # Fit linear model based on Dual N-Back, Corsi, Kirklees & KBIT-2 predictors
 ( selected_mdl <- glm(selected ~ nback_comb + 
                                  corsi_corr + 
                                  kirk_acc + 
-                                 kbit_acc, 
+                                 kbit_acc +
+                                 mr2d_sats, 
                                  family = binomial, 
                                  data = apt) ) 
 summary(selected_mdl)
-
-# Filter to just the pilot cohort
-pilot_dat <- apt %>% filter(group == "pilot")
-
-# Re-run model on just pilot cohort with 2D mental rotation task predictor too
-( pilot_selected_mdl <- glm(selected ~ nback_comb + 
-                                 corsi_corr + 
-                                 kirk_acc + 
-                                 kbit_acc + 
-                                 mr2d_sats, 
-                                 family = binomial, 
-                                 data = pilot_dat) ) 
-summary(pilot_selected_mdl)
 ```
-
 
 
 Which initial assessments best predict remaining in the degree?
@@ -954,7 +946,9 @@ selected <- apt %>% filter(status != "rejected")
 ( continue_mdl <- glm(continue ~ nback_comb + 
                                  corsi_corr + 
                                  kirk_acc + 
-                                 kbit_acc,
+                                 kbit_acc +
+                                 dspan_corr + 
+                                 mr3d_sats,
                                  family = binomial, 
                                  data = selected) ) 
 
