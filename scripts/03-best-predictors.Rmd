@@ -51,6 +51,3236 @@ apt <- read_csv(here("data", "2022-03-17_SLI_aptitude_data.csv"))
 apt <- as_tibble(apt)
 ```
 
+# Plots
+
+
+## Effects of predictors on outcome variables
+
+### Effects of predictors on BSL Grades
+
+#### Dual N-Back vs BSL Grades
+##### Accuracy in Letter Matching
+```{r nback_lett_grade_bsl}
+# Create wider pivot table
+nback_lett_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, nback_lett, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(nback_lett, grade_bsl))
+
+# Does Accuracy in Letter Matching on the Dual N-Back Task pre-degree predict BSL grades at the end of 1st year?
+nback_lett_grade_bsl_wide %>%
+  ggplot(aes(x = `nback_lett_pre-degree`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Letter Matching on the Dual N-Back Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = "Accuracy in Letter Matching on the Dual N-Back Task pre-degree")
+
+# Does Accuracy in Letter Matching on the Dual N-Back Task after 1 year of study predict BSL grades at the end of 1st year?
+nback_lett_grade_bsl_wide %>%
+  ggplot(aes(x = `nback_lett_1st year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Letter Matching on the Dual N-Back Task after 1 year of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = "Accuracy in Letter Matching on the Dual N-Back Task after 1 year")
+
+# Does Accuracy in Letter Matching on the Dual N-Back Task after 2 years of study predict BSL grades at the end of 1st year?
+nback_lett_grade_bsl_wide %>%
+  ggplot(aes(x = `nback_lett_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Letter Matching on the Dual N-Back Task after 2 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = "Accuracy in Letter Matching on the Dual N-Back Task after 2 years")
+
+# Does Accuracy in Letter Matching on the Dual N-Back Task pre-degree predict BSL grades at the end of 2nd year?
+nback_lett_grade_bsl_wide %>%
+  ggplot(aes(x = `nback_lett_pre-degree`, y = `grade_bsl_2nd year`)) +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Letter Matching on the Dual N-Back Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Accuracy in Letter Matching on the Dual N-Back Task pre-degree")
+
+# Does Accuracy in Letter Matching on the Dual N-Back Task after 1 year of study predict BSL grades at the end of 2nd year?
+nback_lett_grade_bsl_wide %>%
+  ggplot(aes(x = `nback_lett_1st year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Letter Matching on the Dual N-Back Task after 1 year of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Accuracy in Letter Matching on the Dual N-Back Task after 1 year")
+
+# Does Accuracy in Letter Matching on the Dual N-Back Task after 2 years of study predict BSL grades at the end of 2nd year?
+nback_lett_grade_bsl_wide %>%
+  ggplot(aes(x = `nback_lett_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Letter Matching on the Dual N-Back Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Accuracy in Letter Matching on the Dual N-Back Task after 2 years")
+```
+
+
+##### Accuracy in Spatial Matching
+```{r nback_spat_grade_bsl}
+# Create wider pivot table
+nback_spat_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, nback_spat, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(nback_spat, grade_bsl))
+
+# Does Accuracy in Spatial Matching on the Dual N-Back Task pre-degree predict BSL grades at the end of 1st year?
+nback_spat_grade_bsl_wide %>%
+  ggplot(aes(x = `nback_spat_pre-degree`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Spatial Matching on the Dual N-Back Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = "Accuracy in Spatial Matching on the Dual N-Back Task pre-degre")
+
+# Does Accuracy in Spatial Matching on the Dual N-Back Task after 1 year of study predict BSL grades at the end of 1st year?
+nback_spat_grade_bsl_wide %>%
+  ggplot(aes(x = `nback_spat_1st year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Spatial Matching on the Dual N-Back Task after 1 year of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = "Accuracy in Spatial Matching on the Dual N-Back Task after 1 year")
+
+# Does Accuracy in Spatial Matching on the Dual N-Back Task after 2 years of study predict BSL grades at the end of 1st year?
+nback_spat_grade_bsl_wide %>%
+  ggplot(aes(x = `nback_spat_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Spatial Matching on the Dual N-Back Task after 2 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = "Accuracy in Spatial Matching on the Dual N-Back Task after 2 years")
+
+# Does Accuracy in Spatial Matching on the Dual N-Back Task pre-degree predict BSL grades at the end of 2nd year?
+nback_spat_grade_bsl_wide %>%
+  ggplot(aes(x = `nback_spat_pre-degree`, y = `grade_bsl_2nd year`)) +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Spatial Matching on the Dual N-Back Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Accuracy in Spatial Matching on the Dual N-Back Task pre-degree")
+
+# Does Accuracy in Spatial Matching on the Dual N-Back Task after 1 year of study predict BSL grades at the end of 2nd year?
+nback_spat_grade_bsl_wide %>%
+  ggplot(aes(x = `nback_spat_1st year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Spatial Matching on the Dual N-Back Task after 1 year of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Accuracy in Spatial Matching on the Dual N-Back Task after 1 year")
+
+# Does Accuracy in Spatial Matching on the Dual N-Back Task after 2 years of study predict BSL grades at the end of 2nd year?
+nback_spat_grade_bsl_wide %>%
+  ggplot(aes(x = `nback_spat_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Spatial Matching on the Dual N-Back Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Accuracy in Spatial Matching on the Dual N-Back Task after 2 years")
+```
+
+
+##### Combined accuracy
+```{r nback_comb_grade_bsl}
+# Create wider pivot table
+nback_comb_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, nback_comb, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(nback_comb, grade_bsl))
+
+# Does Combined Accuracy on the Dual N-Back Task pre-degree predict BSL grades at the end of 1st year?
+nback_comb_grade_bsl_wide %>%
+  ggplot(aes(x = `nback_comb_pre-degree`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Combined Accuracy on the Dual N-Back Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Combined Accuracy on the Dual N-Back Task after 1 year of study predict BSL grades at the end of 1st year?
+nback_comb_grade_bsl_wide %>%
+  ggplot(aes(x = `nback_comb_1st year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Combined Accuracy on the Dual N-Back Task after 1 year of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Combined Accuracy on the Dual N-Back Task after 2 years of study predict BSL grades at the end of 1st year?
+nback_comb_grade_bsl_wide %>%
+  ggplot(aes(x = `nback_comb_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Combined Accuracy on the Dual N-Back Task after 2 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Combined Accuracy on the Dual N-Back Task pre-degree predict BSL grades at the end of 2nd year?
+nback_comb_grade_bsl_wide %>%
+  ggplot(aes(x = `nback_comb_pre-degree`, y = `grade_bsl_2nd year`)) +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Combined Accuracy on the Dual N-Back Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Combined Accuracy on the Dual N-Back Task after 1 year of study predict BSL grades at the end of 2nd year?
+nback_comb_grade_bsl_wide %>%
+  ggplot(aes(x = `nback_comb_1st year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Combined Accuracy on the Dual N-Back Task after 1 year of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Combined Accuracy on the Dual N-Back Task after 2 years of study predict BSL grades at the end of 2nd year?
+nback_comb_grade_bsl_wide %>%
+  ggplot(aes(x = `nback_comb_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Combined Accuracy on the Dual N-Back Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+```
+
+#### Corsi Blocks vs BSL Grades 
+
+##### Block Span 
+```{r corsi_bspan_grade_bsl}
+# Create wider pivot table
+corsi_bspan_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, corsi_bspan, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(corsi_bspan, grade_bsl))
+
+# Does Block Span on the Corsi Blocks Task pre-degree predict BSL grades at the end of 1st year?
+corsi_bspan_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_bspan_pre-degree`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Block Span on the Corsi Blocks Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Block Span on the Corsi Blocks Task after 1 year of study predict BSL grades at the end of 1st year?
+corsi_bspan_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_bspan_1st year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Block Span on the Corsi Blocks Task after 1 year of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Block Span on the Corsi Blocks Task after 2 years of study predict BSL grades at the end of 1st year?
+corsi_bspan_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_bspan_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Block Span on the Corsi Blocks Task after 2 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Block Span on the Corsi Blocks Task pre-degree predict BSL grades at the end of 2nd year?
+corsi_bspan_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_bspan_pre-degree`, y = `grade_bsl_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Block Span on the Corsi Blocks Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Block Span on the Corsi Blocks Task after 1 year of study predict BSL grades at the end of 2nd year?
+corsi_bspan_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_bspan_1st year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Block Span on the Corsi Blocks Task after 1 year of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Block Span on the Corsi Blocks Task after 2 years of study predict BSL grades at the end of 2nd year?
+corsi_bspan_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_bspan_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Block Span on the Corsi Blocks Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+```
+
+##### Raw Score 
+```{r corsi_score_grade_bsl}
+# Create wider pivot table
+corsi_score_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, corsi_score, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(corsi_score, grade_bsl))
+
+# Does Raw Score on the Corsi Blocks Task pre-degree predict BSL grades at the end of 1st year?
+corsi_score_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_score_pre-degree`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Corsi Blocks Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Raw Score on the Corsi Blocks Task after 1 year of study predict BSL grades at the end of 1st year?
+corsi_score_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_score_1st year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Corsi Blocks Task after 1 year of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Raw Score on the Corsi Blocks Task after 2 years of study predict BSL grades at the end of 1st year?
+corsi_score_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_score_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Corsi Blocks Task after 2 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Raw Score on the Corsi Blocks Task pre-degree predict BSL grades at the end of 2nd year?
+corsi_score_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_score_pre-degree`, y = `grade_bsl_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Corsi Blocks Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Raw Score on the Corsi Blocks Task after 1 year of study predict BSL grades at the end of 2nd year?
+corsi_score_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_score_1st year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Corsi Blocks Task after 1 year of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Raw Score on the Corsi Blocks Task after 2 years of study predict BSL grades at the end of 2nd year?
+corsi_score_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_score_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Corsi Blocks Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+```
+
+##### Correct Responses 
+```{r corsi_corr_grade_bsl}
+# Create wider pivot table
+corsi_corr_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, corsi_corr, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(corsi_corr, grade_bsl))
+
+# Do Correct Responses on the Corsi Blocks Task pre-degree predict BSL grades at the end of 1st year?
+corsi_corr_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_corr_pre-degree`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Do Correct Responses on the Corsi Blocks Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Do Correct Responses on the Corsi Blocks Task after 1 year of study predict BSL grades at the end of 1st year?
+corsi_corr_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_corr_1st year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Do Correct Responses on the Corsi Blocks Task after 1 year of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Do Correct Responses on the Corsi Blocks Task after 2 years of study predict BSL grades at the end of 1st year?
+corsi_corr_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_corr_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Do Correct Responses on the Corsi Blocks Task after 2 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Do Correct Responses on the Corsi Blocks Task pre-degree predict BSL grades at the end of 2nd year?
+corsi_corr_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_corr_pre-degree`, y = `grade_bsl_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Do Correct Responses on the Corsi Blocks Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Do Correct Responses on the Corsi Blocks Task after 1 year of study predict BSL grades at the end of 2nd year?
+corsi_corr_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_corr_1st year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Do Correct Responses on the Corsi Blocks Task after 1 year of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Do Correct Responses on the Corsi Blocks Task after 2 years of study predict BSL grades at the end of 2nd year?
+corsi_corr_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_corr_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Do Correct Responses on the Corsi Blocks Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+```
+
+##### Memory Span 
+```{r corsi_mspan_grade_bsl}
+# Create wider pivot table
+corsi_mspan_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, corsi_mspan, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(corsi_mspan, grade_bsl))
+
+# Does Memory Span on the Corsi Blocks Task pre-degree predict BSL grades at the end of 1st year?
+corsi_mspan_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_mspan_pre-degree`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Memory Span on the Corsi Blocks Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Memory Span on the Corsi Blocks Task after 1 year of study predict BSL grades at the end of 1st year?
+corsi_mspan_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_mspan_1st year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Memory Span on the Corsi Blocks Task after 1 year of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Memory Span on the Corsi Blocks Task after 2 years of study predict BSL grades at the end of 1st year?
+corsi_mspan_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_mspan_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Memory Span on the Corsi Blocks Task after 2 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Memory Span on the Corsi Blocks Task pre-degree predict BSL grades at the end of 2nd year?
+corsi_mspan_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_mspan_pre-degree`, y = `grade_bsl_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Memory Span on the Corsi Blocks Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Memory Span on the Corsi Blocks Task after 1 year of study predict BSL grades at the end of 2nd year?
+corsi_mspan_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_mspan_1st year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Memory Span on the Corsi Blocks Task after 1 year of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Memory Span on the Corsi Blocks Task after 2 years of study predict BSL grades at the end of 2nd year?
+corsi_mspan_grade_bsl_wide %>%
+  ggplot(aes(x = `corsi_mspan_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Memory Span on the Corsi Blocks Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+```
+
+
+#### Kirklees Sentence Reading vs BSL Grades
+##### Ceiling Score
+```{r kirk_ceil_grade_bsl}
+# Create wider pivot table
+kirk_ceil_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, kirk_ceil, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(kirk_ceil, grade_bsl))
+
+# Does Ceiling Score on the Kirklees Sentence Reading Task pre-degree predict BSL grades at the end of 1st year?
+kirk_ceil_grade_bsl_wide %>%
+  ggplot(aes(x = `kirk_ceil_pre-degree`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the Kirklees Sentence Reading Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Ceiling Score on the Kirklees Sentence Reading Task after 1 year of study predict BSL grades at the end of 1st year?
+kirk_ceil_grade_bsl_wide %>%
+  ggplot(aes(x = `kirk_ceil_1st year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the Kirklees Sentence Reading Task after 1 year of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Ceiling Score on the Kirklees Sentence Reading Task after 2 years of study predict BSL grades at the end of 1st year?
+kirk_ceil_grade_bsl_wide %>%
+  ggplot(aes(x = `kirk_ceil_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the Kirklees Sentence Reading Task after 2 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Ceiling Score on the Kirklees Sentence Reading Task pre-degree predict BSL grades at the end of 2nd year?
+kirk_ceil_grade_bsl_wide %>%
+  ggplot(aes(x = `kirk_ceil_pre-degree`, y = `grade_bsl_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the Kirklees Sentence Reading Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Ceiling Score on the Kirklees Sentence Reading Task after 1 year of study predict BSL grades at the end of 2nd year?
+kirk_ceil_grade_bsl_wide %>%
+  ggplot(aes(x = `kirk_ceil_1st year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the Kirklees Sentence Reading Task after 1 year of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Ceiling Score on the Kirklees Sentence Reading Task after 2 years of study predict BSL grades at the end of 2nd year?
+kirk_ceil_grade_bsl_wide %>%
+  ggplot(aes(x = `kirk_ceil_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the Kirklees Sentence Reading Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+```
+
+##### Raw Score
+```{r kirk_raw_grade_bsl}
+# Create wider pivot table
+kirk_raw_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, kirk_raw, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(kirk_raw, grade_bsl))
+
+# Does Raw Score on the Kirklees Sentence Reading Task pre-degree predict BSL grades at the end of 1st year?
+kirk_raw_grade_bsl_wide %>%
+  ggplot(aes(x = `kirk_raw_pre-degree`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Kirklees Sentence Reading Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Raw Score on the Kirklees Sentence Reading Task after 1 year of study predict BSL grades at the end of 1st year?
+kirk_raw_grade_bsl_wide %>%
+  ggplot(aes(x = `kirk_raw_1st year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Kirklees Sentence Reading Task after 1 year of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Raw Score on the Kirklees Sentence Reading Task after 2 years of study predict BSL grades at the end of 1st year?
+kirk_raw_grade_bsl_wide %>%
+  ggplot(aes(x = `kirk_raw_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Kirklees Sentence Reading Task after 2 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Raw Score on the Kirklees Sentence Reading Task pre-degree predict BSL grades at the end of 2nd year?
+kirk_raw_grade_bsl_wide %>%
+  ggplot(aes(x = `kirk_raw_pre-degree`, y = `grade_bsl_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Kirklees Sentence Reading Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Raw Score on the Kirklees Sentence Reading Task after 1 year of study predict BSL grades at the end of 2nd year?
+kirk_raw_grade_bsl_wide %>%
+  ggplot(aes(x = `kirk_raw_1st year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Kirklees Sentence Reading Task after 1 year of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Raw Score on the Kirklees Sentence Reading Task after 2 years of study predict BSL grades at the end of 2nd year?
+kirk_raw_grade_bsl_wide %>%
+  ggplot(aes(x = `kirk_raw_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Kirklees Sentence Reading Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+```
+
+##### Accuracy
+```{r kirk_acc_grade_bsl}
+# Create wider pivot table
+kirk_acc_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, kirk_acc, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(kirk_acc, grade_bsl))
+
+# Does Accuracy on the Kirklees Sentence Reading Task pre-degree predict BSL grades at the end of 1st year?
+kirk_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `kirk_acc_pre-degree`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the Kirklees Sentence Reading Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = "Accuracy on the Kirklees Sentence Reading Task pre-degree")
+
+# Does Accuracy on the Kirklees Sentence Reading Task after 1 year of study predict BSL grades at the end of 1st year?
+kirk_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `kirk_acc_1st year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the Kirklees Sentence Reading Task after 1 year of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = "Accuracy on the Kirklees Sentence Reading Task after 1 year")
+
+# Does Accuracy on the Kirklees Sentence Reading Task after 2 years of study predict BSL grades at the end of 1st year?
+kirk_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `kirk_acc_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the Kirklees Sentence Reading Task after 2 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = "Accuracy on the Kirklees Sentence Reading Task after 2 years")
+
+# Does Accuracy on the Kirklees Sentence Reading Task pre-degree predict BSL grades at the end of 2nd year?
+kirk_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `kirk_acc_pre-degree`, y = `grade_bsl_2nd year`)) +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the Kirklees Sentence Reading Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Accuracy on the Kirklees Sentence Reading Task pre-degree")
+
+# Does Accuracy on the Kirklees Sentence Reading Task after 1 year of study predict BSL grades at the end of 2nd year?
+kirk_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `kirk_acc_1st year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the Kirklees Sentence Reading Task after 1 year of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Accuracy on the Kirklees Sentence Reading Task after 1 year")
+
+# Does Accuracy on the Kirklees Sentence Reading Task after 2 years of study predict BSL grades at the end of 2nd year?
+kirk_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `kirk_acc_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the Kirklees Sentence Reading Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Accuracy on the Kirklees Sentence Reading Task after 2 years")
+```
+
+###### Correlations
+```{r}
+kirk_acc_grade_bsl_wide %>% 
+  filter(`kirk_acc_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`kirk_acc_pre-degree`, 
+                       `grade_bsl_1st year`))
+
+kirk_acc_grade_bsl_wide %>% 
+  filter(`kirk_acc_1st year`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`kirk_acc_1st year`, 
+                       `grade_bsl_1st year`))
+
+kirk_acc_grade_bsl_wide %>% 
+  filter(`kirk_acc_2nd year`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>%
+  summarize(AccCOR=cor(`kirk_acc_2nd year`, 
+                       `grade_bsl_1st year`))
+
+kirk_acc_grade_bsl_wide %>% 
+  filter(`kirk_acc_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`kirk_acc_pre-degree`, 
+                       `grade_bsl_2nd year`))
+
+kirk_acc_grade_bsl_wide %>% 
+  filter(`kirk_acc_1st year`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`kirk_acc_1st year`, 
+                       `grade_bsl_2nd year`))
+
+kirk_acc_grade_bsl_wide %>% 
+  filter(`kirk_acc_2nd year`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>%
+  summarize(AccCOR=cor(`kirk_acc_2nd year`, 
+                       `grade_bsl_2nd year`))
+```
+
+#### KBIT-2 Matrices vs BSL Grades
+##### Ceiling Score
+```{r kbit_ceil_grade_bsl}
+# Create wider pivot table
+kbit_ceil_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, kbit_ceil, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(kbit_ceil, grade_bsl))
+
+# Does Ceiling Score on the KBIT-2 Matrices Task pre-degree predict BSL grades at the end of 1st year?
+kbit_ceil_grade_bsl_wide %>%
+  ggplot(aes(x = `kbit_ceil_pre-degree`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the KBIT-2 Matrices Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Ceiling Score on the KBIT-2 Matrices Task after 1 year of study predict BSL grades at the end of 1st year?
+kbit_ceil_grade_bsl_wide %>%
+  ggplot(aes(x = `kbit_ceil_1st year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the KBIT-2 Matrices Task after 1 year of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Ceiling Score on the KBIT-2 Matrices Task after 2 years of study predict BSL grades at the end of 1st year?
+kbit_ceil_grade_bsl_wide %>%
+  ggplot(aes(x = `kbit_ceil_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the KBIT-2 Matrices Task after 2 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Ceiling Score on the KBIT-2 Matrices Task pre-degree predict BSL grades at the end of 2nd year?
+kbit_ceil_grade_bsl_wide %>%
+  ggplot(aes(x = `kbit_ceil_pre-degree`, y = `grade_bsl_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the KBIT-2 Matrices Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Ceiling Score on the KBIT-2 Matrices Task after 1 year of study predict BSL grades at the end of 2nd year?
+kbit_ceil_grade_bsl_wide %>%
+  ggplot(aes(x = `kbit_ceil_1st year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the KBIT-2 Matrices Task after 1 year of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Ceiling Score on the KBIT-2 Matrices Task after 2 years of study predict BSL grades at the end of 2nd year?
+kbit_ceil_grade_bsl_wide %>%
+  ggplot(aes(x = `kbit_ceil_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the KBIT-2 Matrices Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+```
+
+##### Raw Score
+```{r kbit_raw_grade_bsl}
+# Create wider pivot table
+kbit_raw_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, kbit_raw, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(kbit_raw, grade_bsl))
+
+# Does Raw Score on the KBIT-2 Matrices Task pre-degree predict BSL grades at the end of 1st year?
+kbit_raw_grade_bsl_wide %>%
+  ggplot(aes(x = `kbit_raw_pre-degree`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the KBIT-2 Matrices Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Raw Score on the KBIT-2 Matrices Task after 1 year of study predict BSL grades at the end of 1st year?
+kbit_raw_grade_bsl_wide %>%
+  ggplot(aes(x = `kbit_raw_1st year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the KBIT-2 Matrices Task after 1 year of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Raw Score on the KBIT-2 Matrices Task after 2 years of study predict BSL grades at the end of 1st year?
+kbit_raw_grade_bsl_wide %>%
+  ggplot(aes(x = `kbit_raw_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the KBIT-2 Matrices Task after 2 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Raw Score on the KBIT-2 Matrices Task pre-degree predict BSL grades at the end of 2nd year?
+kbit_raw_grade_bsl_wide %>%
+  ggplot(aes(x = `kbit_raw_pre-degree`, y = `grade_bsl_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the KBIT-2 Matrices Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Raw Score on the KBIT-2 Matrices Task after 1 year of study predict BSL grades at the end of 2nd year?
+kbit_raw_grade_bsl_wide %>%
+  ggplot(aes(x = `kbit_raw_1st year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the KBIT-2 Matrices Task after 1 year of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Raw Score on the KBIT-2 Matrices Task after 2 years of study predict BSL grades at the end of 2nd year?
+kbit_raw_grade_bsl_wide %>%
+  ggplot(aes(x = `kbit_raw_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the KBIT-2 Matrices Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+```
+
+##### Accuracy
+```{r kbit_acc_grade_bsl}
+# Create wider pivot table
+kbit_acc_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, kbit_acc, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(kbit_acc, grade_bsl))
+
+# Does Accuracy on the KBIT-2 Matrices Task pre-degree predict BSL grades at the end of 1st year?
+kbit_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `kbit_acc_pre-degree`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the KBIT-2 Matrices Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Accuracy on the KBIT-2 Matrices Task after 1 year of study predict BSL grades at the end of 1st year?
+kbit_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `kbit_acc_1st year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the KBIT-2 Matrices Task after 1 year of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Accuracy on the KBIT-2 Matrices Task after 2 years of study predict BSL grades at the end of 1st year?
+kbit_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `kbit_acc_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the KBIT-2 Matrices Task after 2 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Accuracy on the KBIT-2 Matrices Task pre-degree predict BSL grades at the end of 2nd year?
+kbit_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `kbit_acc_pre-degree`, y = `grade_bsl_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the KBIT-2 Matrices Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Accuracy on the KBIT-2 Matrices Task after 1 year of study predict BSL grades at the end of 2nd year?
+kbit_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `kbit_acc_1st year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the KBIT-2 Matrices Task after 1 year of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Accuracy on the KBIT-2 Matrices Task after 2 years of study predict BSL grades at the end of 2nd year?
+kbit_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `kbit_acc_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the KBIT-2 Matrices Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+```
+
+#### Digit Span vs BSL Grades
+##### Accuracy 
+```{r dspan_acc_grade_bsl}
+# Create wider pivot table
+dspan_acc_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, dspan_corr, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(dspan_corr, grade_bsl))
+
+# Does Accuracy on the Digit Span Task pre-degree predict BSL grades at the end of 1st year?
+dspan_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `dspan_corr_pre-degree`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the Digit Span Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Accuracy on the Digit Span Task after 1 year of study predict BSL grades at the end of 1st year?
+# removing bc no datapoints for Digit Span @ timepoint 2
+
+# Does Accuracy on the Digit Span Task after 2 years of study predict BSL grades at the end of 1st year?
+dspan_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `dspan_corr_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the Digit Span Task after 2 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Accuracy on the Digit Span Task pre-degree predict BSL grades at the end of 2nd year?
+dspan_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `dspan_corr_pre-degree`, y = `grade_bsl_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the Digit Span Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Accuracy on the Digit Span Task after 1 year of study predict BSL grades at the end of 2nd year?
+# removing bc no datapoints for Digit Span @ timepoint 2
+
+# Does Accuracy on the Digit Span Task after 2 years of study predict BSL grades at the end of 2nd year?
+dspan_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `dspan_corr_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the Digit Span Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+```
+
+##### Memory Span 
+```{r dspan_mem_grade_bsl}
+# Create wider pivot table
+dspan_mem_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, dspan_mem, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(dspan_mem, grade_bsl))
+
+# Does Memory Span on the Digit Span Task pre-degree predict BSL grades at the end of 1st year?
+dspan_mem_grade_bsl_wide %>%
+  ggplot(aes(x = `dspan_mem_pre-degree`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Memory Span on the Digit Span Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Memory Span on the Digit Span Task after 1 year of study predict BSL grades at the end of 1st year?
+# removing bc no datapoints for Digit Span @ timepoint 2
+
+# Does Memory Span on the Digit Span Task after 2 years of study predict BSL grades at the end of 1st year?
+dspan_mem_grade_bsl_wide %>%
+  ggplot(aes(x = `dspan_mem_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Memory Span on the Digit Span Task after 2 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Memory Span on the Digit Span Task pre-degree predict BSL grades at the end of 2nd year?
+dspan_mem_grade_bsl_wide %>%
+  ggplot(aes(x = `dspan_mem_pre-degree`, y = `grade_bsl_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Memory Span on the Digit Span Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Memory Span on the Digit Span Task after 1 year of study predict BSL grades at the end of 2nd year?
+# removing bc no datapoints for Digit Span @ timepoint 2
+
+# Does Memory Span on the Digit Span Task after 2 years of study predict BSL grades at the end of 2nd year?
+dspan_mem_grade_bsl_wide %>%
+  ggplot(aes(x = `dspan_mem_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Memory Span on the Digit Span Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+```
+
+```{r dspan_time_grade_bsl}
+# Create wider pivot table
+dspan_time_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, dspan_time, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(dspan_time, grade_bsl))
+
+# Does Time spent on the Digit Span Task pre-degree predict BSL grades at the end of 1st year?
+dspan_time_grade_bsl_wide %>%
+  ggplot(aes(x = `dspan_time_pre-degree`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Time spent on the Digit Span Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Time spent on the Digit Span Task after 1 year of study predict BSL grades at the end of 1st year?
+# removing bc no datapoints for Digit Span @ timepoint 2
+
+# Does Time spent on the Digit Span Task after 2 years of study predict BSL grades at the end of 1st year?
+dspan_time_grade_bsl_wide %>%
+  ggplot(aes(x = `dspan_time_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Time spent on the Digit Span Task after 2 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Time spent on the Digit Span Task pre-degree predict BSL grades at the end of 2nd year?
+dspan_time_grade_bsl_wide %>%
+  ggplot(aes(x = `dspan_time_pre-degree`, y = `grade_bsl_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Time spent on the Digit Span Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Time spent on the Digit Span Task after 1 year of study predict BSL grades at the end of 2nd year?
+# removing bc no datapoints for Digit Span @ timepoint 2
+
+# Does Time spent on the Digit Span Task after 2 years of study predict BSL grades at the end of 2nd year?
+dspan_time_grade_bsl_wide %>%
+  ggplot(aes(x = `dspan_time_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Time spent on the Digit Span Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+```
+
+#### 2D Mental Rotation vs BSL Grades
+##### Accuracy 
+```{r mr2d_acc_grade_bsl}
+# Create wider pivot table
+mr2d_acc_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, mr2d_acc, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(mr2d_acc, grade_bsl))
+
+# Does Accuracy on the 2D Mental Rotation Task pre-degree predict BSL grades at the end of 1st year?
+mr2d_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `mr2d_acc_pre-degree`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  labs(title = "Does Accuracy on the 2D Mental Rotation Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = "Accuracy on the 2D Mental Rotation Task pre-degree")
+
+# Does Accuracy on the 2D Mental Rotation Task after 1 year of study predict BSL grades at the end of 1st year?
+mr2d_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `mr2d_acc_1st year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the 2D Mental Rotation Task after 1 year of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = "Accuracy on the 2D Mental Rotation Task after 1 year of study")
+
+# Does Accuracy on the 2D Mental Rotation Task after 2 years of study predict BSL grades at the end of 1st year?
+mr2d_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `mr2d_acc_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the 2D Mental Rotation Task after 2 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = "Accuracy on the 2D Mental Rotation Task after 2 years of study")
+
+# Does Accuracy on the 2D Mental Rotation Task after 3 years of study predict BSL grades at the end of 1st year?
+mr2d_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `mr2d_acc_3rd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the 2D Mental Rotation Task after 3 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = "Accuracy on the 2D Mental Rotation Task after 3 years of study")
+
+# Does Accuracy on the 2D Mental Rotation Task pre-degree predict BSL grades at the end of 2nd year?
+mr2d_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `mr2d_acc_pre-degree`, y = `grade_bsl_2nd year`)) +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the 2D Mental Rotation Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Accuracy on the 2D Mental Rotation Task pre-degree")
+
+# Does Accuracy on the 2D Mental Rotation Task after 1 year of study predict BSL grades at the end of 2nd year?
+mr2d_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `mr2d_acc_1st year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the 2D Mental Rotation Task after 1 year of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Accuracy on the 2D Mental Rotation Task after 1 year of study")
+
+# Does Accuracy on the 2D Mental Rotation Task after 2 years of study predict BSL grades at the end of 2nd year?
+mr2d_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `mr2d_acc_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the 2D Mental Rotation Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Accuracy on the 2D Mental Rotation Task after 2 years of study")
+
+# Does Accuracy on the 2D Mental Rotation Task after 3 years of study predict BSL grades at the end of 2nd year?
+mr2d_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `mr2d_acc_3rd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the 2D Mental Rotation Task after 3 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Accuracy on the 2D Mental Rotation Task after 3 years of study")
+```
+###### Correlations
+```{r}
+mr2d_acc_grade_bsl_wide %>% 
+  filter(`mr2d_acc_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`mr2d_acc_pre-degree`, 
+                       `grade_bsl_1st year`))
+
+mr2d_acc_grade_bsl_wide %>% 
+  filter(`mr2d_acc_1st year`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`mr2d_acc_1st year`, 
+                       `grade_bsl_1st year`))
+
+mr2d_acc_grade_bsl_wide %>% 
+  filter(`mr2d_acc_2nd year`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>%   summarize(AccCOR=cor(`mr2d_acc_2nd year`, 
+                       `grade_bsl_1st year`))
+
+mr2d_acc_grade_bsl_wide %>% 
+  filter(`mr2d_acc_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`mr2d_acc_pre-degree`, 
+                       `grade_bsl_2nd year`))
+
+mr2d_acc_grade_bsl_wide %>% 
+  filter(`mr2d_acc_1st year`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`mr2d_acc_1st year`, 
+                       `grade_bsl_2nd year`))
+
+mr2d_acc_grade_bsl_wide %>% 
+  filter(`mr2d_acc_2nd year`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>%   summarize(AccCOR=cor(`mr2d_acc_2nd year`, 
+                       `grade_bsl_2nd year`))
+```
+
+
+##### RT 
+```{r mr2d_rt_grade_bsl}
+# Create wider pivot table
+mr2d_rt_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, mr2d_rt, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(mr2d_rt, grade_bsl))
+
+# Does Reaction Time on the 2D Mental Rotation Task pre-degree predict BSL grades at the end of 1st year?
+mr2d_rt_grade_bsl_wide %>%
+  ggplot(aes(x = `mr2d_rt_pre-degree`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Reaction Time on the 2D Mental Rotation Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Reaction Time on the 2D Mental Rotation Task after 1 year of study predict BSL grades at the end of 1st year?
+mr2d_rt_grade_bsl_wide %>%
+  ggplot(aes(x = `mr2d_rt_1st year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Reaction Time on the 2D Mental Rotation Task after 1 year of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Reaction Time on the 2D Mental Rotation Task after 2 years of study predict BSL grades at the end of 1st year?
+mr2d_rt_grade_bsl_wide %>%
+  ggplot(aes(x = `mr2d_rt_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Reaction Time on the 2D Mental Rotation Task after 2 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Reaction Time on the 2D Mental Rotation Task after 3 years of study predict BSL grades at the end of 1st year?
+mr2d_rt_grade_bsl_wide %>%
+  ggplot(aes(x = `mr2d_rt_3rd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Reaction Time on the 2D Mental Rotation Task after 3 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+
+# Does Reaction Time on the 2D Mental Rotation Task pre-degree predict BSL grades at the end of 2nd year?
+mr2d_rt_grade_bsl_wide %>%
+  ggplot(aes(x = `mr2d_rt_pre-degree`, y = `grade_bsl_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Reaction Time on the 2D Mental Rotation Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Reaction Time on the 2D Mental Rotation Task after 1 year of study predict BSL grades at the end of 2nd year?
+mr2d_rt_grade_bsl_wide %>%
+  ggplot(aes(x = `mr2d_rt_1st year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Reaction Time on the 2D Mental Rotation Task after 1 year of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Reaction Time on the 2D Mental Rotation Task after 2 years of study predict BSL grades at the end of 2nd year?
+mr2d_rt_grade_bsl_wide %>%
+  ggplot(aes(x = `mr2d_rt_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Reaction Time on the 2D Mental Rotation Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Reaction Time on the 2D Mental Rotation Task after 3 years of study predict BSL grades at the end of 2nd year?
+mr2d_rt_grade_bsl_wide %>%
+  ggplot(aes(x = `mr2d_rt_3rd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Reaction Time on the 2D Mental Rotation Task after 3 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+```
+
+###### Correlations
+```{r}
+mr2d_rt_grade_bsl_wide %>% 
+  filter(`mr2d_rt_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>% 
+  summarize(rtCOR=cor(`mr2d_rt_pre-degree`, 
+                       `grade_bsl_1st year`))
+# strongly driven by an outlier
+
+mr2d_rt_grade_bsl_wide %>% 
+  filter(`mr2d_rt_1st year`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>% 
+  summarize(rtCOR=cor(`mr2d_rt_1st year`, 
+                       `grade_bsl_1st year`))
+# strongly driven by an outlier
+
+mr2d_rt_grade_bsl_wide %>% 
+  filter(`mr2d_rt_2nd year`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>%  
+  summarize(rtCOR=cor(`mr2d_rt_2nd year`, 
+                       `grade_bsl_1st year`))
+
+mr2d_rt_grade_bsl_wide %>% 
+  filter(`mr2d_rt_3rd year`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>%  
+  summarize(rtCOR=cor(`mr2d_rt_3rd year`, 
+                       `grade_bsl_1st year`))
+
+mr2d_rt_grade_bsl_wide %>% 
+  filter(`mr2d_rt_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>% 
+  summarize(rtCOR=cor(`mr2d_rt_pre-degree`, 
+                       `grade_bsl_2nd year`))
+
+mr2d_rt_grade_bsl_wide %>% 
+  filter(`mr2d_rt_1st year`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>% 
+  summarize(rtCOR=cor(`mr2d_rt_1st year`, 
+                       `grade_bsl_2nd year`))
+
+mr2d_rt_grade_bsl_wide %>% 
+  filter(`mr2d_rt_2nd year`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>%  
+  summarize(rtCOR=cor(`mr2d_rt_2nd year`, 
+                       `grade_bsl_2nd year`))
+
+
+```
+
+#### 3D Mental Rotation vs BSL Grades
+##### Accuracy 
+```{r mr3d_acc_grade_bsl}
+# Create wider pivot table
+mr3d_acc_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, mr3d_acc, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(mr3d_acc, grade_bsl))
+
+# Does Accuracy on the 3D Mental Rotation Task pre-degree predict BSL grades at the end of 1st year?
+mr3d_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `mr3d_acc_pre-degree`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the 3D Mental Rotation Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = "Accuracy on the 3D Mental Rotation Task pre-degree")
+
+# Does Accuracy on the 3D Mental Rotation Task after 1 year of study predict BSL grades at the end of 1st year?
+# mr3d_acc_grade_bsl_wide %>%
+#  ggplot(aes(x = `mr3d_acc_1st year`, y = `grade_bsl_1st year`)) +
+#  geom_point() +
+#  geom_smooth(method= "lm") +
+#  theme_minimal()  # removing bc only 2 datapoints for 3DMR @ timepoint 2
+
+# Does Accuracy on the 3D Mental Rotation Task after 2 years of study predict BSL grades at the end of 1st year?
+mr3d_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `mr3d_acc_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title= "Does Accuracy on the 3D Mental Rotation Task after 2 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = "Accuracy on the 3D Mental Rotation Task after 2 years")
+
+# Does Accuracy on the 3D Mental Rotation Task after 3 years of study predict BSL grades at the end of 1st year?
+mr3d_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `mr3d_acc_3rd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title= "Does Accuracy on the 3D Mental Rotation Task after 3 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = "Accuracy on the 3D Mental Rotation Task after 3 years")
+
+# Does Accuracy on the 3D Mental Rotation Task pre-degree predict BSL grades at the end of 2nd year?
+mr3d_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `mr3d_acc_pre-degree`, y = `grade_bsl_2nd year`)) +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  geom_point() +
+  theme_minimal() +
+  labs(title= "Does Accuracy on the 3D Mental Rotation Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Accuracy on the 3D Mental Rotation Task pre-degree") 
+
+# Does Accuracy on the 3D Mental Rotation Task after 1 year of study predict BSL grades at the end of 2nd year?
+# mr3d_acc_grade_bsl_wide %>%
+#  ggplot(aes(x = `mr3d_acc_1st year`, y = `grade_bsl_2nd year`)) +
+#  geom_point() +
+#  geom_smooth(method= "lm") +
+#  theme_minimal()  # removing bc only 2 datapoints for 3DMR @ timepoint 2
+
+# Does Accuracy on the 3D Mental Rotation Task after 2 years of study predict BSL grades at the end of 2nd year?
+mr3d_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `mr3d_acc_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title= "Does Accuracy on the 3D Mental Rotation Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Accuracy on the 3D Mental Rotation Task after 2 years") 
+
+# Does Accuracy on the 3D Mental Rotation Task after 3 years of study predict BSL grades at the end of 2nd year?
+mr3d_acc_grade_bsl_wide %>%
+  ggplot(aes(x = `mr3d_acc_3rd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title= "Does Accuracy on the 3D Mental Rotation Task after 3 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Accuracy on the 3D Mental Rotation Task after 3 years") 
+```
+###### Correlations
+```{r}
+mr3d_acc_grade_bsl_wide %>% 
+  filter(`mr3d_acc_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`mr3d_acc_pre-degree`, 
+                       `grade_bsl_1st year`))
+
+mr3d_acc_grade_bsl_wide %>% 
+  filter(`mr3d_acc_2nd year`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>%   
+  summarize(AccCOR=cor(`mr3d_acc_2nd year`, 
+                       `grade_bsl_1st year`))
+
+mr3d_acc_grade_bsl_wide %>% 
+  filter(`mr3d_acc_3rd year`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>%   
+  summarize(AccCOR=cor(`mr3d_acc_3rd year`, 
+                       `grade_bsl_1st year`))
+
+mr3d_acc_grade_bsl_wide %>% 
+  filter(`mr3d_acc_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`mr3d_acc_pre-degree`, 
+                       `grade_bsl_2nd year`))
+
+mr3d_acc_grade_bsl_wide %>% 
+  filter(`mr3d_acc_2nd year`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>%   
+  summarize(AccCOR=cor(`mr3d_acc_2nd year`, 
+                       `grade_bsl_2nd year`))
+
+mr3d_acc_grade_bsl_wide %>% 
+  filter(`mr3d_acc_3rd year`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>%   
+  summarize(AccCOR=cor(`mr3d_acc_3rd year`, 
+                       `grade_bsl_2nd year`))
+```
+
+##### RT 
+```{r mr3d_rt_grade_bsl}
+# Create wider pivot table
+mr3d_rt_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, mr3d_rt, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(mr3d_rt, grade_bsl))
+
+# Does Reaction Time on the 3D Mental Rotation Task pre-degree predict BSL grades at the end of 1st year?
+mr3d_rt_grade_bsl_wide %>%
+  ggplot(aes(x = `mr3d_rt_pre-degree`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal()+
+  labs(title= "Does Reaction Time on the 3D Mental Rotation Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Reaction Time on the 3D Mental Rotation Task pre-degree") 
+
+# Does Reaction Time on the 3D Mental Rotation Task after 1 year of study predict BSL grades at the end of 1st year?
+# mr3d_rt_grade_bsl_wide %>%
+#  ggplot(aes(x = `mr3d_rt_1st year`, y = `grade_bsl_1st year`)) +
+#  geom_point() +
+#  geom_smooth(method= "lm") +
+#  theme_minimal()  # removing bc only 2 datapoints for 3DMR @ timepoint 2
+
+# Does Reaction Time on the 3D Mental Rotation Task after 2 years of study predict BSL grades at the end of 1st year?
+mr3d_rt_grade_bsl_wide %>%
+  ggplot(aes(x = `mr3d_rt_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal()+
+  labs(title= "Does Reaction Time on the 3D Mental Rotation Task after 2 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = "Reaction Time on the 3D Mental Rotation Task after 2 year of study") 
+
+# Does Reaction Time on the 3D Mental Rotation Task after 3 years of study predict BSL grades at the end of 1st year?
+mr3d_rt_grade_bsl_wide %>%
+  ggplot(aes(x = `mr3d_rt_3rd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal()+
+  labs(title= "Does Reaction Time on the 3D Mental Rotation Task after 3 years of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = "Reaction Time on the 3D Mental Rotation Task after 3 year of study")
+
+# Does Reaction Time on the 3D Mental Rotation Task pre-degree predict BSL grades at the end of 2nd year?
+mr3d_rt_grade_bsl_wide %>%
+  ggplot(aes(x = `mr3d_rt_pre-degree`, y = `grade_bsl_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal()+
+  labs(title= "Does Reaction Time on the 3D Mental Rotation Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Reaction Time on the 3D Mental Rotation Task pre-degree") 
+
+# Does Reaction Time on the 3D Mental Rotation Task after 1 year of study predict BSL grades at the end of 2nd year?
+# mr3d_rt_grade_bsl_wide %>%
+#  ggplot(aes(x = `mr3d_rt_1st year`, y = `grade_bsl_2nd year`)) +
+#  geom_point() +
+#  geom_smooth(method= "lm") +
+#  theme_minimal()   # removing bc only 2 datapoints for 3DMR @ timepoint 2
+
+# Does Reaction Time on the 3D Mental Rotation Task after 2 years of study predict BSL grades at the end of 2nd year?
+mr3d_rt_grade_bsl_wide %>%
+  ggplot(aes(x = `mr3d_rt_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Reaction Time on the 3D Mental Rotation Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Reaction Time on the 3D Mental Rotation Task after 2 years of study") 
+
+# Does Reaction Time on the 3D Mental Rotation Task after 3 years of study predict BSL grades at the end of 2nd year?
+mr3d_rt_grade_bsl_wide %>%
+  ggplot(aes(x = `mr3d_rt_3rd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Reaction Time on the 3D Mental Rotation Task after 3 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Reaction Time on the 3D Mental Rotation Task after 3 years of study") 
+```
+###### Correlations
+```{r}
+mr3d_rt_grade_bsl_wide %>% 
+  filter(`mr3d_rt_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>% 
+  summarize(rtCOR=cor(`mr3d_rt_pre-degree`, 
+                       `grade_bsl_1st year`))
+
+mr3d_rt_grade_bsl_wide %>% 
+  filter(`mr3d_rt_2nd year`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>%   
+  summarize(rtCOR=cor(`mr3d_rt_2nd year`, 
+                       `grade_bsl_1st year`))
+
+mr3d_rt_grade_bsl_wide %>% 
+  filter(`mr3d_rt_3rd year`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>%   
+  summarize(rtCOR=cor(`mr3d_rt_3rd year`, 
+                       `grade_bsl_1st year`))
+
+mr3d_rt_grade_bsl_wide %>% 
+  filter(`mr3d_rt_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>% 
+  summarize(rtCOR=cor(`mr3d_rt_pre-degree`, 
+                       `grade_bsl_2nd year`))
+
+mr3d_rt_grade_bsl_wide %>% 
+  filter(`mr3d_rt_2nd year`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>%   
+  summarize(rtCOR=cor(`mr3d_rt_2nd year`, 
+                       `grade_bsl_2nd year`))
+
+mr3d_rt_grade_bsl_wide %>% 
+  filter(`mr3d_rt_3rd year`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>%   
+  summarize(rtCOR=cor(`mr3d_rt_3rd year`, 
+                       `grade_bsl_2nd year`))
+```
+
+#### Barratt Impulsiveness Scale vs BSL Grades
+
+##### Total Impulsiveness 
+```{r bis_tot_grade_bsl}
+# Create wider pivot table
+bis_tot_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, bis_tot, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(bis_tot, grade_bsl))
+
+# Does Total Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study predict BSL grades at the end of 1st year?
+bis_tot_grade_bsl_wide %>%
+  filter(`bis_tot_2nd year` != "na") %>% 
+  filter(`grade_bsl_1st year` != "na") %>% 
+  ggplot(aes(x = `bis_tot_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Total Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Total Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study predict BSL grades at the end of 2nd year?
+bis_tot_grade_bsl_wide %>%
+  filter(`bis_tot_2nd year` != "na") %>% 
+  filter(`grade_bsl_2nd year` != "na") %>% 
+  ggplot(aes(x = `bis_tot_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Total Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+
+# Does Total Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study predict BSL grades at the end of 1st year?
+bis_tot_grade_bsl_wide %>%
+  filter(`bis_tot_3rd year` != "na") %>% 
+  filter(`grade_bsl_1st year` != "na") %>% 
+  ggplot(aes(x = `bis_tot_3rd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Total Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Total Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study predict BSL grades at the end of 2nd year?
+bis_tot_grade_bsl_wide %>%
+  filter(`bis_tot_3rd year` != "na") %>% 
+  filter(`grade_bsl_2nd year` != "na") %>% 
+  ggplot(aes(x = `bis_tot_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Total Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+
+```
+
+Not sure why geom_smooth() line does not appear in knitted output (works in .Rmd file)
+
+##### Attentional Impulsiveness
+```{r bis_att_grade_bsl}
+# Create wider pivot table
+bis_att_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, bis_att, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(bis_att, grade_bsl))
+
+# Does Attentional Impulsiveness after 2 years predict BSL grades at the end of 1st year?
+bis_att_grade_bsl_wide %>%
+  filter(`bis_att_2nd year` != "na") %>% 
+  ggplot(aes(x = `bis_att_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Attentional Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Attentional Impulsiveness after 2 years predict BSL grades at the end of 2nd year?
+bis_att_grade_bsl_wide %>%
+  filter(`bis_att_2nd year` != "na") %>% 
+  ggplot(aes(x = `bis_att_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Attentional Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Attentional Impulsiveness after 3 years predict BSL grades at the end of 1st year?
+bis_att_grade_bsl_wide %>%
+  filter(`bis_att_3rd year` != "na") %>% 
+  ggplot(aes(x = `bis_att_3rd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Attentional Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Attentional Impulsiveness after 2 years predict BSL grades at the end of 2nd year?
+bis_att_grade_bsl_wide %>%
+  filter(`bis_att_3rd year` != "na") %>% 
+  ggplot(aes(x = `bis_att_3rd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Attentional Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+```
+
+##### Motor Impulsiveness
+```{r bis_nplan_grade_bsl}
+# Create wider pivot table
+bis_nplan_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, bis_nplan, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(bis_nplan, grade_bsl))
+
+# Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 2 years predict BSL grades at the end of 1st year?
+bis_nplan_grade_bsl_wide %>%
+  filter(`bis_nplan_2nd year` != "na") %>% 
+  ggplot(aes(x = `bis_nplan_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 2 years predict BSL grades at the end of 2nd year?
+bis_nplan_grade_bsl_wide %>%
+  filter(`bis_nplan_2nd year` != "na") %>% 
+  ggplot(aes(x = `bis_nplan_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 3 years predict BSL grades at the end of 1st year?
+bis_nplan_grade_bsl_wide %>%
+  filter(`bis_nplan_3rd year` != "na") %>% 
+  ggplot(aes(x = `bis_nplan_3rd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 3 years predict BSL grades at the end of 2nd year?
+bis_nplan_grade_bsl_wide %>%
+  filter(`bis_nplan_3rd year` != "na") %>% 
+  ggplot(aes(x = `bis_nplan_3rd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+```
+
+##### Non-Planning Impulsiveness
+```{r bis_mot_grade_bsl}
+# Create wider pivot table
+bis_mot_grade_bsl_wide <- apt %>% 
+  select(session, group, ppt, bis_mot, grade_bsl) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(bis_mot, grade_bsl))
+
+# Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 2 years predict BSL grades at the end of 1st year?
+bis_mot_grade_bsl_wide %>%
+  filter(`bis_mot_2nd year` != "NA") %>% 
+  ggplot(aes(x = `bis_mot_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 2 years predict BSL grades at the end of 2nd year?
+bis_mot_grade_bsl_wide %>%
+  filter(`bis_mot_2nd year` != "na") %>% 
+  ggplot(aes(x = `bis_mot_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 3 years predict BSL grades at the end of 1st year?
+bis_mot_grade_bsl_wide %>%
+  filter(`bis_mot_3rd year` != "NA") %>% 
+  ggplot(aes(x = `bis_mot_3rd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+
+# Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 3 years predict BSL grades at the end of 2nd year?
+bis_mot_grade_bsl_wide %>%
+  filter(`bis_mot_3rd year` != "na") %>% 
+  ggplot(aes(x = `bis_mot_3rd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+```
+
+### Effects of predictors on Interpreting Grades
+
+#### Dual N-Back vs Interpreting Grades
+##### Accuracy in Letter Matching
+```{r nback_lett_grade_terp}
+# Create wider pivot table
+nback_lett_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, nback_lett, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(nback_lett, grade_terp))
+
+# Does Accuracy in Letter Matching on the Dual N-Back Task pre-degree predict Interpreting Grades at the end of 1st year?
+nback_lett_grade_terp_wide %>%
+  ggplot(aes(x = `nback_lett_pre-degree`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Letter Matching on the Dual N-Back Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = "Accuracy in Letter Matching on the Dual N-Back Task pre-degree")
+
+# Does Accuracy in Letter Matching on the Dual N-Back Task after 1 year of study predict Interpreting Grades at the end of 1st year?
+nback_lett_grade_terp_wide %>%
+  ggplot(aes(x = `nback_lett_1st year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Letter Matching on the Dual N-Back Task after 1 year of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = "Accuracy in Letter Matching on the Dual N-Back Task after 1 year")
+
+# Does Accuracy in Letter Matching on the Dual N-Back Task after 2 years of study predict Interpreting Grades at the end of 1st year?
+nback_lett_grade_terp_wide %>%
+  ggplot(aes(x = `nback_lett_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Letter Matching on the Dual N-Back Task after 2 years of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = "Accuracy in Letter Matching on the Dual N-Back Task after 2 years")
+
+# Does Accuracy in Letter Matching on the Dual N-Back Task pre-degree predict Interpreting Grades at the end of 2nd year?
+nback_lett_grade_terp_wide %>%
+  ggplot(aes(x = `nback_lett_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Letter Matching on the Dual N-Back Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy in Letter Matching on the Dual N-Back Task pre-degree")
+
+# Does Accuracy in Letter Matching on the Dual N-Back Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
+nback_lett_grade_terp_wide %>%
+  ggplot(aes(x = `nback_lett_1st year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Letter Matching on the Dual N-Back Task after 1 year of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy in Letter Matching on the Dual N-Back Task after 1 year")
+
+# Does Accuracy in Letter Matching on the Dual N-Back Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
+nback_lett_grade_terp_wide %>%
+  ggplot(aes(x = `nback_lett_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Letter Matching on the Dual N-Back Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy in Letter Matching on the Dual N-Back Task after 2 years")
+```
+
+##### Accuracy in Spatial Matching
+```{r nback_spat_grade_terp}
+# Create wider pivot table
+nback_spat_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, nback_spat, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(nback_spat, grade_terp))
+
+# Does Accuracy in Spatial Matching on the Dual N-Back Task pre-degree predict Interpreting Grades at the end of 1st year?
+nback_spat_grade_terp_wide %>%
+  ggplot(aes(x = `nback_spat_pre-degree`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Spatial Matching on the Dual N-Back Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = "Accuracy in Spatial Matching on the Dual N-Back Task pre-degre")
+
+# Does Accuracy in Spatial Matching on the Dual N-Back Task after 1 year of study predict Interpreting Grades at the end of 1st year?
+nback_spat_grade_terp_wide %>%
+  ggplot(aes(x = `nback_spat_1st year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Spatial Matching on the Dual N-Back Task after 1 year of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = "Accuracy in Spatial Matching on the Dual N-Back Task after 1 year")
+
+# Does Accuracy in Spatial Matching on the Dual N-Back Task after 2 years of study predict Interpreting Grades at the end of 1st year?
+nback_spat_grade_terp_wide %>%
+  ggplot(aes(x = `nback_spat_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Spatial Matching on the Dual N-Back Task after 2 years of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = "Accuracy in Spatial Matching on the Dual N-Back Task after 2 years")
+
+# Does Accuracy in Spatial Matching on the Dual N-Back Task pre-degree predict Interpreting Grades at the end of 2nd year?
+nback_spat_grade_terp_wide %>%
+  ggplot(aes(x = `nback_spat_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Spatial Matching on the Dual N-Back Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy in Spatial Matching on the Dual N-Back Task pre-degree")
+
+# Does Accuracy in Spatial Matching on the Dual N-Back Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
+nback_spat_grade_terp_wide %>%
+  ggplot(aes(x = `nback_spat_1st year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Spatial Matching on the Dual N-Back Task after 1 year of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy in Spatial Matching on the Dual N-Back Task after 1 year")
+
+# Does Accuracy in Spatial Matching on the Dual N-Back Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
+nback_spat_grade_terp_wide %>%
+  ggplot(aes(x = `nback_spat_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy in Spatial Matching on the Dual N-Back Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy in Spatial Matching on the Dual N-Back Task after 2 years")
+```
+
+
+##### Combined accuracy
+```{r nback_comb_grade_terp}
+# Create wider pivot table
+nback_comb_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, nback_comb, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(nback_comb, grade_terp))
+
+# Does Combined Accuracy on the Dual N-Back Task pre-degree predict Interpreting Grades at the end of 1st year?
+nback_comb_grade_terp_wide %>%
+  ggplot(aes(x = `nback_comb_pre-degree`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Combined Accuracy on the Dual N-Back Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Combined Accuracy on the Dual N-Back Task after 1 year of study predict Interpreting Grades at the end of 1st year?
+nback_comb_grade_terp_wide %>%
+  ggplot(aes(x = `nback_comb_1st year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Combined Accuracy on the Dual N-Back Task after 1 year of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Combined Accuracy on the Dual N-Back Task after 2 years of study predict Interpreting Grades at the end of 1st year?
+nback_comb_grade_terp_wide %>%
+  ggplot(aes(x = `nback_comb_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Combined Accuracy on the Dual N-Back Task after 2 years of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Combined Accuracy on the Dual N-Back Task pre-degree predict Interpreting Grades at the end of 2nd year?
+nback_comb_grade_terp_wide %>%
+  ggplot(aes(x = `nback_comb_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Combined Accuracy on the Dual N-Back Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Combined Accuracy on the Dual N-Back Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
+nback_comb_grade_terp_wide %>%
+  ggplot(aes(x = `nback_comb_1st year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Combined Accuracy on the Dual N-Back Task after 1 year of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Combined Accuracy on the Dual N-Back Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
+nback_comb_grade_terp_wide %>%
+  ggplot(aes(x = `nback_comb_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Combined Accuracy on the Dual N-Back Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+```
+###### Correlations
+```{r}
+nback_comb_grade_terp_wide %>% 
+  filter(`nback_comb_pre-degree`!= "NA") %>% 
+  filter(`grade_terp_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`nback_comb_pre-degree`, 
+                       `grade_terp_1st year`))
+
+nback_comb_grade_terp_wide %>% 
+  filter(`nback_comb_1st year`!= "NA") %>% 
+  filter(`grade_terp_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`nback_comb_1st year`, 
+                       `grade_terp_1st year`))
+
+nback_comb_grade_terp_wide %>% 
+  filter(`nback_comb_2nd year`!= "NA") %>% 
+  filter(`grade_terp_1st year` != "NA") %>%   summarize(AccCOR=cor(`nback_comb_2nd year`, 
+                       `grade_terp_1st year`))
+
+nback_comb_grade_terp_wide %>% 
+  filter(`nback_comb_pre-degree`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`nback_comb_pre-degree`, 
+                       `grade_terp_2nd year`))
+
+nback_comb_grade_terp_wide %>% 
+  filter(`nback_comb_1st year`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`nback_comb_1st year`, 
+                       `grade_terp_2nd year`))
+
+nback_comb_grade_terp_wide %>% 
+  filter(`nback_comb_2nd year`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>%   summarize(AccCOR=cor(`nback_comb_2nd year`, 
+                       `grade_terp_2nd year`))
+```
+
+#### Corsi Blocks vs Interpreting Grades 
+
+##### Block Span 
+```{r corsi_bspan_grade_terp}
+# Create wider pivot table
+corsi_bspan_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, corsi_bspan, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(corsi_bspan, grade_terp))
+
+# Does Block Span on the Corsi Blocks Task pre-degree predict Interpreting Grades at the end of 1st year?
+corsi_bspan_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_bspan_pre-degree`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Block Span on the Corsi Blocks Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Block Span on the Corsi Blocks Task after 1 year of study predict Interpreting Grades at the end of 1st year?
+corsi_bspan_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_bspan_1st year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Block Span on the Corsi Blocks Task after 1 year of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Block Span on the Corsi Blocks Task after 2 years of study predict Interpreting Grades at the end of 1st year?
+corsi_bspan_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_bspan_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Block Span on the Corsi Blocks Task after 2 years of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Block Span on the Corsi Blocks Task pre-degree predict Interpreting Grades at the end of 2nd year?
+corsi_bspan_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_bspan_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Block Span on the Corsi Blocks Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Block Span on the Corsi Blocks Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
+corsi_bspan_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_bspan_1st year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Block Span on the Corsi Blocks Task after 1 year of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Block Span on the Corsi Blocks Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
+corsi_bspan_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_bspan_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Block Span on the Corsi Blocks Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+```
+
+##### Raw Score 
+```{r corsi_score_grade_terp}
+# Create wider pivot table
+corsi_score_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, corsi_score, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(corsi_score, grade_terp))
+
+# Does Raw Score on the Corsi Blocks Task pre-degree predict Interpreting Grades at the end of 1st year?
+corsi_score_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_score_pre-degree`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Corsi Blocks Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Raw Score on the Corsi Blocks Task after 1 year of study predict Interpreting Grades at the end of 1st year?
+corsi_score_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_score_1st year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Corsi Blocks Task after 1 year of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Raw Score on the Corsi Blocks Task after 2 years of study predict Interpreting Grades at the end of 1st year?
+corsi_score_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_score_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Corsi Blocks Task after 2 years of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Raw Score on the Corsi Blocks Task pre-degree predict Interpreting Grades at the end of 2nd year?
+corsi_score_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_score_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Corsi Blocks Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Raw Score on the Corsi Blocks Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
+corsi_score_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_score_1st year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Corsi Blocks Task after 1 year of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Raw Score on the Corsi Blocks Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
+corsi_score_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_score_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Corsi Blocks Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+```
+
+##### Correct Responses 
+```{r corsi_corr_grade_terp}
+# Create wider pivot table
+corsi_corr_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, corsi_corr, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(corsi_corr, grade_terp))
+
+# Do Correct Responses on the Corsi Blocks Task pre-degree predict Interpreting Grades at the end of 1st year?
+corsi_corr_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_corr_pre-degree`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Do Correct Responses on the Corsi Blocks Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Do Correct Responses on the Corsi Blocks Task after 1 year of study predict Interpreting Grades at the end of 1st year?
+corsi_corr_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_corr_1st year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Do Correct Responses on the Corsi Blocks Task after 1 year of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Do Correct Responses on the Corsi Blocks Task after 2 years of study predict Interpreting Grades at the end of 1st year?
+corsi_corr_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_corr_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Do Correct Responses on the Corsi Blocks Task after 2 years of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Do Correct Responses on the Corsi Blocks Task pre-degree predict Interpreting Grades at the end of 2nd year?
+corsi_corr_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_corr_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Do Correct Responses on the Corsi Blocks Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Do Correct Responses on the Corsi Blocks Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
+corsi_corr_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_corr_1st year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Do Correct Responses on the Corsi Blocks Task after 1 year of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Do Correct Responses on the Corsi Blocks Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
+corsi_corr_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_corr_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Do Correct Responses on the Corsi Blocks Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+```
+
+##### Memory Span 
+```{r corsi_mspan_grade_terp}
+# Create wider pivot table
+corsi_mspan_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, corsi_mspan, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(corsi_mspan, grade_terp))
+
+# Does Memory Span on the Corsi Blocks Task pre-degree predict Interpreting Grades at the end of 1st year?
+corsi_mspan_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_mspan_pre-degree`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Memory Span on the Corsi Blocks Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Memory Span on the Corsi Blocks Task after 1 year of study predict Interpreting Grades at the end of 1st year?
+corsi_mspan_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_mspan_1st year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Memory Span on the Corsi Blocks Task after 1 year of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Memory Span on the Corsi Blocks Task after 2 years of study predict Interpreting Grades at the end of 1st year?
+corsi_mspan_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_mspan_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Memory Span on the Corsi Blocks Task after 2 years of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Memory Span on the Corsi Blocks Task pre-degree predict Interpreting Grades at the end of 2nd year?
+corsi_mspan_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_mspan_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Memory Span on the Corsi Blocks Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Memory Span on the Corsi Blocks Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
+corsi_mspan_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_mspan_1st year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Memory Span on the Corsi Blocks Task after 1 year of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Memory Span on the Corsi Blocks Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
+corsi_mspan_grade_terp_wide %>%
+  ggplot(aes(x = `corsi_mspan_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Memory Span on the Corsi Blocks Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+```
+
+
+#### Kirklees Sentence Reading vs Interpreting Grades
+##### Ceiling Score
+```{r kirk_ceil_grade_terp}
+# Create wider pivot table
+kirk_ceil_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, kirk_ceil, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(kirk_ceil, grade_terp))
+
+# Does Ceiling Score on the Kirklees Sentence Reading Task pre-degree predict Interpreting Grades at the end of 1st year?
+kirk_ceil_grade_terp_wide %>%
+  ggplot(aes(x = `kirk_ceil_pre-degree`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the Kirklees Sentence Reading Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Ceiling Score on the Kirklees Sentence Reading Task after 1 year of study predict Interpreting Grades at the end of 1st year?
+kirk_ceil_grade_terp_wide %>%
+  ggplot(aes(x = `kirk_ceil_1st year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the Kirklees Sentence Reading Task after 1 year of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Ceiling Score on the Kirklees Sentence Reading Task after 2 years of study predict Interpreting Grades at the end of 1st year?
+kirk_ceil_grade_terp_wide %>%
+  ggplot(aes(x = `kirk_ceil_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the Kirklees Sentence Reading Task after 2 years of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Ceiling Score on the Kirklees Sentence Reading Task pre-degree predict Interpreting Grades at the end of 2nd year?
+kirk_ceil_grade_terp_wide %>%
+  ggplot(aes(x = `kirk_ceil_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the Kirklees Sentence Reading Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Ceiling Score on the Kirklees Sentence Reading Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
+kirk_ceil_grade_terp_wide %>%
+  ggplot(aes(x = `kirk_ceil_1st year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the Kirklees Sentence Reading Task after 1 year of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Ceiling Score on the Kirklees Sentence Reading Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
+kirk_ceil_grade_terp_wide %>%
+  ggplot(aes(x = `kirk_ceil_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the Kirklees Sentence Reading Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+```
+
+##### Raw Score
+```{r kirk_raw_grade_terp}
+# Create wider pivot table
+kirk_raw_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, kirk_raw, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(kirk_raw, grade_terp))
+
+# Does Raw Score on the Kirklees Sentence Reading Task pre-degree predict Interpreting Grades at the end of 1st year?
+kirk_raw_grade_terp_wide %>%
+  ggplot(aes(x = `kirk_raw_pre-degree`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Kirklees Sentence Reading Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Raw Score on the Kirklees Sentence Reading Task after 1 year of study predict Interpreting Grades at the end of 1st year?
+kirk_raw_grade_terp_wide %>%
+  ggplot(aes(x = `kirk_raw_1st year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Kirklees Sentence Reading Task after 1 year of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Raw Score on the Kirklees Sentence Reading Task after 2 years of study predict Interpreting Grades at the end of 1st year?
+kirk_raw_grade_terp_wide %>%
+  ggplot(aes(x = `kirk_raw_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Kirklees Sentence Reading Task after 2 years of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Raw Score on the Kirklees Sentence Reading Task pre-degree predict Interpreting Grades at the end of 2nd year?
+kirk_raw_grade_terp_wide %>%
+  ggplot(aes(x = `kirk_raw_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Kirklees Sentence Reading Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Raw Score on the Kirklees Sentence Reading Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
+kirk_raw_grade_terp_wide %>%
+  ggplot(aes(x = `kirk_raw_1st year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Kirklees Sentence Reading Task after 1 year of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Raw Score on the Kirklees Sentence Reading Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
+kirk_raw_grade_terp_wide %>%
+  ggplot(aes(x = `kirk_raw_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the Kirklees Sentence Reading Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+```
+
+##### Accuracy
+```{r kirk_acc_grade_terp}
+# Create wider pivot table
+kirk_acc_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, kirk_acc, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(kirk_acc, grade_terp))
+
+# Does Accuracy on the Kirklees Sentence Reading Task pre-degree predict Interpreting Grades at the end of 1st year?
+kirk_acc_grade_terp_wide %>%
+  ggplot(aes(x = `kirk_acc_pre-degree`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the Kirklees Sentence Reading Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = "Accuracy on the Kirklees Sentence Reading Task pre-degree")
+
+# Does Accuracy on the Kirklees Sentence Reading Task after 1 year of study predict Interpreting Grades at the end of 1st year?
+kirk_acc_grade_terp_wide %>%
+  ggplot(aes(x = `kirk_acc_1st year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the Kirklees Sentence Reading Task after 1 year of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = "Accuracy on the Kirklees Sentence Reading Task after 1 year")
+
+# Does Accuracy on the Kirklees Sentence Reading Task after 2 years of study predict Interpreting Grades at the end of 1st year?
+kirk_acc_grade_terp_wide %>%
+  ggplot(aes(x = `kirk_acc_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the Kirklees Sentence Reading Task after 2 years of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = "Accuracy on the Kirklees Sentence Reading Task after 2 years")
+
+# Does Accuracy on the Kirklees Sentence Reading Task pre-degree predict Interpreting Grades at the end of 2nd year?
+kirk_acc_grade_terp_wide %>%
+  ggplot(aes(x = `kirk_acc_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the Kirklees Sentence Reading Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy on the Kirklees Sentence Reading Task pre-degree")
+
+# Does Accuracy on the Kirklees Sentence Reading Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
+kirk_acc_grade_terp_wide %>%
+  ggplot(aes(x = `kirk_acc_1st year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the Kirklees Sentence Reading Task after 1 year of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy on the Kirklees Sentence Reading Task after 1 year")
+
+# Does Accuracy on the Kirklees Sentence Reading Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
+kirk_acc_grade_terp_wide %>%
+  ggplot(aes(x = `kirk_acc_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the Kirklees Sentence Reading Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy on the Kirklees Sentence Reading Task after 2 years")
+```
+
+###### Correlations
+```{r}
+kirk_acc_grade_terp_wide %>% 
+  filter(`kirk_acc_pre-degree`!= "NA") %>% 
+  filter(`grade_terp_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`kirk_acc_pre-degree`, 
+                       `grade_terp_1st year`))
+
+kirk_acc_grade_terp_wide %>% 
+  filter(`kirk_acc_1st year`!= "NA") %>% 
+  filter(`grade_terp_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`kirk_acc_1st year`, 
+                       `grade_terp_1st year`))
+
+kirk_acc_grade_terp_wide %>% 
+  filter(`kirk_acc_2nd year`!= "NA") %>% 
+  filter(`grade_terp_1st year` != "NA") %>%
+  summarize(AccCOR=cor(`kirk_acc_2nd year`, 
+                       `grade_terp_1st year`))
+
+kirk_acc_grade_terp_wide %>% 
+  filter(`kirk_acc_pre-degree`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`kirk_acc_pre-degree`, 
+                       `grade_terp_2nd year`))
+
+kirk_acc_grade_terp_wide %>% 
+  filter(`kirk_acc_1st year`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`kirk_acc_1st year`, 
+                       `grade_terp_2nd year`))
+
+kirk_acc_grade_terp_wide %>% 
+  filter(`kirk_acc_2nd year`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>%
+  summarize(AccCOR=cor(`kirk_acc_2nd year`, 
+                       `grade_terp_2nd year`))
+```
+
+#### KBIT-2 Matrices vs Interpreting Grades
+##### Ceiling Score
+```{r kbit_ceil_grade_terp}
+# Create wider pivot table
+kbit_ceil_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, kbit_ceil, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(kbit_ceil, grade_terp))
+
+# Does Ceiling Score on the KBIT-2 Matrices Task pre-degree predict Interpreting Grades at the end of 1st year?
+kbit_ceil_grade_terp_wide %>%
+  ggplot(aes(x = `kbit_ceil_pre-degree`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the KBIT-2 Matrices Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Ceiling Score on the KBIT-2 Matrices Task after 1 year of study predict Interpreting Grades at the end of 1st year?
+kbit_ceil_grade_terp_wide %>%
+  ggplot(aes(x = `kbit_ceil_1st year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the KBIT-2 Matrices Task after 1 year of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Ceiling Score on the KBIT-2 Matrices Task after 2 years of study predict Interpreting Grades at the end of 1st year?
+kbit_ceil_grade_terp_wide %>%
+  ggplot(aes(x = `kbit_ceil_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the KBIT-2 Matrices Task after 2 years of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Ceiling Score on the KBIT-2 Matrices Task pre-degree predict Interpreting Grades at the end of 2nd year?
+kbit_ceil_grade_terp_wide %>%
+  ggplot(aes(x = `kbit_ceil_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the KBIT-2 Matrices Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Ceiling Score on the KBIT-2 Matrices Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
+kbit_ceil_grade_terp_wide %>%
+  ggplot(aes(x = `kbit_ceil_1st year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the KBIT-2 Matrices Task after 1 year of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Ceiling Score on the KBIT-2 Matrices Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
+kbit_ceil_grade_terp_wide %>%
+  ggplot(aes(x = `kbit_ceil_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Ceiling Score on the KBIT-2 Matrices Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+```
+
+##### Raw Score
+```{r kbit_raw_grade_terp}
+# Create wider pivot table
+kbit_raw_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, kbit_raw, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(kbit_raw, grade_terp))
+
+# Does Raw Score on the KBIT-2 Matrices Task pre-degree predict Interpreting Grades at the end of 1st year?
+kbit_raw_grade_terp_wide %>%
+  ggplot(aes(x = `kbit_raw_pre-degree`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the KBIT-2 Matrices Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Raw Score on the KBIT-2 Matrices Task after 1 year of study predict Interpreting Grades at the end of 1st year?
+kbit_raw_grade_terp_wide %>%
+  ggplot(aes(x = `kbit_raw_1st year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the KBIT-2 Matrices Task after 1 year of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Raw Score on the KBIT-2 Matrices Task after 2 years of study predict Interpreting Grades at the end of 1st year?
+kbit_raw_grade_terp_wide %>%
+  ggplot(aes(x = `kbit_raw_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the KBIT-2 Matrices Task after 2 years of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Raw Score on the KBIT-2 Matrices Task pre-degree predict Interpreting Grades at the end of 2nd year?
+kbit_raw_grade_terp_wide %>%
+  ggplot(aes(x = `kbit_raw_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the KBIT-2 Matrices Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Raw Score on the KBIT-2 Matrices Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
+kbit_raw_grade_terp_wide %>%
+  ggplot(aes(x = `kbit_raw_1st year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the KBIT-2 Matrices Task after 1 year of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Raw Score on the KBIT-2 Matrices Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
+kbit_raw_grade_terp_wide %>%
+  ggplot(aes(x = `kbit_raw_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Raw Score on the KBIT-2 Matrices Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+```
+
+##### Accuracy
+```{r kbit_acc_grade_terp}
+# Create wider pivot table
+kbit_acc_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, kbit_acc, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(kbit_acc, grade_terp))
+
+# Does Accuracy on the KBIT-2 Matrices Task pre-degree predict Interpreting Grades at the end of 1st year?
+kbit_acc_grade_terp_wide %>%
+  ggplot(aes(x = `kbit_acc_pre-degree`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the KBIT-2 Matrices Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Accuracy on the KBIT-2 Matrices Task after 1 year of study predict Interpreting Grades at the end of 1st year?
+kbit_acc_grade_terp_wide %>%
+  ggplot(aes(x = `kbit_acc_1st year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the KBIT-2 Matrices Task after 1 year of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Accuracy on the KBIT-2 Matrices Task after 2 years of study predict Interpreting Grades at the end of 1st year?
+kbit_acc_grade_terp_wide %>%
+  ggplot(aes(x = `kbit_acc_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the KBIT-2 Matrices Task after 2 years of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Accuracy on the KBIT-2 Matrices Task pre-degree predict Interpreting Grades at the end of 2nd year?
+kbit_acc_grade_terp_wide %>%
+  ggplot(aes(x = `kbit_acc_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the KBIT-2 Matrices Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Accuracy on the KBIT-2 Matrices Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
+kbit_acc_grade_terp_wide %>%
+  ggplot(aes(x = `kbit_acc_1st year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the KBIT-2 Matrices Task after 1 year of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Accuracy on the KBIT-2 Matrices Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
+kbit_acc_grade_terp_wide %>%
+  ggplot(aes(x = `kbit_acc_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the KBIT-2 Matrices Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+```
+
+#### Digit Span vs Interpreting Grades
+##### Accuracy 
+```{r dspan_acc_grade_terp}
+# Create wider pivot table
+dspan_acc_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, dspan_corr, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(dspan_corr, grade_terp))
+
+# Does Accuracy on the Digit Span Task pre-degree predict Interpreting Grades at the end of 1st year?
+dspan_acc_grade_terp_wide %>%
+  ggplot(aes(x = `dspan_corr_pre-degree`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the Digit Span Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Accuracy on the Digit Span Task after 1 year of study predict Interpreting Grades at the end of 1st year?
+# removing bc no datapoints for Digit Span @ timepoint 2
+
+# Does Accuracy on the Digit Span Task after 2 years of study predict Interpreting Grades at the end of 1st year?
+dspan_acc_grade_terp_wide %>%
+  ggplot(aes(x = `dspan_corr_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the Digit Span Task after 2 years of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Accuracy on the Digit Span Task pre-degree predict Interpreting Grades at the end of 2nd year?
+dspan_acc_grade_terp_wide %>%
+  ggplot(aes(x = `dspan_corr_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the Digit Span Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Accuracy on the Digit Span Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
+# removing bc no datapoints for Digit Span @ timepoint 2
+
+# Does Accuracy on the Digit Span Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
+dspan_acc_grade_terp_wide %>%
+  ggplot(aes(x = `dspan_corr_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the Digit Span Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+```
+
+###### Correlations
+```{r}
+dspan_acc_grade_terp_wide %>% 
+  filter(`dspan_corr_pre-degree`!= "NA") %>% 
+  filter(`grade_terp_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`dspan_corr_pre-degree`, 
+                       `grade_terp_1st year`))
+
+dspan_acc_grade_terp_wide %>% 
+  filter(`dspan_corr_2nd year`!= "NA") %>% 
+  filter(`grade_terp_1st year` != "NA") %>%
+  summarize(AccCOR=cor(`dspan_corr_2nd year`, 
+                       `grade_terp_1st year`))
+
+dspan_acc_grade_terp_wide %>% 
+  filter(`dspan_corr_pre-degree`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`dspan_corr_pre-degree`, 
+                       `grade_terp_2nd year`))
+
+dspan_acc_grade_terp_wide %>% 
+  filter(`dspan_corr_2nd year`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>%
+  summarize(AccCOR=cor(`dspan_corr_2nd year`, 
+                       `grade_terp_2nd year`))
+```
+
+##### Memory Span 
+```{r dspan_mem_grade_terp}
+# Create wider pivot table
+dspan_mem_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, dspan_mem, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(dspan_mem, grade_terp))
+
+# Does Memory Span on the Digit Span Task pre-degree predict Interpreting Grades at the end of 1st year?
+dspan_mem_grade_terp_wide %>%
+  ggplot(aes(x = `dspan_mem_pre-degree`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Memory Span on the Digit Span Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Memory Span on the Digit Span Task after 1 year of study predict Interpreting Grades at the end of 1st year?
+# removing bc no datapoints for Digit Span @ timepoint 2
+
+# Does Memory Span on the Digit Span Task after 2 years of study predict Interpreting Grades at the end of 1st year?
+dspan_mem_grade_terp_wide %>%
+  ggplot(aes(x = `dspan_mem_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Memory Span on the Digit Span Task after 2 years of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Memory Span on the Digit Span Task pre-degree predict Interpreting Grades at the end of 2nd year?
+dspan_mem_grade_terp_wide %>%
+  ggplot(aes(x = `dspan_mem_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Memory Span on the Digit Span Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Memory Span on the Digit Span Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
+# removing bc no datapoints for Digit Span @ timepoint 2
+
+# Does Memory Span on the Digit Span Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
+dspan_mem_grade_terp_wide %>%
+  ggplot(aes(x = `dspan_mem_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Memory Span on the Digit Span Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+```
+
+```{r dspan_time_grade_terp}
+# Create wider pivot table
+dspan_time_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, dspan_time, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(dspan_time, grade_terp))
+
+# Does Time spent on the Digit Span Task pre-degree predict Interpreting Grades at the end of 1st year?
+dspan_time_grade_terp_wide %>%
+  ggplot(aes(x = `dspan_time_pre-degree`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Time spent on the Digit Span Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Time spent on the Digit Span Task after 1 year of study predict Interpreting Grades at the end of 1st year?
+# removing bc no datapoints for Digit Span @ timepoint 2
+
+# Does Time spent on the Digit Span Task after 2 years of study predict Interpreting Grades at the end of 1st year?
+dspan_time_grade_terp_wide %>%
+  ggplot(aes(x = `dspan_time_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Time spent on the Digit Span Task after 2 years of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Time spent on the Digit Span Task pre-degree predict Interpreting Grades at the end of 2nd year?
+dspan_time_grade_terp_wide %>%
+  ggplot(aes(x = `dspan_time_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Time spent on the Digit Span Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Time spent on the Digit Span Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
+# removing bc no datapoints for Digit Span @ timepoint 2
+
+# Does Time spent on the Digit Span Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
+dspan_time_grade_terp_wide %>%
+  ggplot(aes(x = `dspan_time_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Time spent on the Digit Span Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+```
+
+#### 2D Mental Rotation vs Interpreting Grades
+##### Accuracy 
+```{r mr2d_acc_grade_terp}
+# Create wider pivot table
+mr2d_acc_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, mr2d_acc, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(mr2d_acc, grade_terp))
+
+# Does Accuracy on the 2D Mental Rotation Task pre-degree predict Interpreting Grades at the end of 1st year?
+mr2d_acc_grade_terp_wide %>%
+  ggplot(aes(x = `mr2d_acc_pre-degree`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  labs(title = "Does Accuracy on the 2D Mental Rotation Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = "Accuracy on the 2D Mental Rotation Task pre-degree")
+
+# Does Accuracy on the 2D Mental Rotation Task after 1 year of study predict Interpreting Grades at the end of 1st year?
+mr2d_acc_grade_terp_wide %>%
+  ggplot(aes(x = `mr2d_acc_1st year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the 2D Mental Rotation Task after 1 year of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = "Accuracy on the 2D Mental Rotation Task after 1 year of study")
+
+# Does Accuracy on the 2D Mental Rotation Task after 2 years of study predict Interpreting Grades at the end of 1st year?
+mr2d_acc_grade_terp_wide %>%
+  ggplot(aes(x = `mr2d_acc_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the 2D Mental Rotation Task after 2 years of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = "Accuracy on the 2D Mental Rotation Task after 2 years of study")
+
+# Does Accuracy on the 2D Mental Rotation Task pre-degree predict Interpreting Grades at the end of 2nd year?
+mr2d_acc_grade_terp_wide %>%
+  ggplot(aes(x = `mr2d_acc_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the 2D Mental Rotation Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy on the 2D Mental Rotation Task pre-degree")
+
+# Does Accuracy on the 2D Mental Rotation Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
+mr2d_acc_grade_terp_wide %>%
+  ggplot(aes(x = `mr2d_acc_1st year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the 2D Mental Rotation Task after 1 year of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy on the 2D Mental Rotation Task after 1 year of study")
+
+# Does Accuracy on the 2D Mental Rotation Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
+mr2d_acc_grade_terp_wide %>%
+  ggplot(aes(x = `mr2d_acc_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the 2D Mental Rotation Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy on the 2D Mental Rotation Task after 2 years of study")
+```
+###### Correlations
+```{r}
+mr2d_acc_grade_terp_wide %>% 
+  filter(`mr2d_acc_pre-degree`!= "NA") %>% 
+  filter(`grade_terp_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`mr2d_acc_pre-degree`, 
+                       `grade_terp_1st year`))
+
+mr2d_acc_grade_terp_wide %>% 
+  filter(`mr2d_acc_1st year`!= "NA") %>% 
+  filter(`grade_terp_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`mr2d_acc_1st year`, 
+                       `grade_terp_1st year`))
+
+mr2d_acc_grade_terp_wide %>% 
+  filter(`mr2d_acc_2nd year`!= "NA") %>% 
+  filter(`grade_terp_1st year` != "NA") %>%   summarize(AccCOR=cor(`mr2d_acc_2nd year`, 
+                       `grade_terp_1st year`))
+
+mr2d_acc_grade_terp_wide %>% 
+  filter(`mr2d_acc_pre-degree`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`mr2d_acc_pre-degree`, 
+                       `grade_terp_2nd year`))
+
+mr2d_acc_grade_terp_wide %>% 
+  filter(`mr2d_acc_1st year`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`mr2d_acc_1st year`, 
+                       `grade_terp_2nd year`))
+
+mr2d_acc_grade_terp_wide %>% 
+  filter(`mr2d_acc_2nd year`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>%   summarize(AccCOR=cor(`mr2d_acc_2nd year`, 
+                       `grade_terp_2nd year`))
+```
+
+
+##### RT 
+```{r mr2d_rt_grade_terp}
+# Create wider pivot table
+mr2d_rt_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, mr2d_rt, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(mr2d_rt, grade_terp))
+
+# Does Reaction Time on the 2D Mental Rotation Task pre-degree predict Interpreting Grades at the end of 1st year?
+mr2d_rt_grade_terp_wide %>%
+  ggplot(aes(x = `mr2d_rt_pre-degree`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Reaction Time on the 2D Mental Rotation Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Reaction Time on the 2D Mental Rotation Task after 1 year of study predict Interpreting Grades at the end of 1st year?
+mr2d_rt_grade_terp_wide %>%
+  ggplot(aes(x = `mr2d_rt_1st year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Reaction Time on the 2D Mental Rotation Task after 1 year of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Reaction Time on the 2D Mental Rotation Task after 2 years of study predict Interpreting Grades at the end of 1st year?
+mr2d_rt_grade_terp_wide %>%
+  ggplot(aes(x = `mr2d_rt_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Reaction Time on the 2D Mental Rotation Task after 2 years of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+
+# Does Reaction Time on the 2D Mental Rotation Task pre-degree predict Interpreting Grades at the end of 2nd year?
+mr2d_rt_grade_terp_wide %>%
+  ggplot(aes(x = `mr2d_rt_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Does Reaction Time on the 2D Mental Rotation Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Reaction Time on the 2D Mental Rotation Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
+mr2d_rt_grade_terp_wide %>%
+  ggplot(aes(x = `mr2d_rt_1st year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Reaction Time on the 2D Mental Rotation Task after 1 year of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Reaction Time on the 2D Mental Rotation Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
+mr2d_rt_grade_terp_wide %>%
+  ggplot(aes(x = `mr2d_rt_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Does Reaction Time on the 2D Mental Rotation Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+```
+
+###### Correlations
+```{r}
+mr2d_rt_grade_terp_wide %>% 
+  filter(`mr2d_rt_pre-degree`!= "NA") %>% 
+  filter(`grade_terp_1st year` != "NA") %>% 
+  summarize(rtCOR=cor(`mr2d_rt_pre-degree`, 
+                       `grade_terp_1st year`))
+
+mr2d_rt_grade_terp_wide %>% 
+  filter(`mr2d_rt_1st year`!= "NA") %>% 
+  filter(`grade_terp_1st year` != "NA") %>% 
+  summarize(rtCOR=cor(`mr2d_rt_1st year`, 
+                       `grade_terp_1st year`))
+
+mr2d_rt_grade_terp_wide %>% 
+  filter(`mr2d_rt_2nd year`!= "NA") %>% 
+  filter(`grade_terp_1st year` != "NA") %>%   summarize(rtCOR=cor(`mr2d_rt_2nd year`, 
+                       `grade_terp_1st year`))
+
+mr2d_rt_grade_terp_wide %>% 
+  filter(`mr2d_rt_pre-degree`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>% 
+  summarize(rtCOR=cor(`mr2d_rt_pre-degree`, 
+                       `grade_terp_2nd year`))
+
+mr2d_rt_grade_terp_wide %>% 
+  filter(`mr2d_rt_1st year`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>% 
+  summarize(rtCOR=cor(`mr2d_rt_1st year`, 
+                       `grade_terp_2nd year`))
+
+mr2d_rt_grade_terp_wide %>% 
+  filter(`mr2d_rt_2nd year`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>%   summarize(rtCOR=cor(`mr2d_rt_2nd year`, 
+                       `grade_terp_2nd year`))
+```
+
+#### 3D Mental Rotation vs Interpreting Grades
+##### Accuracy 
+```{r mr3d_acc_grade_terp}
+# Create wider pivot table
+mr3d_acc_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, mr3d_acc, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(mr3d_acc, grade_terp))
+
+# Does Accuracy on the 3D Mental Rotation Task pre-degree predict Interpreting Grades at the end of 1st year?
+mr3d_acc_grade_terp_wide %>%
+  ggplot(aes(x = `mr3d_acc_pre-degree`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Does Accuracy on the 3D Mental Rotation Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = "Accuracy on the 3D Mental Rotation Task pre-degree")
+
+# Does Accuracy on the 3D Mental Rotation Task after 1 year of study predict Interpreting Grades at the end of 1st year?
+# mr3d_acc_grade_terp_wide %>%
+#  ggplot(aes(x = `mr3d_acc_1st year`, y = `grade_terp_1st year`)) +
+#  geom_point() +
+#  geom_smooth(method= "lm") +
+#  theme_minimal()  # removing bc only 2 datapoints for 3DMR @ timepoint 2
+
+# Does Accuracy on the 3D Mental Rotation Task after 2 years of study predict Interpreting Grades at the end of 1st year?
+mr3d_acc_grade_terp_wide %>%
+  ggplot(aes(x = `mr3d_acc_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title= "Does Accuracy on the 3D Mental Rotation Task after 2 years of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = "Accuracy on the 3D Mental Rotation Task after 2 years")
+
+# Does Accuracy on the 3D Mental Rotation Task pre-degree predict Interpreting Grades at the end of 2nd year?
+mr3d_acc_grade_terp_wide %>%
+  ggplot(aes(x = `mr3d_acc_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  geom_point() +
+  theme_minimal() +
+  labs(title= "Does Accuracy on the 3D Mental Rotation Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy on the 3D Mental Rotation Task pre-degree") 
+
+# Does Accuracy on the 3D Mental Rotation Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
+# mr3d_acc_grade_terp_wide %>%
+#  ggplot(aes(x = `mr3d_acc_1st year`, y = `grade_terp_2nd year`)) +
+#  geom_point() +
+#  geom_smooth(method= "lm") +
+#  theme_minimal()  # removing bc only 2 datapoints for 3DMR @ timepoint 2
+
+# Does Accuracy on the 3D Mental Rotation Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
+mr3d_acc_grade_terp_wide %>%
+  ggplot(aes(x = `mr3d_acc_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title= "Does Accuracy on the 3D Mental Rotation Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy on the 3D Mental Rotation Task after 2 years") 
+
+```
+###### Correlations
+```{r}
+mr3d_acc_grade_terp_wide %>% 
+  filter(`mr3d_acc_pre-degree`!= "NA") %>% 
+  filter(`grade_terp_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`mr3d_acc_pre-degree`, 
+                       `grade_terp_1st year`))
+
+mr3d_acc_grade_terp_wide %>% 
+  filter(`mr3d_acc_2nd year`!= "NA") %>% 
+  filter(`grade_terp_1st year` != "NA") %>%   summarize(AccCOR=cor(`mr3d_acc_2nd year`, 
+                       `grade_terp_1st year`))
+
+mr3d_acc_grade_terp_wide %>% 
+  filter(`mr3d_acc_pre-degree`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`mr3d_acc_pre-degree`, 
+                       `grade_terp_2nd year`))
+
+mr3d_acc_grade_terp_wide %>% 
+  filter(`mr3d_acc_2nd year`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>%   summarize(AccCOR=cor(`mr3d_acc_2nd year`, 
+                       `grade_terp_2nd year`))
+```
+
+##### RT 
+```{r mr3d_rt_grade_terp}
+# Create wider pivot table
+mr3d_rt_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, mr3d_rt, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(mr3d_rt, grade_terp))
+
+# Does Reaction Time on the 3D Mental Rotation Task pre-degree predict Interpreting Grades at the end of 1st year?
+mr3d_rt_grade_terp_wide %>%
+  ggplot(aes(x = `mr3d_rt_pre-degree`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal()+
+  labs(title= "Does Reaction Time on the 3D Mental Rotation Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Reaction Time on the 3D Mental Rotation Task pre-degree") 
+
+# Does Reaction Time on the 3D Mental Rotation Task after 1 year of study predict Interpreting Grades at the end of 1st year?
+# mr3d_rt_grade_terp_wide %>%
+#  ggplot(aes(x = `mr3d_rt_1st year`, y = `grade_terp_1st year`)) +
+#  geom_point() +
+#  geom_smooth(method= "lm") +
+#  theme_minimal()  # removing bc only 2 datapoints for 3DMR @ timepoint 2
+
+# Does Reaction Time on the 3D Mental Rotation Task after 2 years of study predict Interpreting Grades at the end of 1st year?
+mr3d_rt_grade_terp_wide %>%
+  ggplot(aes(x = `mr3d_rt_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal()+
+  labs(title= "Does Reaction Time on the 3D Mental Rotation Task after 2 years of study\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = "Reaction Time on the 3D Mental Rotation Task after 2 year of study") 
+
+# Does Reaction Time on the 3D Mental Rotation Task pre-degree predict Interpreting Grades at the end of 2nd year?
+mr3d_rt_grade_terp_wide %>%
+  ggplot(aes(x = `mr3d_rt_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal()+
+  labs(title= "Does Reaction Time on the 3D Mental Rotation Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Reaction Time on the 3D Mental Rotation Task pre-degree") 
+
+# Does Reaction Time on the 3D Mental Rotation Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
+# mr3d_rt_grade_terp_wide %>%
+#  ggplot(aes(x = `mr3d_rt_1st year`, y = `grade_terp_2nd year`)) +
+#  geom_point() +
+#  geom_smooth(method= "lm") +
+#  theme_minimal()   # removing bc only 2 datapoints for 3DMR @ timepoint 2
+
+# Does Reaction Time on the 3D Mental Rotation Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
+mr3d_rt_grade_terp_wide %>%
+  ggplot(aes(x = `mr3d_rt_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Reaction Time on the 3D Mental Rotation Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Reaction Time on the 3D Mental Rotation Task after 2 years of study") 
+```
+
+###### Correlations
+```{r}
+mr3d_rt_grade_terp_wide %>% 
+  filter(`mr3d_rt_pre-degree`!= "NA") %>% 
+  filter(`grade_terp_1st year` != "NA") %>% 
+  summarize(rtCOR=cor(`mr3d_rt_pre-degree`, 
+                       `grade_terp_1st year`))
+
+mr3d_rt_grade_terp_wide %>% 
+  filter(`mr3d_rt_2nd year`!= "NA") %>% 
+  filter(`grade_terp_1st year` != "NA") %>%   summarize(rtCOR=cor(`mr3d_rt_2nd year`, 
+                       `grade_terp_1st year`))
+
+mr3d_rt_grade_terp_wide %>% 
+  filter(`mr3d_rt_pre-degree`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>% 
+  summarize(rtCOR=cor(`mr3d_rt_pre-degree`, 
+                       `grade_terp_2nd year`))
+
+mr3d_rt_grade_terp_wide %>% 
+  filter(`mr3d_rt_2nd year`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>%   summarize(rtCOR=cor(`mr3d_rt_2nd year`, 
+                       `grade_terp_2nd year`))
+```
+
+#### Barratt Impulsiveness Scale vs Interpreting Grades
+
+##### Total Impulsiveness 
+```{r bis_tot_grade_terp}
+# Create wider pivot table
+bis_tot_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, bis_tot, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(bis_tot, grade_terp))
+
+# Does Total Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study predict Interpreting Grades at the end of 1st year?
+bis_tot_grade_terp_wide %>%
+  filter(`bis_tot_2nd year` != "na") %>% 
+  filter(`grade_terp_1st year` != "na") %>% 
+  ggplot(aes(x = `bis_tot_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Total Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Total Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study predict Interpreting Grades at the end of 2nd year?
+bis_tot_grade_terp_wide %>%
+  filter(`bis_tot_2nd year` != "na") %>% 
+  filter(`grade_terp_2nd year` != "na") %>% 
+  ggplot(aes(x = `bis_tot_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Total Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Total Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study predict Interpreting Grades at the end of 1st year?
+bis_tot_grade_terp_wide %>%
+  filter(`bis_tot_3rd year` != "na") %>% 
+  filter(`grade_terp_1st year` != "na") %>% 
+  ggplot(aes(x = `bis_tot_3rd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Total Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Total Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study predict Interpreting Grades at the end of 2nd year?
+bis_tot_grade_terp_wide %>%
+  filter(`bis_tot_3rd year` != "na") %>% 
+  filter(`grade_terp_2nd year` != "na") %>% 
+  ggplot(aes(x = `bis_tot_3rd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Total Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+```
+
+Not sure why geom_smooth() line does not appear in knitted output (works in .Rmd file)
+
+##### Attentional Impulsiveness
+```{r bis_att_grade_terp}
+# Create wider pivot table
+bis_att_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, bis_att, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(bis_att, grade_terp))
+
+# Does Attentional Impulsiveness after 2 years predict Interpreting Grades at the end of 1st year?
+bis_att_grade_terp_wide %>%
+  filter(`bis_att_2nd year` != "na") %>% 
+  ggplot(aes(x = `bis_att_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Attentional Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Attentional Impulsiveness after 2 years predict Interpreting Grades at the end of 2nd year?
+bis_att_grade_terp_wide %>%
+  filter(`bis_att_2nd year` != "na") %>% 
+  ggplot(aes(x = `bis_att_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Attentional Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Attentional Impulsiveness after 3 years predict Interpreting Grades at the end of 1st year?
+bis_att_grade_terp_wide %>%
+  filter(`bis_att_3rd year` != "na") %>% 
+  ggplot(aes(x = `bis_att_3rd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Attentional Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Attentional Impulsiveness after 3 years predict Interpreting Grades at the end of 2nd year?
+bis_att_grade_terp_wide %>%
+  filter(`bis_att_3rd year` != "na") %>% 
+  ggplot(aes(x = `bis_att_3rd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Attentional Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+```
+
+##### Motor Impulsiveness
+```{r bis_nplan_grade_terp}
+# Create wider pivot table
+bis_nplan_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, bis_nplan, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(bis_nplan, grade_terp))
+
+# Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 2 years predict Interpreting Grades at the end of 1st year?
+bis_nplan_grade_terp_wide %>%
+  filter(`bis_nplan_2nd year` != "na") %>% 
+  ggplot(aes(x = `bis_nplan_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 2 years predict Interpreting Grades at the end of 2nd year?
+bis_nplan_grade_terp_wide %>%
+  filter(`bis_nplan_2nd year` != "na") %>% 
+  ggplot(aes(x = `bis_nplan_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 3 years predict Interpreting Grades at the end of 1st year?
+bis_nplan_grade_terp_wide %>%
+  filter(`bis_nplan_3rd year` != "na") %>% 
+  ggplot(aes(x = `bis_nplan_3rd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 3 years predict Interpreting Grades at the end of 2nd year?
+bis_nplan_grade_terp_wide %>%
+  filter(`bis_nplan_3rd year` != "na") %>% 
+  ggplot(aes(x = `bis_nplan_3rd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Motor Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+```
+
+##### Non-Planning Impulsiveness
+```{r bis_mot_grade_terp}
+# Create wider pivot table
+bis_mot_grade_terp_wide <- apt %>% 
+  select(session, group, ppt, bis_mot, grade_terp) %>% 
+  tidyr::pivot_wider(
+    names_from = session,
+    values_from = c(bis_mot, grade_terp))
+
+# Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 2 years predict Interpreting Grades at the end of 1st year?
+bis_mot_grade_terp_wide %>%
+  filter(`bis_mot_2nd year` != "NA") %>% 
+  ggplot(aes(x = `bis_mot_2nd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 2 years predict Interpreting Grades at the end of 2nd year?
+bis_mot_grade_terp_wide %>%
+  filter(`bis_mot_2nd year` != "na") %>% 
+  ggplot(aes(x = `bis_mot_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 3 years predict Interpreting Grades at the end of 1st year?
+bis_mot_grade_terp_wide %>%
+  filter(`bis_mot_3rd year` != "NA") %>% 
+  ggplot(aes(x = `bis_mot_3rd year`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+
+# Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 3 years predict Interpreting Grades at the end of 2nd year?
+bis_mot_grade_terp_wide %>%
+  filter(`bis_mot_3rd year` != "na") %>% 
+  ggplot(aes(x = `bis_mot_3rd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Does Non-Planning Impulsiveness on the Barratt Impulsiveness Scale after 3 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+```
+
 # Models
 
 What best predicts BSL grades?

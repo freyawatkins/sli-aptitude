@@ -1,0 +1,192 @@
+---
+title: "Sign Language Interpreter Aptitude"
+subtitle: "00 - Wrangling Set-up"
+author:
+  - name: "Freya Watkins"
+    affiliation: "University of Birmingham"
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 5
+    number_sections: false
+    theme: flatly
+    highlight: haddock
+---
+
+# Setup
+```{r setup, include=FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+```
+
+## Load packages
+```{r load_packages, message = FALSE, warning = FALSE}
+library(here) # file organisation & folder location
+library(tidyverse) # data wrangling & plotting
+library(naniar) # dealing with missing values
+library(plotrix) # for calculating standard error
+```
+
+### R / package versions used
+```{r r_package_versions, message = FALSE, warning = FALSE}
+R.Version() 
+packageVersion('here')
+packageVersion('tidyverse')
+packageVersion('psych')
+```
+
+## Read in data
+```{r read_in_data}
+here::here()
+apt <- read_csv(here("data", "2022-03-17_SLI_aptitude_data.csv"))
+apt <- as_tibble(apt)
+```
+
+### Look at data
+```{r look_at_data}
+head(apt)
+tail(apt)
+names(apt)
+summary(apt)
+```
+
+#### Summarise missingness
+```{r}
+apt %>% select(-session:-ppt, -comments) %>% 
+  naniar::miss_var_summary() # data is in long format though
+
+apt_wide <- apt %>% 
+  tidyr::pivot_wider(names_from = session, 
+                     values_from = c(nback_lett:comments))
+
+naniar::miss_var_summary(apt_wide)
+
+vis_miss(apt) # visualise missingness
+vis_miss(apt_wide) # visualise missingness
+vis_miss(apt, cluster = TRUE) # arrange rows according to missingness
+
+# Show missingness on a row by row basis i.e. by participant & session
+gg_miss_case(apt)
+```
+Not all of the missingness is a problem, for some variables we did not plan to test on all participants
+
+#### Test imputation
+```{r}
+# simple imputation of replacing all NAs with the mean of that column
+imp_mean <- apt_wide %>% 
+  bind_shadow(only_miss = TRUE) %>% 
+  add_label_shadow() %>% 
+  impute_mean_all()
+# this keeps the mean of each variable the same (good) but decreases the variance (bad), increasing bias. this method also doesn't take into account other factors that could better predict more plausible values than just using the mean
+
+library(simputation) 
+# imp_lm <- imp_mean %>% impute_lm(Y ~ X1 + X2)
+# not sure how to use this yet
+
+# or use {mice}
+library(mice)
+md.pattern(apt_wide)
+
+# impute variables using predictive mean matching (PMM)
+#test_mice <- mice(apt_wide, m=5, maxit=50, meth='pmm', seed=500)
+#imputed_mice <- mice(apt_wide, m=5, method = "pmm") 
+
+# summary(imputed_mice) # check summary
+#imputed_mice$imp  # check imputed values
+
+# get back to completed data set
+#completed_apt <- complete(imputed_mice)
+#head(completed_apt)
+# certain columns are not fully imputed because they are perfectly collinear with other columns. we can see which columms are collinear:
+apt_wide_m <- select(apt_wide, nback_lett_1:mr3d_rt_3, 
+                               mlat_raw_1:mlat_acc_3, 
+                               grade_bsl_1:grade_terp_3)
+apt_wide_m <- as.matrix(apt_wide_m)
+#cor(apt_wide_m, use = "pairwise.complete.obs")
+#mice:::find.collinear(completed_apt)
+#mice(pred = diag(ncol()))
+
+#init = mice(apt_wide, maxit=0) 
+#meth = init$method
+#predM = init$predictorMatrix
+
+# remove specific variable as a predictor for imputation
+#predM[c("group")]=0
+
+# or use k-nearest neighbor  imputation in {bnstruct}
+```
+
+### Convert variables   
+
+Fix the variables that are character when they should be factor, or numeric:  
+```{r convert_variables}
+# convert session, group, ppt & status to factor
+apt <- mutate(apt, across(c("session", "group", "ppt", "status"), factor))
+
+# convert these character variables to numeric
+apt <- mutate(apt, across(c("L1_bsl", "prior_BSL", "age_s1", "dspan_time",
+                            "bis_tot", "bis_att","bis_mot", "bis_nplan", "summ",
+                            "copy_sign", "copy_sign", "bsl_srt", "town_map",
+                            "terp_b2e"), as.numeric))
+```
+
+
+Add speed-accuracy trade off-scores for mental rotation data:
+```{r speed-acc}
+# Create speed accuracy trade-off score function (Balanced Integration Score; BIS)
+# (Liesefeld, Fu, & Zimmer, 2015; Liesefeld & Janczyk, in press)
+
+BIS <- function(data) {
+  n <- length(data$group)   # sample size to correct var()-function result (which uses n-1)
+  srt <- sqrt( ((n-1)/n) * var(data$mean_rt_c) )  # sample standard deviation across all rts
+  spc <- sqrt( ((n-1)/n) * var(data$pc) ) # sample standard deviation across all rts
+  mrt <- mean(data$mean_rt_c)                     # mean across all rts
+  mpc <- mean(data$pc)                            # mean across all pcs
+  zrt <- (data$mean_rt_c-mrt)/srt                 # standardized rts
+  zpc <- (data$pc-mpc)/spc                        # z-standardized pcs
+  data$bis <- zpc - zrt                           # Balanced Integration Score
+  
+  return(data)             # return data.frame with added variable 'bis'
+}
+
+# Extract relevant columns for 2D Mental Rotation data
+mean_rt_c <- apt$mr2d_rt 
+pc <- apt$mr2d_acc
+group <- apt$session
+ppt <- apt$ppt
+data <- data.frame(group,ppt,mean_rt_c,pc)
+data <- data %>% drop_na() # remove NAs
+
+# create speed-accuracy trade off score (SATS, to avoid confusion with Baratt Impulsivity Scale), rename variables back to fit with original tibble
+( SATS_mr2d <- BIS(data) %>% dplyr::rename(c(session = group, 
+                                             mr2d_acc = pc,
+                                             mr2d_rt = mean_rt_c,
+                                             mr2d_sats = bis)) ) 
+
+# join back to apt tibble
+apt <- full_join(apt, SATS_mr2d) %>% relocate(mr2d_sats, .after = mr2d_rt )
+
+# Same again for 3D Mental Rotation task
+mean_rt_c <- apt$mr3d_rt 
+pc <- apt$mr3d_acc
+data <- data.frame(group,ppt,mean_rt_c,pc)
+data <- data %>% drop_na() # remove NAs
+
+# create SATS; rename variables back to fit with original tibble
+( SATS_mr3d <- BIS(data) %>% dplyr::rename(c(session = group, 
+                                             mr3d_acc = pc,
+                                             mr3d_rt = mean_rt_c,
+                                             mr3d_sats = bis)) ) 
+# join back to apt tibble
+apt <- full_join(apt, SATS_mr3d) %>% relocate(mr3d_sats, .after = mr3d_rt )
+```
+
+Rename levels of Session for tables/plotting:  
+```{r relevel_session}
+apt$session <- plyr::revalue(apt$session, c("1" = "pre-degree", 
+                                            "2" = "1st year", 
+                                            "3" = "2nd year",
+                                            "4" = "3rd year"))
+```
+

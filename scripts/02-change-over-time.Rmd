@@ -44,3 +44,1390 @@ packageVersion('lme4')
 packageVersion('afex')
 packageVersion('psych')
 ```
+
+# Summary tables
+
+## Cognitive & Linguistic predictors
+
+### Dual N-Back
+```{r nback_summary}
+apt %>% 
+  filter(!is.na(nback_lett)) %>% 
+  group_by(session) %>% 
+  summarise(nback_lett_mean = mean(nback_lett), 
+            sd = sd(nback_lett),
+            se = std.error(nback_lett))
+
+apt %>% 
+  filter(!is.na(nback_spat)) %>% 
+  group_by(session) %>% 
+  summarise(nback_spat_mean = mean(nback_spat), 
+            sd = sd(nback_spat),
+            se = std.error(nback_spat))
+
+apt %>% 
+  filter(!is.na(nback_comb)) %>% 
+  group_by(session) %>% 
+  summarise(nback_comb_mean = mean(nback_comb), 
+            sd = sd(nback_comb),
+            se = std.error(nback_comb))
+```
+
+### Corsi Blocks
+```{r corsi_summary}
+apt %>% 
+  filter(!is.na(corsi_bspan)) %>% 
+  group_by(session) %>% 
+  summarise(corsi_bspan_mean = mean(corsi_bspan), 
+            sd = sd(corsi_bspan),
+            se = std.error(corsi_bspan))
+
+apt %>% 
+  filter(!is.na(corsi_score)) %>% 
+  group_by(session) %>% 
+  summarise(corsi_score_mean = mean(corsi_score), 
+            sd = sd(corsi_score),
+            se = std.error(corsi_score))
+
+apt %>% 
+  filter(!is.na(corsi_corr)) %>% 
+  group_by(session) %>% 
+  summarise(corsi_corr_mean = mean(corsi_corr), 
+            sd = sd(corsi_corr),
+            se = std.error(corsi_corr))
+
+apt %>% 
+  filter(!is.na(corsi_mspan)) %>% 
+  group_by(session) %>% 
+  summarise(corsi_mspan_mean = mean(corsi_mspan), 
+            sd = sd(corsi_mspan),
+            se = std.error(corsi_mspan))
+```
+
+### Kirklees Sentence Reading
+```{r kirklees_summary}
+apt %>% 
+  filter(!is.na(kirk_ceil)) %>% 
+  group_by(session) %>% 
+  summarise(kirk_ceil_mean = mean(kirk_ceil), 
+            sd = sd(kirk_ceil),
+            se = std.error(kirk_ceil))
+
+apt %>% 
+  filter(!is.na(kirk_raw)) %>% 
+  group_by(session) %>% 
+  summarise(kirk_raw_mean = mean(kirk_raw), 
+            sd = sd(kirk_raw),
+            se = std.error(kirk_raw))
+
+apt %>% 
+  filter(!is.na(kirk_acc)) %>% 
+  group_by(session) %>% 
+  summarise(kirk_acc_mean = mean(kirk_acc), 
+            sd = sd(kirk_acc),
+            se = std.error(kirk_acc))
+```
+
+### KBIT-2 Matrices
+```{r kbit_summary}
+apt %>% 
+  filter(!is.na(kbit_ceil)) %>% 
+  group_by(session) %>% 
+  summarise(kirk_ceil_mean = mean(kbit_ceil), 
+            sd = sd(kbit_ceil),
+            se = std.error(kbit_ceil))
+
+apt %>% 
+  filter(!is.na(kbit_raw)) %>% 
+  group_by(session) %>% 
+  summarise(kbit_raw_mean = mean(kbit_raw), 
+            sd = sd(kbit_raw),
+            se = std.error(kbit_raw))
+
+apt %>% 
+  filter(!is.na(kbit_acc)) %>% 
+  group_by(session) %>% 
+  summarise(kbit_acc_mean = mean(kbit_acc), 
+            sd = sd(kbit_acc),
+            se = std.error(kbit_acc))
+```
+
+### Digit Span
+```{r dspan_summary}
+apt %>% 
+  filter(!is.na(dspan_mem)) %>% 
+  group_by(session) %>% 
+  summarise(dspan_mem_mean = mean(dspan_mem), 
+            sd = sd(dspan_mem),
+            se = std.error(dspan_mem))
+
+apt %>% 
+  filter(!is.na(dspan_corr)) %>% 
+  group_by(session) %>% 
+  summarise(dspan_corr_mean = mean(dspan_corr), 
+            sd = sd(dspan_corr),
+            se = std.error(dspan_corr))
+
+apt %>% 
+  filter(!is.na(dspan_time)) %>% 
+  group_by(session) %>% 
+  summarise(dspan_time_mean = mean(dspan_time), 
+            sd = sd(dspan_time),
+            se = std.error(dspan_time))
+```
+
+### 2D Mental Rotation
+```{r 2dmr_summary}
+apt %>% 
+  filter(!is.na(mr2d_acc)) %>% 
+  group_by(session) %>% 
+  summarise(mr2d_acc_mean = mean(mr2d_acc), 
+            sd = sd(mr2d_acc),
+            se = std.error(mr2d_acc))
+
+apt %>% 
+  filter(!is.na(mr2d_rt)) %>% 
+  group_by(session) %>% 
+  summarise(mr2d_rt_mean = mean(mr2d_rt), 
+            sd = sd(mr2d_rt),
+            se = std.error(mr2d_rt))
+
+apt %>% 
+  filter(!is.na(mr2d_sats)) %>% 
+  group_by(session) %>% 
+  summarise(mr2d_sats_mean = mean(mr2d_sats), 
+            sd = sd(mr2d_sats),
+            se = std.error(mr2d_sats))
+```
+
+### 3D Mental Rotation
+```{r 3dmr_summary}
+apt %>% 
+  filter(!is.na(mr3d_acc)) %>% 
+  group_by(session) %>% 
+  summarise(mr3d_acc_mean = mean(mr3d_acc), 
+            sd = sd(mr3d_acc),
+            se = std.error(mr3d_acc))
+
+apt %>% 
+  filter(!is.na(mr3d_rt)) %>% 
+  group_by(session) %>% 
+  summarise(mr3d_rt_mean = mean(mr3d_rt), 
+            sd = sd(mr3d_rt),
+            se = std.error(mr3d_rt))
+
+apt %>% 
+  filter(!is.na(mr3d_sats)) %>% 
+  group_by(session) %>% 
+  summarise(mr3d_sats_mean = mean(mr3d_sats), 
+            sd = sd(mr3d_sats),
+            se = std.error(mr3d_sats))
+```
+
+### Barratt Impulsivity Scale
+```{r bis_summary}
+apt %>% 
+  filter(!is.na(bis_tot)) %>% 
+  group_by(session) %>% 
+  summarise(bis_tot_mean = mean(bis_tot), 
+            sd = sd(bis_tot),
+            se = std.error(bis_tot))
+
+apt %>% 
+  filter(!is.na(bis_att)) %>% 
+  group_by(session) %>% 
+  summarise(bis_att_mean = mean(bis_att), 
+            sd = sd(bis_att),
+            se = std.error(bis_att))
+
+apt %>% 
+  filter(!is.na(bis_mot)) %>% 
+  group_by(session) %>% 
+  summarise(bis_mot_mean = mean(bis_mot), 
+            sd = sd(bis_mot),
+            se = std.error(bis_mot))
+
+apt %>% 
+  filter(!is.na(bis_nplan)) %>% 
+  group_by(session) %>% 
+  summarise(bis_nplan_mean = mean(bis_nplan), 
+            sd = sd(bis_nplan),
+            se = std.error(bis_nplan))
+```
+
+### MLAT Number Learning
+Only collected at session 1 for grant cohort only
+
+### Summarising Task
+Only collected at session 1 for grant cohort only
+
+## BSL / Interpreting outcome variables
+
+### Copy Sign Task
+```{r copy_sign}
+# data to be coded
+```
+
+### BSL Sentence Reproduction Task
+```{r bslsrt}
+# data to be coded
+```
+
+### BSL Town Map
+```{r town_map}
+# data to be coded
+```
+
+### BSL Grades
+```{r grades_bsl}
+apt %>% 
+  filter(!is.na(grade_bsl)) %>% 
+  group_by(session) %>% 
+  summarise(grade_bsl_mean = mean(grade_bsl), 
+            sd = sd(grade_bsl),
+            se = std.error(grade_bsl))
+```
+
+### Interpreting Grades
+```{r grades_terp}
+apt %>% 
+  filter(!is.na(grade_terp)) %>% 
+  group_by(session) %>% 
+  summarise(grade_terp_mean = mean(grade_terp), 
+            sd = sd(grade_terp),
+            se = std.error(grade_terp))
+```
+## Plots
+Plot the linguistic & cognitive predictors over time 
+
+### Dual N-Back
+#### Accuracy in letter matching
+```{r nback_lett}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(nback_lett)) %>% 
+  ggplot(aes(x = session, y = nback_lett, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5) +
+  scale_y_continuous(labels = percent_format(accuracy=1)) +
+  labs(title = "Accuracy in letter matching during Dual N-Back Task by Session", 
+       x = "Session", y = "Accuracy") )
+  
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(nback_lett)) %>% 
+  summarize(mean=mean(nback_lett), sd = sd(nback_lett), se=std.error(nback_lett)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  coord_cartesian(ylim = c(0.5, 0.8)) +
+  theme_minimal() +
+  scale_y_continuous(labels = percent_format(accuracy=1)) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  labs(title = "Accuracy in letter matching during Dual N-Back Task by Session", 
+       x = "Session", y = "Accuracy")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5) +
+  scale_y_continuous(labels = percent_format(accuracy=1)) 
+
+indiv <- apt %>% 
+  filter(!is.na(nback_lett)) %>% 
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(nback_lett)) #, sd = sd(nback_lett)) # requires trial level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+theme_details <- theme_bw() + 
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          panel.border = element_rect(colour = "black", size=0.5),
+          axis.title.x = element_text(face = "bold"),
+          legend.position = "none",
+          axis.title.y = element_text(face = "bold"),
+          axis.text.x=element_text(size=10, colour="black"),
+          axis.text.y=element_text(colour="black"))
+
+( J4 <- J3 + theme_details )
+```
+
+#### Accuracy in spatial matching
+```{r nback_spat}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(nback_spat)) %>% 
+  ggplot(aes(x = session, y = nback_spat, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  labs(title = "Accuracy in spatial matching during Dual N-Back Task by Session", 
+       x = "Session", y = "Accuracy") )
+  
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(nback_spat)) %>% 
+  summarize(mean=mean(nback_spat), sd = sd(nback_spat), se=std.error(nback_spat)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  coord_cartesian(ylim = c(0.5, 0.8)) +
+  theme_minimal() +
+  scale_y_continuous(labels = percent_format(accuracy=1)) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  labs(title = "Accuracy in spatial matching during Dual N-Back Task by Session", 
+       x = "Session", y = "Accuracy")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5) +
+  scale_y_continuous(labels = percent_format(accuracy=1)) 
+
+indiv <- apt %>% 
+  filter(!is.na(nback_spat)) %>% 
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(nback_spat)) #, sd = sd(nback_spat)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details )
+```
+
+#### Combined accuracy
+```{r nback_comb}
+## Raincloud plot
+apt %>% 
+  filter(!is.na(nback_comb)) %>% 
+  ggplot(aes(x = session, y = nback_comb, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5) +
+  scale_y_continuous(labels = percent_format(accuracy=1)) +
+  labs(title = "Combined accuracy on Dual N-Back Task by Session", 
+       x = "Session", y = "Accuracy")
+
+# Jitter plot  
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(nback_comb)) %>% 
+  summarize(mean=mean(nback_comb), sd = sd(nback_comb), se=std.error(nback_comb)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  coord_cartesian(ylim = c(0.5, 0.8)) +
+  theme_minimal() +
+  scale_y_continuous(labels = percent_format(accuracy=1)) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  labs(title = "Combined accuracy on Dual N-Back Task by Session", 
+       x = "Session", y = "Accuracy")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5) +
+  scale_y_continuous(labels = percent_format(accuracy=1))
+
+indiv <- apt %>% 
+  filter(!is.na(nback_comb)) %>% 
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(nback_comb)) #, sd = sd(nback_comb)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details ) 
+```
+
+### Corsi Blocks
+#### Block Span
+```{r corsi_bspan}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(corsi_bspan)) %>% 
+  ggplot(aes(x = session, y = corsi_bspan, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5) +
+  labs(title = "Block span on Corsi Blocks Task by Session", 
+       x = "Session", y = "Block Span") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(corsi_bspan)) %>% 
+  summarize(mean=mean(corsi_bspan), sd = sd(corsi_bspan), se=std.error(corsi_bspan)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0, 10)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  labs(title = "Block span on Corsi Blocks Task by Session", 
+       x = "Session", y = "Block Span")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(corsi_bspan)) %>% 
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(corsi_bspan)) #, sd = sd(corsi_bspan)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details ) 
+```
+
+#### Raw Score
+```{r corsi_score}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(corsi_score)) %>% 
+  ggplot(aes(x = session, y = corsi_score, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5) +
+  labs(title = "Raw Score on Corsi Blocks Task by Session", 
+       x = "Session", y = "Score") )
+  
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(corsi_score)) %>% 
+  summarize(mean=mean(corsi_score), sd = sd(corsi_score), se=std.error(corsi_score)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0, 125)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  labs(title = "Raw Score on Corsi Blocks Task by Session", 
+       x = "Session", y = "Score")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(corsi_score)) %>% 
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(corsi_score)) #, sd = sd(corsi_score)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details )
+```
+
+#### Correct Responses
+```{r corsi_corr}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(corsi_corr)) %>% 
+  ggplot(aes(x = session, y = corsi_corr, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(5, 15)) +
+  scale_y_continuous(labels = scales::number_format(accuracy = 1)) +
+  labs(title = "Correct Responses on Corsi Blocks Task by Session", 
+       x = "Session", y = "Correct Response") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(corsi_corr)) %>% 
+  summarize(mean=mean(corsi_corr), sd = sd(corsi_corr), se=std.error(corsi_corr)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0, 15)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  labs(title = "Correct Responses on Corsi Blocks Task by Session", 
+       x = "Session", y = "Correct Response")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(corsi_corr)) %>% 
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(corsi_corr)) #, sd = sd(corsi_corr)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details ) 
+```
+
+#### Memory Span
+```{r corsi_mspan}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(corsi_mspan)) %>% 
+  ggplot(aes(x = session, y = corsi_mspan, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5) +
+  labs(title = "Memory Span on Corsi Blocks Task by Session", 
+       x = "Session", y = "Memory Span") )
+  
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(corsi_mspan)) %>% 
+  summarize(mean=mean(corsi_mspan), sd = sd(corsi_mspan), se=std.error(corsi_mspan)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0, 8)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  labs(title = "Memory Span on Corsi Blocks Task by Session", 
+       x = "Session", y = "Memory Span")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(corsi_mspan)) %>% 
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(corsi_mspan)) #, sd = sd(corsi_mspan)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details )
+```
+
+### Kirklees Sentence Reading
+#### Ceiling Score
+```{r kirk_ceil}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(kirk_ceil)) %>% 
+  ggplot(aes(x = session, y = kirk_ceil, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5) +
+  labs(title = "Ceiling Score on Kirklees Sentence Reading Task by Session", 
+       x = "Session", y = "Ceiling Score") )
+  
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(kirk_ceil)) %>% 
+  summarize(mean=mean(kirk_ceil), sd = sd(kirk_ceil), se=std.error(kirk_ceil)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0, 45)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  labs(title = "Ceiling Score on Kirklees Sentence Reading Task by Session", 
+       x = "Session", y = "Ceiling Score")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(kirk_ceil)) %>% 
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(kirk_ceil)) #, sd = sd(kirk_ceil) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details )
+```
+
+#### Raw Score
+```{r kirk_raw}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(kirk_raw)) %>% 
+  ggplot(aes(x = session, y = kirk_raw, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5) +
+  labs(title = "Raw Score on Kirklees Sentence Reading Task by Session", 
+       x = "Session", y = "Ceiling Score") )
+  
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(kirk_raw)) %>% 
+  summarize(mean=mean(kirk_raw), sd = sd(kirk_raw), se=std.error(kirk_raw)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0, 45)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  labs(title = "Raw Score on Kirklees Sentence Reading Task by Session", 
+       x = "Session", y = "Raw Score")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(kirk_raw)) %>% 
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(kirk_raw)) #, sd = sd(kirk_raw) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details )
+```
+
+#### Accuracy
+```{r kirk_acc}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(kirk_acc)) %>% 
+  ggplot(aes(x = session, y = kirk_acc, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5) +
+  coord_cartesian(ylim = c(0.45, 1)) +
+  scale_y_continuous(labels = percent_format(accuracy=1)) +
+  labs(title = "Accuracy on Kirklees Sentence Reading Task by Session", 
+       x = "Session", y = "Accuracy") )
+  
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(kirk_acc)) %>% 
+  summarize(mean=mean(kirk_acc), sd = sd(kirk_acc), se=std.error(kirk_acc)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0, 1)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  scale_y_continuous(labels = percent_format(accuracy=1)) +
+  labs(title = "Accuracy on Kirklees Sentence Reading Task by Session", 
+       x = "Session", y = "Accuracy")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(kirk_acc)) %>% 
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(kirk_acc)) #, sd = sd(kirk_acc) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details ) 
+```
+
+### KBIT-2 Matrices
+
+#### Ceiling Score
+```{r kbit_ceil}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(kbit_ceil)) %>% 
+  ggplot(aes(x = session, y = kbit_ceil, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5) +
+  labs(title = "Ceiling Score on KBIT-2 Matrices Task by Session", 
+       x = "Session", y = "Ceiling Score") )
+  
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(kbit_ceil)) %>% 
+  summarize(mean=mean(kbit_ceil), sd = sd(kbit_ceil), se=std.error(kbit_ceil)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0, 48)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  labs(title = "Ceiling Score on KBIT-2 Matrices Task by Session", 
+       x = "Session", y = "Ceiling Score")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(kirk_ceil)) %>% 
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(kbit_ceil)) #, sd = sd(kbit_ceil) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details )
+```
+
+#### Raw Score
+```{r kbit_raw}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(kbit_raw)) %>% 
+  ggplot(aes(x = session, y = kbit_raw, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5) +
+  labs(title = "Raw Score on KBIT-2 Matrices Task by Session", 
+       x = "Session", y = "Ceiling Score") )
+  
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(kbit_raw)) %>% 
+  summarize(mean=mean(kbit_raw), sd = sd(kbit_raw), se=std.error(kbit_raw)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0, 45)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca")) +
+  labs(title = "Raw Score on KBIT-2 Matrices Task by Session", 
+       x = "Session", y = "Raw Score")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(kbit_raw)) %>% 
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(kbit_raw)) #, sd = sd(kbit_raw) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details ) 
+```
+
+#### Accuracy
+```{r kbit_acc}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(kbit_acc)) %>% 
+  ggplot(aes(x = session, y = kbit_acc, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5) +
+  coord_cartesian(ylim = c(.65, 1)) +
+  scale_y_continuous(labels = percent_format(accuracy=1)) +
+  labs(title = "Accuracy on KBIT-2 Matrices Task by Session", 
+       x = "Session", y = "Accuracy") )
+  
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(kbit_acc)) %>% 
+  summarize(mean=mean(kbit_acc), 
+            sd = sd(kbit_acc), se=std.error(kbit_acc)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(.5, 1)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  scale_y_continuous(labels = percent_format(accuracy=1)) +
+  labs(title = "Accuracy on KBIT-2 Matrices Task by Session", 
+       x = "Session", y = "Accuracy")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(kbit_acc)) %>% 
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(kbit_acc)) #, sd = sd(kbit_acc) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details )  
+```
+
+### Digit Span
+#### Accuracy
+```{r dspan_corr}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(dspan_corr)) %>% 
+  ggplot(aes(x = session, y = dspan_corr, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(0.5, 0.9)) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  labs(title = "Accuracy on Digit Span Task by Session", 
+       x = "Session", y = "Accuracy") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(dspan_corr)) %>% 
+  summarize(mean=mean(dspan_corr), sd = sd(dspan_corr), se=std.error(dspan_corr)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0.5, 0.9)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#43a2ca", "#0868ac")) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  labs(title = "Accuracy on Digit Span Task by Session", 
+       x = "Session", y = "Accuracy")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(dspan_corr)) %>% 
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(dspan_corr)) #, sd = sd(dspan_corr)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details )
+```
+
+#### Memory Span
+```{r dspan_mem}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(dspan_mem)) %>% 
+  ggplot(aes(x = session, y = dspan_mem, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5) +
+  coord_cartesian(ylim = c(4, 11)) +
+  labs(title = "Memory Span on Digit Span Task by Session", 
+       x = "Session", y = "Memory Span") )
+  
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(dspan_mem)) %>% 
+  summarize(mean=mean(dspan_mem), 
+            sd = sd(dspan_mem), se=std.error(dspan_mem)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0, 8)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#43a2ca", "#0868ac")) +
+  coord_cartesian(ylim = c(4, 11)) +
+  labs(title = "Memory Span on Digit Span Task by Session", 
+       x = "Session", y = "Memory Span")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(dspan_mem)) %>% 
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(dspan_mem)) #, sd = sd(dspan_mem)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details )
+```
+
+#### Time spent
+```{r dspan_time}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(dspan_time)) %>% 
+  ggplot(aes(x = session, y = dspan_time, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5) +
+  coord_cartesian(ylim = c(0, 8)) +
+  labs(title = "Time spent on Digit Span Task by Session", 
+       x = "Session", y = "Memory Span") )
+  
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(dspan_time)) %>% 
+  summarize(mean=mean(dspan_time), 
+            sd = sd(dspan_time), se=std.error(dspan_time)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0, 8)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#43a2ca", "#0868ac")) +
+  coord_cartesian(ylim = c(0, 8)) +
+  labs(title = "Time spent on Digit Span Task by Session", 
+       x = "Session", y = "Memory Span")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(dspan_time)) %>% 
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(dspan_time)) #, sd = sd(dspan_time)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details )  
+```
+
+### 2D Mental Rotation
+#### Accuracy
+```{r mr2d_acc}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(mr2d_acc)) %>% 
+  ggplot(aes(x = session, y = mr2d_acc, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(0.5, 1)) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  labs(title = "Accuracy on 2D Mental Rotation Task by Session", 
+       x = "Session", y = "Accuracy") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(mr2d_acc)) %>% 
+  summarize(mean=mean(mr2d_acc), sd = sd(mr2d_acc), se=std.error(mr2d_acc)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0.5, 1)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  labs(title = "Accuracy on 2D Mental Rotation Task by Session", 
+       x = "Session", y = "Accuracy")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(mr2d_acc)) %>% 
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(mr2d_acc)) #, sd = sd(mr2d_acc)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details ) 
+```
+
+#### Reaction Time
+```{r mr2d_rt}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(mr2d_rt)) %>% 
+  ggplot(aes(x = session, y = mr2d_rt, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(0, 9000)) +
+  labs(title = "Reaction Time on 2D Mental Rotation Task by Session", 
+       x = "Session", y = "RT (ms)") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(mr2d_rt)) %>% 
+  summarize(mean=mean(mr2d_rt), sd = sd(mr2d_rt), se=std.error(mr2d_rt)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0, 9000)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  labs(title = "Reaction Time on 2D Mental Rotation Task by Session", 
+       x = "Session", y = "RT (ms)")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(mr2d_rt)) %>% 
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(mr2d_rt)) #, sd = sd(mr2d_rt)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details )
+```
+
+### 3D Mental Rotation
+#### Accuracy
+```{r mr3d_acc}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(mr3d_acc)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  ggplot(aes(x = session, y = mr3d_acc, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(0, 1)) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  labs(title = "Accuracy on 3D Mental Rotation Task by Session", 
+       x = "Session", y = "Accuracy") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(mr3d_acc)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  summarize(mean=mean(mr3d_acc), sd = sd(mr3d_acc), se=std.error(mr3d_acc)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0, 1)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  labs(title = "Accuracy on 3D Mental Rotation Task by Session", 
+       x = "Session", y = "Accuracy")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(mr3d_acc)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(mr3d_acc)) #, sd = sd(mr3d_acc)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details ) 
+```
+
+#### Reaction Time
+```{r mr3d_rt}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(mr3d_rt)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  ggplot(aes(x = session, y = mr3d_rt, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(0, 5000)) +
+  labs(title = "Reaction Time on 3D Mental Rotation Task by Session", 
+       x = "Session", y = "RT (ms)") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(mr3d_rt)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  summarize(mean=mean(mr3d_rt), sd = sd(mr3d_rt), se=std.error(mr3d_rt)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0, 5000)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#43a2ca", "#0868ac")) +
+  labs(title = "Reaction Time on 3D Mental Rotation Task by Session", 
+       x = "Session", y = "RT (ms)")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(mr3d_rt)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(mr3d_rt)) #, sd = sd(mr3d_rt)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details )
+```
+
+### Barratt Impulsivity Scale
+#### Total Score
+```{r bis_tot}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(bis_tot)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  ggplot(aes(x = session, y = bis_tot, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(0, 100)) +
+  labs(title = "Total Score on Barratt Impulsivity Scale by Session", 
+       x = "Session", y = "Total Score") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(bis_tot)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  summarize(mean=mean(bis_tot), sd = sd(bis_tot), se=std.error(bis_tot)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0, 100)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#43a2ca", "#0868ac")) +
+  labs(title = "Total Score on Barratt Impulsivity Scale by Session", 
+       x = "Session", y = "Total Score")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(bis_tot)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(bis_tot)) #, sd = sd(mr3d_acc)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details ) 
+```
+
+#### Attention Score
+```{r bis_att}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(bis_att)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  ggplot(aes(x = session, y = bis_att, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(0, 40)) +
+  labs(title = "Attention Score on Barratt Impulsivity Scale by Session", 
+       x = "Session", y = "Attention Score") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(bis_att)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  summarize(mean=mean(bis_att), sd = sd(bis_att), se=std.error(bis_att)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0, 40)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#43a2ca", "#0868ac")) +
+  labs(title = "Attention Score on Barratt Impulsivity Scale by Session", 
+       x = "Session", y = "Attention Score")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(bis_att)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(bis_att)) #, sd = sd(mr3d_acc)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details ) 
+```
+
+#### Motor Score
+```{r bis_mot}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(bis_mot)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  ggplot(aes(x = session, y = bis_mot, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(0, 40)) +
+  labs(title = "Motor Score on Barratt Impulsivity Scale by Session", 
+       x = "Session", y = "Motor Score") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(bis_mot)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  summarize(mean=mean(bis_mot), sd = sd(bis_mot), se=std.error(bis_mot)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0, 40)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#43a2ca", "#0868ac")) +
+  labs(title = "Motor Score on Barratt Impulsivity Scale by Session", 
+       x = "Session", y = "Motor Score")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(bis_mot)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(bis_mot)) #, sd = sd(mr3d_acc)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details )  
+```
+
+#### Non-planning Score
+```{r bis_nplan}
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(bis_nplan)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  ggplot(aes(x = session, y = bis_nplan, group = session)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(0, 40)) +
+  labs(title = "Non-planning Score on Barratt Impulsivity Scale by Session", 
+       x = "Session", y = "Non-planning Score") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(session) %>% 
+  filter(!is.na(bis_nplan)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  summarize(mean=mean(bis_nplan), sd = sd(bis_nplan), se=std.error(bis_nplan)) %>%
+  ggplot(aes(x = session, y = mean, fill = session)) +
+  coord_cartesian(ylim = c(0, 40)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#43a2ca", "#0868ac")) +
+  labs(title = "Non-planning Score on Barratt Impulsivity Scale by Session", 
+       x = "Session", y = "Non-planning Score")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(bis_nplan)) %>% 
+  filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
+  group_by(session, ppt) %>% 
+  summarise(mean = mean(bis_nplan)) #, sd = sd(mr3d_acc)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details ) 
+```

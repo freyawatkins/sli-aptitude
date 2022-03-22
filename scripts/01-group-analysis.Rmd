@@ -203,6 +203,13 @@ apt %>%
   summarise(mr2d_rt_mean = mean(mr2d_rt), 
             sd = sd(mr2d_rt),
             se = std.error(mr2d_rt))
+
+apt %>% 
+  filter(!is.na(mr2d_sats)) %>% 
+  group_by(status) %>% 
+  summarise(mr2d_sats_mean = mean(mr2d_sats), 
+            sd = sd(mr2d_sats),
+            se = std.error(mr2d_sats))
 ```
 
 ## Plots
@@ -927,7 +934,7 @@ pilot_dat <- apt %>% filter(group == "pilot")
                                  corsi_corr + 
                                  kirk_acc + 
                                  kbit_acc + 
-                                 mr2d_acc, 
+                                 mr2d_sats, 
                                  family = binomial, 
                                  data = pilot_dat) ) 
 summary(pilot_selected_mdl)
@@ -958,7 +965,7 @@ grant_dat <- apt %>% filter(group == "grant")
 
 # fit logistic regression model
 ( continue_mdl2 <- glm(continue ~ dspan_corr + 
-                                  mr3d_acc,
+                                  mr3d_sats,
                                   family = binomial, 
                                   data = grant_dat) ) 
 
