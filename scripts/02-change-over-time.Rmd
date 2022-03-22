@@ -1431,3 +1431,78 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 
 ( J4 <- J3 + theme_details ) 
 ```
+
+# Models
+Does performance on these cognitive and linguistic assessments change over time?
+
+## Dual N-Back
+```{r nback-mdl}
+# Does session predict Dual N-Back results
+( nback_mdl <- lm(nback_comb ~ session, 
+                  data = apt) ) 
+
+summary(nback_mdl)
+```
+
+## Corsi Blocks
+```{r corsi-mdl}
+# Does session predict Corsi Blocks results?
+( corsi_mdl <- lm(corsi_corr ~ session, 
+                  data = apt) ) 
+
+summary(corsi_mdl)
+```
+
+## Kirklees Sentence Reading
+```{r kirk-mdl}
+# Does session predict Kirklees results?
+( kirk_mdl <- lm(kirk_acc ~ session, 
+                  data = apt) ) 
+
+summary(kirk_mdl)
+```
+
+## KBIT-2 Matrices
+```{r kbit-mdl}
+# Does session predict K-Bit Matrices results?
+( kbit_mdl <- lm(kbit_acc ~ session, 
+                  data = apt) ) 
+
+summary(kbit_mdl)
+```
+
+## Digit Span
+```{r dspan-mdl}
+# Does session predict Kirklees Reading results?
+( dspan_mdl <- lm(dspan_corr ~ session, 
+                  data = apt) ) 
+
+summary(dspan_mdl)
+```
+
+## 2D Mental Rotation
+```{r mr2d-mdl}
+# Does session predict 2D Mental Rotation results?
+( mr2d_mdl <- lm(mr2d_sats ~ session, 
+                  data = apt) ) 
+
+summary(mr2d_mdl)
+```
+
+## 3D Mental Rotation
+```{r mr3d-mdl}
+# Does session predict 3D Mental Rotation results?
+( mr3d_mdl <- lm(mr3d_sats ~ session, 
+                  data = apt) ) 
+
+summary(mr3d_mdl)
+```
+
+## Barratt Impulsivity Scale
+```{r bis-mdl}
+# Does session predict Barratt Impulsivity Scale results?
+( bis_mdl <- lm(bis_tot ~ session, 
+                  data = apt) ) 
+
+summary(bis_mdl)
+```

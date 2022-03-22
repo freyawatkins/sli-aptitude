@@ -43,7 +43,7 @@ apt <- read_csv(here("data", "2022-03-17_SLI_aptitude_data.csv"))
 apt <- as_tibble(apt)
 ```
 
-### Look at data
+## Look at data
 ```{r look_at_data}
 head(apt)
 tail(apt)
@@ -51,7 +51,56 @@ names(apt)
 summary(apt)
 ```
 
-#### Summarise missingness
+## Overview of variables
+*session* -     
+*group* -       
+*ppt* -         
+*status* -      
+*selected* -    
+*continue* -    
+*L1_bsl* -      
+*prior_BSL* -  
+*age_s1* -      
+*nback_lett* -  
+*nback_spat* -  
+*nback_comb* -  
+*corsi_bspan* - 
+*corsi_score* - 
+*corsi_corr* -  
+*corsi_mspan*
+*kirk_ceil* -   
+*kirk_raw* -    
+*kirk_acc* -    
+*kbit_ceil* -   
+*kbit_raw* -    
+*kbit_acc* -    
+*dspan_mem* -   
+*dspan_corr* - 
+*dspan_time* -  
+*mr2d_acc* -    
+*mr2d_rt* -     
+*mr2d_sats* -   
+*mr3d_acc* -    
+*mr3d_rt* -     
+*mr3d_sats* -   
+*bis_tot* -    
+*bis_att* -     
+*bis_mot* -     
+*bis_nplan* -   
+*mlat_raw* -    
+*mlat_acc* -    
+*summ* -        
+*copy_sign* -   
+*bsl_srt* -    
+*town_map* -    
+*terp_b2e* -    
+*terp_e2b* -    
+*grade_bsl* -   
+*grade_terp* -  
+*comments* - 
+
+
+## Summarise missingness
 ```{r}
 apt %>% select(-session:-ppt, -comments) %>% 
   naniar::miss_var_summary() # data is in long format though
@@ -143,4 +192,7 @@ apt$session <- plyr::revalue(apt$session, c("1" = "pre-degree",
                                             "3" = "2nd year",
                                             "4" = "3rd year"))
 ```
+
+# Export data 
+Export the wrangled data file for use in other analysis scripts:
 

@@ -75,7 +75,10 @@ apt$session <- plyr::revalue(apt$session, c("1" = "pre-degree",
 ```
 
 # Group Analysis
+Here we are going to analyse data from session one across three groups (continuing, rejected, withdrew)
+
 ## Summary tables
+
 
 ```{r grouping}
 apt <- filter(apt, session == "pre-degree")
