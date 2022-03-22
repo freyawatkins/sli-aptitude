@@ -71,52 +71,6 @@ gg_miss_case(apt)
 ```
 Not all of the missingness is a problem, for some variables we did not plan to test on all participants
 
-#### Test imputation
-```{r}
-# simple imputation of replacing all NAs with the mean of that column
-imp_mean <- apt_wide %>% 
-  bind_shadow(only_miss = TRUE) %>% 
-  add_label_shadow() %>% 
-  impute_mean_all()
-# this keeps the mean of each variable the same (good) but decreases the variance (bad), increasing bias. this method also doesn't take into account other factors that could better predict more plausible values than just using the mean
-
-library(simputation) 
-# imp_lm <- imp_mean %>% impute_lm(Y ~ X1 + X2)
-# not sure how to use this yet
-
-# or use {mice}
-library(mice)
-md.pattern(apt_wide)
-
-# impute variables using predictive mean matching (PMM)
-#test_mice <- mice(apt_wide, m=5, maxit=50, meth='pmm', seed=500)
-#imputed_mice <- mice(apt_wide, m=5, method = "pmm") 
-
-# summary(imputed_mice) # check summary
-#imputed_mice$imp  # check imputed values
-
-# get back to completed data set
-#completed_apt <- complete(imputed_mice)
-#head(completed_apt)
-# certain columns are not fully imputed because they are perfectly collinear with other columns. we can see which columms are collinear:
-apt_wide_m <- select(apt_wide, nback_lett_1:mr3d_rt_3, 
-                               mlat_raw_1:mlat_acc_3, 
-                               grade_bsl_1:grade_terp_3)
-apt_wide_m <- as.matrix(apt_wide_m)
-#cor(apt_wide_m, use = "pairwise.complete.obs")
-#mice:::find.collinear(completed_apt)
-#mice(pred = diag(ncol()))
-
-#init = mice(apt_wide, maxit=0) 
-#meth = init$method
-#predM = init$predictorMatrix
-
-# remove specific variable as a predictor for imputation
-#predM[c("group")]=0
-
-# or use k-nearest neighbor  imputation in {bnstruct}
-```
-
 ### Convert variables   
 
 Fix the variables that are character when they should be factor, or numeric:  
@@ -132,7 +86,7 @@ apt <- mutate(apt, across(c("L1_bsl", "prior_BSL", "age_s1", "dspan_time",
 ```
 
 
-Add speed-accuracy trade off-scores for mental rotation data:
+Calculate speed-accuracy trade off-scores for mental rotation data:
 ```{r speed-acc}
 # Create speed accuracy trade-off score function (Balanced Integration Score; BIS)
 # (Liesefeld, Fu, & Zimmer, 2015; Liesefeld & Janczyk, in press)
