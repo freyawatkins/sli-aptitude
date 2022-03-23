@@ -29,7 +29,6 @@ library(plotrix) # for calculating standard error
 library(scales) # scales on plots
 library(lme4) # for linear mixed models
 library(afex) # for linear mixed models
-library(psych) # for factor analysis
 ```
 
 ### R / package versions used
@@ -42,7 +41,6 @@ packageVersion('plotrix')
 packageVersion('scales') 
 packageVersion('lme4') 
 packageVersion('afex')
-packageVersion('psych')
 ```
 
 ## Read pre-wrangled data (see `00-wrangling-setup.Rmd` script)
@@ -916,7 +914,7 @@ apt$selected <- as.factor(apt$selected) %>% plyr::revalue(c("0" = "not selected"
   labs(title = "Speed-Accuracy Trade-off Score on 2D Mental Rotation Task by Group", 
        x = "Group", y = "Speed-Accuracy Trade-off Score\n(Balanced Integration Score") )
 
-# Jitter plot would not work for a trade-off score with bars above and below y=0
+# Jittered bar plot not so good for a trade-off score with bars above/below y=0
 ```
 
 # Models

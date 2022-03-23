@@ -44,15 +44,19 @@ packageVersion('afex')
 packageVersion('psych')
 ```
 
-## Read in data
+## Read pre-wrangled data (see `00-wrangling-setup.Rmd` script)
 ```{r read_in_data}
 here::here()
-apt <- read_csv(here("data", "2022-03-17_SLI_aptitude_data.csv"))
+apt <- readRDS(here("data", "apt-data.rds"))
 apt <- as_tibble(apt)
+head(apt)
 ```
 
+Filter out participants who did not progress beyond interview
+```{r}
+apt <- apt %>% filter(status != "rejected")
+```
 # Plots
-
 
 ## Effects of predictors on outcome variables
 
@@ -3285,8 +3289,10 @@ bis_mot_grade_terp_wide %>%
 
 What best predicts BSL grades?
 ```{r bsl-grade-models}
-( bsl_grade_mdl <- mixed(grade_bsl ~ nback_lett + mr3d_acc + corsi_corr + 
-                       (1|ppt), apt, 
+( bsl_grade_mdl <- mixed(grade_bsl ~ nback_lett + 
+                                     mr3d_sats + 
+                                     corsi_corr +
+                                     (1|ppt), apt, 
                      all_fit = TRUE, method = "LRT", #remove for lmer model
                  control = lmerControl(optCtrl = list(maxfun = 1e6))) )
 summary(bsl_grade_mdl)
