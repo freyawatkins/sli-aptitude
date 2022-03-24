@@ -3291,11 +3291,13 @@ What best predicts BSL grades?
 ```{r bsl-grade-models}
 ( bsl_grade_mdl <- mixed(grade_bsl ~ nback_lett + 
                                      mr3d_sats + 
-                                     corsi_corr +
-                                     (1|ppt), apt, 
+                                     corsi_corr, #+
+                                     #(1|ppt),
+                                     apt, 
                      all_fit = TRUE, method = "LRT", #remove for lmer model
                  control = lmerControl(optCtrl = list(maxfun = 1e6))) )
 summary(bsl_grade_mdl)
+# is only being fit on 11 observations rn.....
 
 
 ( bsl_grade_mdl_2 <- mixed(grade_bsl ~ kirk_acc + kbit_acc + dspan_corr + 
