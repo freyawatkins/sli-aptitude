@@ -659,20 +659,21 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ```{r kirk_ceil}
 # Raincloud plot
 ( R1 <- apt %>% 
-  filter(!is.na(kirk_ceil)) %>% 
+  #filter(!is.na(kirk_ceil)) %>% 
   ggplot(aes(x = session, y = kirk_ceil, group = session, fill = session)) +
   geom_flat_violin(position = position_nudge(x = .25, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5) +
-  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +    
+  scale_fill_manual(values = c("#7bccc4", "#43a2ca", "#0868ac", "#bae4bc")) +    
   labs(title = "Ceiling Score on Kirklees Sentence Reading Task by Session", 
-       x = "Session", y = "Ceiling Score") )
+       x = "Session", y = "Ceiling Score") +
+  theme_details )
   
 # Jitter plot
 J1 <- apt %>% 
   group_by(session) %>% 
-  filter(!is.na(kirk_ceil)) %>% 
+  #filter(!is.na(kirk_ceil)) %>% 
   summarize(mean=mean(kirk_ceil), sd = sd(kirk_ceil), se=std.error(kirk_ceil)) %>%
   ggplot(aes(x = session, y = mean, fill = session)) +
   coord_cartesian(ylim = c(0, 45)) +
@@ -687,7 +688,7 @@ J2 <- J1 + geom_errorbar(position = position_dodge(),
                           limits, size = 0.5, width = 0.5)
 
 indiv <- apt %>% 
-  filter(!is.na(kirk_ceil)) %>% 
+  #filter(!is.na(kirk_ceil)) %>% 
   group_by(session, ppt) %>% 
   summarise(mean = mean(kirk_ceil)) #, sd = sd(kirk_ceil) # requires trial-level data
 
@@ -711,7 +712,8 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
                         size = 0.5) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   labs(title = "Raw Score on Kirklees Sentence Reading Task by Session", 
-       x = "Session", y = "Ceiling Score") )
+       x = "Session", y = "Raw Score") +
+  theme_details )
   
 # Jitter plot
 J1 <- apt %>% 
@@ -757,7 +759,8 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   scale_y_continuous(labels = percent_format(accuracy=1)) +
   labs(title = "Accuracy on Kirklees Sentence Reading Task by Session", 
-       x = "Session", y = "Accuracy") )
+       x = "Session", y = "Accuracy") +
+  theme_details )
   
 # Jitter plot
 J1 <- apt %>% 
@@ -940,17 +943,18 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5)  +
   coord_cartesian(ylim = c(0.5, 0.9)) +
-  scale_fill_manual(values = c("#bae4bc", "#43a2ca", "#0868ac", "#7bccc4")) +  
+  scale_fill_manual(values = c("#7bccc4", "#43a2ca", "#0868ac", "#bae4bc")) +  
   scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
   labs(title = "Accuracy on Digit Span Task by Session", 
-       x = "Session", y = "Accuracy") ) +
-  theme_details
+       x = "Session", y = "Accuracy") +
+  theme_details )
 
 # Jitter plot
 J1 <- apt %>% 
   group_by(session) %>% 
   #filter(!is.na(dspan_corr)) %>% 
-  summarize(mean=mean(dspan_corr), sd = sd(dspan_corr), se=std.error(dspan_corr)) %>%
+  summarize(mean=mean(dspan_corr), 
+            sd = sd(dspan_corr), se=std.error(dspan_corr)) %>%
   ggplot(aes(x = session, y = mean, fill = session)) +
   coord_cartesian(ylim = c(0.5, 0.9)) +
   geom_bar(stat = 'identity', position = position_dodge()) +
@@ -986,16 +990,17 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ```{r dspan_mem}
 # Raincloud plot
 ( R1 <- apt %>% 
-  filter(!is.na(dspan_mem)) %>% 
+  #filter(!is.na(dspan_mem)) %>% 
   ggplot(aes(x = session, y = dspan_mem, group = session, fill = session)) +
   geom_flat_violin(position = position_nudge(x = .25, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5) +
   coord_cartesian(ylim = c(4, 11)) +
-  scale_fill_manual(values = c("#bae4bc", "#43a2ca", "#0868ac")) +  
+  scale_fill_manual(values = c("#7bccc4", "#43a2ca", "#0868ac", "#bae4bc")) +   
   labs(title = "Memory Span on Digit Span Task by Session", 
-       x = "Session", y = "Memory Span") )
+       x = "Session", y = "Memory Span") +
+  theme_details )
   
 # Jitter plot
 J1 <- apt %>% 
@@ -1045,7 +1050,8 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
   labs(title = "Accuracy on 2D Mental Rotation Task by Session", 
-       x = "Session", y = "Accuracy") )
+       x = "Session", y = "Accuracy") +
+  theme_details)
 
 # Jitter plot
 J1 <- apt %>% 
@@ -1091,7 +1097,8 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   coord_cartesian(ylim = c(0.5, 1)) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
   labs(title = "Accuracy on 2D Mental Rotation Task by Session", 
-       x = "Session", y = "Accuracy") )
+       x = "Session", y = "Accuracy") +
+  theme_details )
 
 ```
 
@@ -1171,7 +1178,8 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   coord_cartesian(ylim = c(-3, 3)) +
   labs(title = "Speed-Accuracy Trade-off Score on 2D Mental Rotation Task by Session", 
-       x = "Session", y = "Speed-Accuracy Trade-off Score\n(Balanced Integration Score") )
+       x = "Session", 
+       y = "Speed-Accuracy Trade-off Score\n(Balanced Integration Score") )
 
 # Jitter plot
 J1 <- apt %>% 
@@ -1206,15 +1214,15 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ( RJ <- apt %>% 
   filter(!is.na(mr2d_sats)) %>% 
   ggplot(aes(x = session, y = mr2d_sats, group = session, fill = session)) +
-  geom_hline(yintercept = 0, alpha = 0.2, linetype = "dashed") +
+  geom_hline(yintercept = 0, alpha = 0.4, linetype = "dashed") +
   geom_line(data = indiv, aes(x = session, y = mean, group = ppt),
                       size = 0.1, alpha = 0.5, position = pd) +
   geom_flat_violin(position = position_nudge(x = .25, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(data=indiv, aes(x = session, y = mean, group = ppt), size = 0.8, 
-                       shape = 19, position = pd) +
+  geom_point(data=indiv, aes(x = session, y = mean, group = ppt, fill = session),
+             size = 2, shape = 21, position = pd) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
-  coord_cartesian(ylim = c(-3, 3)) +
+  coord_cartesian(ylim = c(-3, 2)) +
   labs(title = "Speed-Accuracy Trade-off Score on 2D Mental Rotation Task by Session", 
        x = "Session", 
        y = "Speed-Accuracy Trade-off Score\n(Balanced Integration Score)") +
@@ -1395,10 +1403,9 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
                       size = 0.1, alpha = 0.5, position = pd) +
   geom_flat_violin(position = position_nudge(x = .25, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(data=indiv, aes(x = session, y = mean, group = ppt, color = session),
-             size = 1.5, shape = 19, position = pd) +
+  geom_point(data=indiv, aes(x = session, y = mean, group = ppt, fill = session),
+             size = 2, shape = 21, position = pd) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
-  scale_color_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   coord_cartesian(ylim = c(-4, 3)) +
   labs(title = "Speed-Accuracy Trade-off Score on 3D Mental Rotation Task by Session", 
        x = "Session", 
