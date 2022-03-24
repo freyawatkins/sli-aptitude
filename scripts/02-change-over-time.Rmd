@@ -1136,6 +1136,7 @@ J2 <- J1 + geom_errorbar(position = position_dodge(),
 
 indiv <- apt %>% 
   filter(!is.na(mr2d_rt)) %>% 
+  filter(ppt != "HW025") %>% ## removing extreme outlier
   group_by(session, ppt) %>% 
   summarise(mean = mean(mr2d_rt)) #, sd = sd(mr2d_rt)) # requires trial-level data
 
@@ -1150,6 +1151,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 # Raincloud + Jitter plot
 ( RJ <- apt %>% 
   filter(!is.na(mr2d_rt)) %>% 
+  filter(ppt != "HW025") %>% ## removing extreme outlier
   ggplot(aes(x = session, y = mr2d_rt, group = session, fill = session)) +
   geom_line(data = indiv, aes(x = session, y = mean, group = ppt),
                       size = 0.1, alpha = 0.3, position = pd) +
@@ -1158,7 +1160,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   geom_point(data=indiv, aes(x = session, y = mean, group = ppt), size = 0.8, 
                        shape = 19, position = pd) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
-  coord_cartesian(ylim = c(0, 8500)) +
+  coord_cartesian(ylim = c(0, 5000)) +
   labs(title = "Reaction Time on 2D Mental Rotation Task by Session", 
        x = "Session", y = "RT (ms)") )
 ```
@@ -1681,6 +1683,14 @@ summary(mr2d_sats_mdl)
                   data = apt) ) 
 
 summary(mr2d_rt_mdl)
+
+apt2 <- apt %>% 
+  filter(ppt != "HW025") 
+
+( mr2d_rt_mdl2 <- lm(mr2d_rt ~ session, 
+                  data = apt2) ) 
+
+summary(mr2d_rt_mdl2)
 ```
 
 ## 3D Mental Rotation
