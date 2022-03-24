@@ -269,10 +269,10 @@ apt %>%
 ```
 
 ### MLAT Number Learning
-Only collected at session 1 for grant cohort only
+Only collected at session 1, grant cohort only
 
 ### Summarising Task
-Only collected at session 1 for grant cohort only
+Only collected at session 1, grant cohort only
 
 ## BSL / Interpreting outcome variables
 
@@ -283,7 +283,14 @@ Only collected at session 1 for grant cohort only
 
 ### BSL Sentence Reproduction Task
 ```{r bslsrt}
-# data to be coded
+apt %>% 
+  filter(!is.na(bsl_srt)) %>% 
+  group_by(session) %>% 
+  summarise(grade_bsl_mean = mean(bsl_srt), 
+            sd = sd(bsl_srt),
+            se = std.error(bsl_srt))
+
+# still some data to be coded/checked
 ```
 
 ### BSL Town Map
@@ -310,6 +317,7 @@ apt %>%
             sd = sd(grade_terp),
             se = std.error(grade_terp))
 ```
+
 ## Plots
 Plot the linguistic & cognitive predictors over time 
 
@@ -322,8 +330,11 @@ Plot the linguistic & cognitive predictors over time
   ggplot(aes(x = session, y = nback_lett, group = session, fill = session)) +
   geom_flat_violin(position = position_nudge(x = .25, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
+  geom_boxplot(position = position_nudge(x = .2, y = 0),
+                   width = .2, alpha = 1) +
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   scale_y_continuous(labels = percent_format(accuracy=1)) +
   labs(title = "Accuracy in letter matching during Dual N-Back Task by Session", 
        x = "Session", y = "Accuracy") )
@@ -381,6 +392,7 @@ theme_details <- theme_bw() +
                    adjust = 2, trim = TRUE, alpha = 1) +
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
   labs(title = "Accuracy in spatial matching during Dual N-Back Task by Session", 
        x = "Session", y = "Accuracy") )
@@ -427,6 +439,7 @@ apt %>%
                    adjust = 2, trim = TRUE, alpha = 1) +
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   scale_y_continuous(labels = percent_format(accuracy=1)) +
   labs(title = "Combined accuracy on Dual N-Back Task by Session", 
        x = "Session", y = "Accuracy")
@@ -474,6 +487,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
                    adjust = 2, trim = TRUE, alpha = 1) +
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +    
   labs(title = "Block span on Corsi Blocks Task by Session", 
        x = "Session", y = "Block Span") )
 
@@ -517,6 +531,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
                    adjust = 2, trim = TRUE, alpha = 1) +
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   labs(title = "Raw Score on Corsi Blocks Task by Session", 
        x = "Session", y = "Score") )
   
@@ -561,6 +576,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5)  +
   coord_cartesian(ylim = c(5, 15)) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   scale_y_continuous(labels = scales::number_format(accuracy = 1)) +
   labs(title = "Correct Responses on Corsi Blocks Task by Session", 
        x = "Session", y = "Correct Response") )
@@ -605,6 +621,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
                    adjust = 2, trim = TRUE, alpha = 1) +
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +    
   labs(title = "Memory Span on Corsi Blocks Task by Session", 
        x = "Session", y = "Memory Span") )
   
@@ -649,6 +666,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
                    adjust = 2, trim = TRUE, alpha = 1) +
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +    
   labs(title = "Ceiling Score on Kirklees Sentence Reading Task by Session", 
        x = "Session", y = "Ceiling Score") )
   
@@ -692,6 +710,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
                    adjust = 2, trim = TRUE, alpha = 1) +
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   labs(title = "Raw Score on Kirklees Sentence Reading Task by Session", 
        x = "Session", y = "Ceiling Score") )
   
@@ -736,6 +755,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5) +
   coord_cartesian(ylim = c(0.45, 1)) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   scale_y_continuous(labels = percent_format(accuracy=1)) +
   labs(title = "Accuracy on Kirklees Sentence Reading Task by Session", 
        x = "Session", y = "Accuracy") )
@@ -783,6 +803,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
                    adjust = 2, trim = TRUE, alpha = 1) +
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   labs(title = "Ceiling Score on KBIT-2 Matrices Task by Session", 
        x = "Session", y = "Ceiling Score") )
   
@@ -826,6 +847,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
                    adjust = 2, trim = TRUE, alpha = 1) +
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   labs(title = "Raw Score on KBIT-2 Matrices Task by Session", 
        x = "Session", y = "Ceiling Score") )
   
@@ -870,6 +892,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5) +
   coord_cartesian(ylim = c(.65, 1)) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   scale_y_continuous(labels = percent_format(accuracy=1)) +
   labs(title = "Accuracy on KBIT-2 Matrices Task by Session", 
        x = "Session", y = "Accuracy") )
@@ -918,6 +941,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5)  +
   coord_cartesian(ylim = c(0.5, 0.9)) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
   labs(title = "Accuracy on Digit Span Task by Session", 
        x = "Session", y = "Accuracy") )
@@ -964,6 +988,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5) +
   coord_cartesian(ylim = c(4, 11)) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   labs(title = "Memory Span on Digit Span Task by Session", 
        x = "Session", y = "Memory Span") )
   
@@ -1010,6 +1035,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5) +
   coord_cartesian(ylim = c(0, 8)) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   labs(title = "Time spent on Digit Span Task by Session", 
        x = "Session", y = "Memory Span") )
   
@@ -1056,8 +1082,8 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
                    adjust = 2, trim = TRUE, alpha = 1) +
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5)  +
-  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   coord_cartesian(ylim = c(0.5, 1)) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
   labs(title = "Accuracy on 2D Mental Rotation Task by Session", 
        x = "Session", y = "Accuracy") )
@@ -1120,8 +1146,8 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
                    adjust = 2, trim = TRUE, alpha = 1) +
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5)  +
-  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   coord_cartesian(ylim = c(0, 8500)) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   labs(title = "Reaction Time on 2D Mental Rotation Task by Session", 
        x = "Session", y = "RT (ms)") )
 
@@ -1248,8 +1274,8 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
                    adjust = 2, trim = TRUE, alpha = 1) +
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5)  +
-  scale_fill_manual(values = c("#bae4bc", "#43a2ca", "#0868ac")) +
   coord_cartesian(ylim = c(0, 1)) +
+  scale_fill_manual(values = c("#bae4bc", "#43a2ca", "#0868ac")) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
   labs(title = "Accuracy on 3D Mental Rotation Task by Session", 
        x = "Session", y = "Accuracy") )
@@ -1298,8 +1324,8 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
                    adjust = 2, trim = TRUE, alpha = 1) +
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5)  +
-  scale_fill_manual(values = c("#bae4bc", "#43a2ca", "#0868ac")) +
   coord_cartesian(ylim = c(0, 4500)) +
+  scale_fill_manual(values = c("#bae4bc", "#43a2ca", "#0868ac")) +
   labs(title = "Reaction Time on 3D Mental Rotation Task by Session", 
        x = "Session", y = "RT (ms)") )
 
@@ -1362,10 +1388,11 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
                    adjust = 2, trim = TRUE, alpha = 1) +
   geom_point(position = position_jitter(width = .15), 
                         size = 0.5)  +
-  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   coord_cartesian(ylim = c(-4, 4)) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   labs(title = "Speed-Accuracy Trade-off Score on 3D Mental Rotation Task by Session", 
-       x = "Session", y = "Speed-Accuracy Trade-off Score\n(Balanced Integration Score)") )
+       x = "Session", 
+       y = "Speed-Accuracy Trade-off Score\n(Balanced Integration Score)") )
 
 # Jitter plot
 J1 <- apt %>% 
