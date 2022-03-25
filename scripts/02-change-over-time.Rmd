@@ -25,6 +25,7 @@ knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
 library(here) # file organisation & folder location
 library(tidyverse) # data wrangling & plotting
 library(PupillometryR) # raincloud plots
+library(sdamr) # simultaneously nudge + jitter plot points
 library(plotrix) # for calculating standard error
 library(scales) # scales on plots
 library(lme4) # for linear mixed models
@@ -37,7 +38,8 @@ library(psych) # for factor analysis
 R.Version() 
 packageVersion('here')
 packageVersion('tidyverse')
-packageVersion('PupillometryR') 
+packageVersion('PupillometryR')
+packageVersion('sdamr')
 packageVersion('plotrix') 
 packageVersion('scales') 
 packageVersion('lme4') 
@@ -312,7 +314,22 @@ apt %>%
 ```
 
 ## Plots
-Plot the linguistic & cognitive predictors over time 
+
+Let's plot the linguistic & cognitive assessments over time 
+
+```{r plot-theme}
+# set up a theme for the plots
+theme_details <- theme_bw() + 
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          panel.border = element_rect(colour = "black", size=0.5),
+          plot.title = element_text(face = "bold"),
+          axis.title.x = element_text(face = "bold"),
+          axis.title.y = element_text(face = "bold"),
+          axis.text.x = element_text(size=10, colour="black"),
+          axis.text.y = element_text(colour="black"),
+          legend.position = "none")
+```
 
 ### Dual N-Back
 #### Accuracy in letter matching
@@ -363,16 +380,6 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
     geom_line(data = indiv, aes(group = ppt),
                       size = 0.1, position = pd)
 
-theme_details <- theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          axis.title.x = element_text(face = "bold"),
-          legend.position = "none",
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x=element_text(size=10, colour="black"),
-          axis.text.y=element_text(colour="black"))
-
 ( J4 <- J3 + theme_details )
 ```
 
@@ -389,7 +396,8 @@ theme_details <- theme_bw() +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
   labs(title = "Accuracy in spatial matching during Dual N-Back Task by Session", 
-       x = "Session", y = "Accuracy") )
+       x = "Session", y = "Accuracy") +
+  theme_details )
   
 # Jitter plot
 J1 <- apt %>% 
@@ -426,17 +434,18 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 #### Combined accuracy
 ```{r nback_comb}
 ## Raincloud plot
-apt %>% 
+( R1 <- apt %>% 
   filter(!is.na(nback_comb)) %>% 
   ggplot(aes(x = session, y = nback_comb, group = session, fill = session)) +
-  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+  geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitter(width = .15), 
-                        size = 0.5) +
+  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+                        size = 2, shape = 21) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   scale_y_continuous(labels = percent_format(accuracy=1)) +
   labs(title = "Combined accuracy on Dual N-Back Task by Session", 
-       x = "Session", y = "Accuracy")
+       x = "Session", y = "Accuracy") +
+  theme_details )
 
 # Jitter plot  
 J1 <- apt %>% 
@@ -477,10 +486,11 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ( R1 <- apt %>% 
   filter(!is.na(corsi_bspan)) %>% 
   ggplot(aes(x = session, y = corsi_bspan, group = session, fill = session)) +
-  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+  geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitter(width = .15), 
-                        size = 0.5) +
+  geom_point(position = position_jitternudge(jitter.width = .4,
+                                             nudge.x = -.15), 
+                        size = 2, shape = 21) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +    
   labs(title = "Block span on Corsi Blocks Task by Session", 
        x = "Session", y = "Block Span") +
@@ -522,10 +532,10 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ( R1 <- apt %>% 
   filter(!is.na(corsi_score)) %>% 
   ggplot(aes(x = session, y = corsi_score, group = session, fill = session)) +
-  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+  geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitter(width = .15), 
-                        size = 0.5) +
+  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+                        size = 2, shape = 21) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   labs(title = "Raw Score on Corsi Blocks Task by Session", 
        x = "Session", y = "Score") +
@@ -568,10 +578,10 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ( R1 <- apt %>% 
   filter(!is.na(corsi_corr)) %>% 
   ggplot(aes(x = session, y = corsi_corr, group = session, fill = session)) +
-  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+  geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitter(width = .15), 
-                        size = 0.5)  +
+  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+                        size = 2, shape = 21) +
   coord_cartesian(ylim = c(5, 15)) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   scale_y_continuous(labels = scales::number_format(accuracy = 1)) +
@@ -938,10 +948,10 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ( R1 <- apt %>% 
   #filter(!is.na(dspan_corr)) %>% 
   ggplot(aes(x = session, y = dspan_corr, group = session, fill = session)) +
-  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+  geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitter(width = .15), 
-                        size = 0.5)  +
+  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+                        size = 2, shape = 21) +
   coord_cartesian(ylim = c(0.5, 0.9)) +
   scale_fill_manual(values = c("#7bccc4", "#43a2ca", "#0868ac", "#bae4bc")) +  
   scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
@@ -1042,16 +1052,16 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ( R1 <- apt %>% 
   filter(!is.na(mr2d_acc)) %>% 
   ggplot(aes(x = session, y = mr2d_acc, group = session, fill = session)) +
-  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+  geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitter(width = .15), 
-                        size = 0.5)  +
+  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+                        size = 2, shape = 21) +
   coord_cartesian(ylim = c(0.5, 1)) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
   labs(title = "Accuracy on 2D Mental Rotation Task by Session", 
        x = "Session", y = "Accuracy") +
-  theme_details)
+  theme_details )
 
 # Jitter plot
 J1 <- apt %>% 
@@ -1087,14 +1097,16 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ( RJ <- apt %>% 
   filter(!is.na(mr2d_acc)) %>% 
   ggplot(aes(x = session, y = mr2d_acc, group = session, fill = session)) +
+  geom_point(data=indiv, aes(x = session, y = mean, group = ppt),
+             position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+                        size = 2, shape = 21) +
   geom_line(data = indiv, aes(x = session, y = mean, group = ppt),
-                      size = 0.1, alpha = 0.3, position = pd) +
-  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                      size = 0.1, alpha = 0.3, 
+            position = position_jitternudge(jitter.width = .4, nudge.x = -.15)) +
+  geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(data=indiv, aes(x = session, y = mean, group = ppt), size = 0.8, 
-                       shape = 19, position = pd) +
-  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   coord_cartesian(ylim = c(0.5, 1)) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
   labs(title = "Accuracy on 2D Mental Rotation Task by Session", 
        x = "Session", y = "Accuracy") +
@@ -1157,12 +1169,13 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
                       size = 0.1, alpha = 0.3, position = pd) +
   geom_flat_violin(position = position_nudge(x = .25, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(data=indiv, aes(x = session, y = mean, group = ppt), size = 0.8, 
-                       shape = 19, position = pd) +
+  geom_point(data=indiv, aes(x = session, y = mean, group = ppt), size = 2, 
+                       shape = 21, position = pd) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
-  coord_cartesian(ylim = c(0, 5000)) +
+  coord_cartesian(ylim = c(0, 4500)) +
   labs(title = "Reaction Time on 2D Mental Rotation Task by Session", 
-       x = "Session", y = "RT (ms)") )
+       x = "Session", y = "RT (ms)") +
+  theme_details )
 ```
 
 
