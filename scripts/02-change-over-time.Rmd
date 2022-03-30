@@ -283,7 +283,7 @@ theme_details <- theme_bw() +
 ```
 
 ### Dual N-Back
-#### Accuracy in letter matching
+#### Letter matching
 ```{r nback_lett}
 # Raincloud plot
 ( R1 <- apt %>% 
@@ -334,7 +334,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ( J4 <- J3 + theme_details )
 ```
 
-#### Accuracy in spatial matching
+#### Spatial matching
 ```{r nback_spat}
 # Raincloud plot
 ( R1 <- apt %>% 

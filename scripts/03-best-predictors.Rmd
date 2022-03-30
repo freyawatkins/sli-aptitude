@@ -61,7 +61,7 @@ apt <- apt %>% filter(status != "rejected")
 ### Effects of predictors on BSL Grades
 
 #### Dual N-Back vs BSL Grades
-##### Accuracy in Letter Matching
+##### Letter Matching
 ```{r nback_lett_grade_bsl}
 # Create wider pivot table
 nback_lett_grade_bsl_wide <- apt %>% 
@@ -117,7 +117,7 @@ nback_lett_grade_bsl_wide %>%
 ```
 
 
-##### Accuracy in Spatial Matching
+##### Spatial Matching
 ```{r nback_spat_grade_bsl}
 # Create wider pivot table
 nback_spat_grade_bsl_wide <- apt %>% 
@@ -227,6 +227,38 @@ nback_comb_grade_bsl_wide %>%
   scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
   theme_minimal() +
   labs(title = "Does Combined Accuracy on the Dual N-Back Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+```
+###### Correlations
+```{r}
+nback_comb_grade_bsl_wide %>% 
+  filter(`nback_comb_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`nback_comb_pre-degree`, 
+                       `grade_bsl_1st year`))
+
+nback_comb_grade_bsl_wide %>% 
+  filter(`nback_comb_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`nback_comb_pre-degree`, 
+                       `grade_bsl_2nd year`))
+
+nback_comb_grade_bsl_wide %>% 
+  filter(`nback_comb_1st year`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`nback_comb_1st year`, 
+                       `grade_bsl_1st year`))
+
+nback_comb_grade_bsl_wide %>% 
+  filter(`nback_comb_1st year`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`nback_comb_1st year`, 
+                       `grade_bsl_2nd year`))
+
+nback_comb_grade_bsl_wide %>% 
+  filter(`nback_comb_2nd year`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>%
+  summarize(AccCOR=cor(`nback_comb_2nd year`, 
+                       `grade_bsl_2nd year`))
 ```
 
 #### Corsi Blocks vs BSL Grades 
@@ -347,22 +379,16 @@ kirk_acc_grade_bsl_wide %>%
                        `grade_bsl_1st year`))
 
 kirk_acc_grade_bsl_wide %>% 
-  filter(`kirk_acc_1st year`!= "NA") %>% 
-  filter(`grade_bsl_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`kirk_acc_1st year`, 
-                       `grade_bsl_1st year`))
-
-kirk_acc_grade_bsl_wide %>% 
-  filter(`kirk_acc_2nd year`!= "NA") %>% 
-  filter(`grade_bsl_1st year` != "NA") %>%
-  summarize(AccCOR=cor(`kirk_acc_2nd year`, 
-                       `grade_bsl_1st year`))
-
-kirk_acc_grade_bsl_wide %>% 
   filter(`kirk_acc_pre-degree`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>% 
   summarize(AccCOR=cor(`kirk_acc_pre-degree`, 
                        `grade_bsl_2nd year`))
+
+kirk_acc_grade_bsl_wide %>% 
+  filter(`kirk_acc_1st year`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`kirk_acc_1st year`, 
+                       `grade_bsl_1st year`))
 
 kirk_acc_grade_bsl_wide %>% 
   filter(`kirk_acc_1st year`!= "NA") %>% 
@@ -425,6 +451,38 @@ kbit_acc_grade_bsl_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "Does Accuracy on the KBIT-2 Matrices Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
+```
+###### Correlations
+```{r}
+kbit_acc_grade_bsl_wide %>% 
+  filter(`kbit_acc_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`kbit_acc_pre-degree`, 
+                       `grade_bsl_1st year`))
+
+kbit_acc_grade_bsl_wide %>% 
+  filter(`kbit_acc_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`kbit_acc_pre-degree`, 
+                       `grade_bsl_2nd year`))
+
+kbit_acc_grade_bsl_wide %>% 
+  filter(`kbit_acc_1st year`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`kbit_acc_1st year`, 
+                       `grade_bsl_1st year`))
+
+kbit_acc_grade_bsl_wide %>% 
+  filter(`kbit_acc_1st year`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`kbit_acc_1st year`, 
+                       `grade_bsl_2nd year`))
+
+kbit_acc_grade_bsl_wide %>% 
+  filter(`kbit_acc_2nd year`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>%
+  summarize(AccCOR=cor(`kbit_acc_2nd year`, 
+                       `grade_bsl_2nd year`))
 ```
 
 #### Digit Span vs BSL Grades
@@ -826,7 +884,7 @@ Not sure why geom_smooth() line does not appear in knitted output (works in .Rmd
 ### Effects of predictors on Interpreting Grades
 
 #### Dual N-Back vs Interpreting Grades
-##### Accuracy in Letter Matching
+##### Letter Matching
 ```{r nback_lett_grade_terp}
 # Create wider pivot table
 nback_lett_grade_terp_wide <- apt %>% 
@@ -872,7 +930,7 @@ nback_lett_grade_terp_wide %>%
   labs(title = "Does Accuracy in Letter Matching on the Dual N-Back Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy in Letter Matching on the Dual N-Back Task after 2 years")
 ```
 
-##### Accuracy in Spatial Matching
+##### Spatial Matching
 ```{r nback_spat_grade_terp}
 # Create wider pivot table
 nback_spat_grade_terp_wide <- apt %>% 
@@ -1468,20 +1526,37 @@ What best predicts BSL grades?
 #                           "HW1111" | "HW1091" | "WV2011" | "WV2061" | "WV2081")
 
 
-( bsl_grade_mdl <- mixed(grade_bsl ~ nback_lett + mr3d_sats + 
-                                     corsi_corr,#(1|ppt),
-                                     data = apt, 
-                     all_fit = TRUE, method = "LRT", #remove for lmer model
-                 control = lmerControl(optCtrl = list(maxfun = 1e6))) )
+( bsl_grade_mdl <- lm(grade_bsl ~ nback_spat + 
+                                  mr3d_sats + 
+                                  corsi_corr +
+                                  kirk_acc + 
+                                  kbit_acc + 
+                                  dspan_corr,
+                                  data = apt) ) 
 summary(bsl_grade_mdl)
-# is only being fit on 11 observations rn.....
+# but is only being fit on 11 observations rn.....
 
 
-( bsl_grade_mdl_2 <- mixed(grade_bsl ~ kirk_acc + kbit_acc + dspan_corr, 
-                        data = apt, 
-                     all_fit = TRUE, method = "LRT", #remove for lmer model
-                 control = lmerControl(optCtrl = list(maxfun = 1e6))) )
-summary(bsl_grade_mdl_2)
+( terp_grade_mdl <- lm(grade_terp ~ nback_spat + 
+                                    mr3d_sats + 
+                                    corsi_corr +
+                                    kirk_acc + 
+                                    kbit_acc + 
+                                    dspan_corr,
+                                    data = apt) )
+summary(terp_grade_mdl)
+# but is only being fit on 11 observations rn.....
+
+# For SRT scores, model doesn't work because no grades yet at final session.
+( srt_mdl <- lm(bsl_srt ~ nback_spat + 
+                          mr3d_sats + 
+                          corsi_corr +
+                          kirk_acc + 
+                          kbit_acc + 
+                          dspan_corr,
+                          data = apt) )
+summary(srt_mdl)
+
 ```
 
 ##############################################################################
