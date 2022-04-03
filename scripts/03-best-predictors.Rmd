@@ -15,8 +15,9 @@ output:
     highlight: haddock
 ---
 # Setup
-```{r setup, include=FALSE, message = FALSE, warning = FALSE}
-knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, 
+                      echo = TRUE, cache = TRUE) 
 ```
 
 ## Load packages
@@ -42,7 +43,8 @@ packageVersion('afex')
 packageVersion('psych')
 ```
 
-## Read pre-wrangled data (see `00-wrangling-setup.Rmd` script)
+## Read pre-wrangled data 
+(see `00-wrangling-setup.Rmd` script)
 ```{r read_in_data}
 here::here()
 apt <- readRDS(here("data", "apt-data.rds"))
@@ -55,24 +57,24 @@ Filter out participants who did not progress beyond interview
 apt <- apt %>% filter(status != "rejected")
 ```
 
-# Effects of predictors on outcome variables
+Convert data from long format to wide format
+```{r}
+apt_wide <- apt %>% 
+  select(-comments) %>% 
+  tidyr::pivot_wider(names_from = session,
+                     values_from = c(nback_lett:grade_terp))
+```
 
-### Predictors of BSL performance
+## Plots/correlations
+
+### Predicted impact on BSL
 
 #### Corsi Blocks
-Create wider pivot table
-```{r corsi_bsl}
-corsi_bsl_wide <- apt %>% 
-  select(session, group, ppt, corsi_corr, bsl_srt, grade_bsl) %>% 
-  tidyr::pivot_wider(
-    names_from = session,
-    values_from = c(corsi_corr, bsl_srt, grade_bsl))
-```
 
 ###### vs BSL Grades
 ```{r corsi_bsl_grades}
 # Initial visuospatial skill vs. 1st year BSL grades
-corsi_bsl_wide %>%
+apt_wide %>%
   ggplot(aes(x = `corsi_corr_pre-degree`, y = `grade_bsl_1st year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
@@ -81,14 +83,14 @@ corsi_bsl_wide %>%
        y = "1st year BSL grade", 
        x = "Initial Corsi Blocks score")
 
-corsi_bsl_wide %>% 
+apt_wide %>% 
   filter(`corsi_corr_pre-degree`!= "NA") %>% 
   filter(`grade_bsl_1st year` != "NA") %>% 
   summarize(AccCOR=cor(`corsi_corr_pre-degree`, 
                        `grade_bsl_1st year`))
 
 # Initial visuospatial skill vs. 2nd year BSL grades
-corsi_bsl_wide %>%
+apt_wide %>%
   ggplot(aes(x = `corsi_corr_pre-degree`, y = `grade_bsl_2nd year`)) +
   geom_smooth(method= "lm") +
   geom_point() +
@@ -97,14 +99,14 @@ corsi_bsl_wide %>%
        y = "2nd year BSL grade", 
        x = "Initial Corsi Blocks score")
 
-corsi_bsl_wide %>% 
+apt_wide %>% 
   filter(`corsi_corr_pre-degree`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>% 
   summarize(AccCOR=cor(`corsi_corr_pre-degree`, 
                        `grade_bsl_2nd year`))
 
 # 1st year visuospatial skill vs. 1st year BSL grades
-corsi_bsl_wide %>%
+apt_wide %>%
   ggplot(aes(x = `corsi_corr_1st year`, y = `grade_bsl_1st year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
@@ -113,14 +115,14 @@ corsi_bsl_wide %>%
        y = "1st year BSL grade", 
        x = "1st year Corsi Blocks score ")
 
-corsi_bsl_wide %>% 
+apt_wide %>% 
   filter(`corsi_corr_1st year`!= "NA") %>% 
   filter(`grade_bsl_1st year` != "NA") %>% 
   summarize(AccCOR=cor(`corsi_corr_1st year`, 
                        `grade_bsl_1st year`))
 
 # 1st year visuospatial skill vs. 2nd year BSL grades
-corsi_bsl_wide %>%
+apt_wide %>%
   ggplot(aes(x = `corsi_corr_1st year`, y = `grade_bsl_2nd year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
@@ -129,14 +131,14 @@ corsi_bsl_wide %>%
        y = "1st year BSL grade", 
        x = "2nd year Corsi Blocks score ")
 
-corsi_bsl_wide %>% 
+apt_wide %>% 
   filter(`corsi_corr_1st year`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>% 
   summarize(AccCOR=cor(`corsi_corr_1st year`, 
                        `grade_bsl_2nd year`))
 
 # 2nd year visuospatial skill vs. 2nd year BSL grades
-corsi_bsl_wide %>%
+apt_wide %>%
   ggplot(aes(x = `corsi_corr_2nd year`, y = `grade_bsl_2nd year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
@@ -145,348 +147,151 @@ corsi_bsl_wide %>%
        y = "2nd year BSL grade", 
        x = "2nd year Corsi Blocks score ")
 
-corsi_bsl_wide %>% 
+apt_wide %>% 
   filter(`corsi_corr_2nd year`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>%
   summarize(AccCOR=cor(`corsi_corr_2nd year`, 
                        `grade_bsl_2nd year`))
 ```
 
-
-#### Kirklees Sentence Reading vs BSL Grades
-
-```{r kirk_acc_grade_bsl}
-# Create wider pivot table
-kirk_acc_grade_bsl_wide <- apt %>% 
-  select(session, group, ppt, kirk_acc, grade_bsl) %>% 
-  tidyr::pivot_wider(
-    names_from = session,
-    values_from = c(kirk_acc, grade_bsl))
-
-# Does Accuracy on the Kirklees Sentence Reading Task pre-degree predict BSL grades at the end of 1st year?
-kirk_acc_grade_bsl_wide %>%
-  ggplot(aes(x = `kirk_acc_pre-degree`, y = `grade_bsl_1st year`)) +
-  geom_point() +
+###### vs BSL-SRT
+Does Corsi Blocks performance relate to BSL Sentence Reproduction Task?
+``` {r corsi_srt}
+# Initial Corsi Blocks score vs. 3rd year BSL-SRT scores
+apt_wide %>%
+  ggplot(aes(x = `corsi_corr_pre-degree`, y = `bsl_srt_3rd year`)) +
   geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
-  theme_minimal() +
-  labs(title = "Does Accuracy on the Kirklees Sentence Reading Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = "Accuracy on the Kirklees Sentence Reading Task pre-degree")
-
-
-# Does Accuracy on the Kirklees Sentence Reading Task pre-degree predict BSL grades at the end of 2nd year?
-kirk_acc_grade_bsl_wide %>%
-  ggplot(aes(x = `kirk_acc_pre-degree`, y = `grade_bsl_2nd year`)) +
-  geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
   geom_point() +
   theme_minimal() +
-  labs(title = "Does Accuracy on the Kirklees Sentence Reading Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Accuracy on the Kirklees Sentence Reading Task pre-degree")
+  labs(title = "Initial Corsi Blocks score vs. 3rd year BSL-SRT scores", 
+       y = "3rd year BSL-SRT score", 
+       x = "Initial Corsi Blocks score")
 
-# Does Accuracy on the Kirklees Sentence Reading Task after 1 year of study predict BSL grades at the end of 1st year?
-kirk_acc_grade_bsl_wide %>%
-  ggplot(aes(x = `kirk_acc_1st year`, y = `grade_bsl_1st year`)) +
+apt_wide %>% 
+  filter(`corsi_corr_pre-degree`!= "NA") %>% 
+  filter(`bsl_srt_3rd year` != "NA") %>% 
+  summarize(AccCOR=cor(`corsi_corr_pre-degree`, 
+                       `bsl_srt_3rd year`))
+
+# 2nd year Corsi Blocks score vs. 3rd year BSL-SRT scores
+apt_wide %>%
+  ggplot(aes(x = `corsi_corr_2nd year`, y = `bsl_srt_3rd year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
   theme_minimal() +
-  labs(title = "Does Accuracy on the Kirklees Sentence Reading Task after 1 year of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = "Accuracy on the Kirklees Sentence Reading Task after 1 year")
+  labs(title = "2nd year Corsi Blocks score vs. 3rd year BSL-SRT scores", 
+       y = "3rd year BSL-SRT score", 
+       x = "2nd year Corsi Blocks score")
 
-# Does Accuracy on the Kirklees Sentence Reading Task after 1 year of study predict BSL grades at the end of 2nd year?
-kirk_acc_grade_bsl_wide %>%
-  ggplot(aes(x = `kirk_acc_1st year`, y = `grade_bsl_2nd year`)) +
+apt_wide %>% 
+  filter(`corsi_corr_2nd year`!= "NA") %>% 
+  filter(`bsl_srt_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`corsi_corr_2nd year`, 
+                       `bsl_srt_3rd year`))
+
+# 3rd year Corsi Blocks score vs. 3rd year BSL-SRT scores
+apt_wide %>%
+  ggplot(aes(x = `corsi_corr_3rd year`, y = `bsl_srt_3rd year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
   theme_minimal() +
-  labs(title = "Does Accuracy on the Kirklees Sentence Reading Task after 1 year of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Accuracy on the Kirklees Sentence Reading Task after 1 year")
+  labs(title = "3rd year Corsi Blocks score vs. 3rd year BSL-SRT scores", 
+       y = "3rd year BSL-SRT score", 
+       x = "3rd year Corsi Blocks score")
 
-# Does Accuracy on the Kirklees Sentence Reading Task after 2 years of study predict BSL grades at the end of 2nd year?
-kirk_acc_grade_bsl_wide %>%
-  ggplot(aes(x = `kirk_acc_2nd year`, y = `grade_bsl_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
-  theme_minimal() +
-  labs(title = "Does Accuracy on the Kirklees Sentence Reading Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Accuracy on the Kirklees Sentence Reading Task after 2 years")
+apt_wide %>% 
+  filter(`corsi_corr_3rd year`!= "NA") %>% 
+  filter(`bsl_srt_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`corsi_corr_3rd year`, 
+                       `bsl_srt_3rd year`))
 ```
 
-###### Correlations
-```{r}
-kirk_acc_grade_bsl_wide %>% 
-  filter(`kirk_acc_pre-degree`!= "NA") %>% 
-  filter(`grade_bsl_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`kirk_acc_pre-degree`, 
-                       `grade_bsl_1st year`))
-
-kirk_acc_grade_bsl_wide %>% 
-  filter(`kirk_acc_pre-degree`!= "NA") %>% 
-  filter(`grade_bsl_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`kirk_acc_pre-degree`, 
-                       `grade_bsl_2nd year`))
-
-kirk_acc_grade_bsl_wide %>% 
-  filter(`kirk_acc_1st year`!= "NA") %>% 
-  filter(`grade_bsl_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`kirk_acc_1st year`, 
-                       `grade_bsl_1st year`))
-
-kirk_acc_grade_bsl_wide %>% 
-  filter(`kirk_acc_1st year`!= "NA") %>% 
-  filter(`grade_bsl_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`kirk_acc_1st year`, 
-                       `grade_bsl_2nd year`))
-
-kirk_acc_grade_bsl_wide %>% 
-  filter(`kirk_acc_2nd year`!= "NA") %>% 
-  filter(`grade_bsl_2nd year` != "NA") %>%
-  summarize(AccCOR=cor(`kirk_acc_2nd year`, 
-                       `grade_bsl_2nd year`))
-```
-
-#### KBIT-2 Matrices vs BSL Grades
-```{r kbit_acc_grade_bsl}
-# Create wider pivot table
-kbit_acc_grade_bsl_wide <- apt %>% 
-  select(session, group, ppt, kbit_acc, grade_bsl) %>% 
-  tidyr::pivot_wider(
-    names_from = session,
-    values_from = c(kbit_acc, grade_bsl))
-
-# Does Accuracy on the KBIT-2 Matrices Task pre-degree predict BSL grades at the end of 1st year?
-kbit_acc_grade_bsl_wide %>%
-  ggplot(aes(x = `kbit_acc_pre-degree`, y = `grade_bsl_1st year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal() +
-  labs(title = "Does Accuracy on the KBIT-2 Matrices Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
-
-# Does Accuracy on the KBIT-2 Matrices Task pre-degree predict BSL grades at the end of 2nd year?
-kbit_acc_grade_bsl_wide %>%
-  ggplot(aes(x = `kbit_acc_pre-degree`, y = `grade_bsl_2nd year`)) +
-  geom_smooth(method= "lm") +
-  geom_point() +
-  theme_minimal() +
-  labs(title = "Does Accuracy on the KBIT-2 Matrices Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
-
-# Does Accuracy on the KBIT-2 Matrices Task after 1 year of study predict BSL grades at the end of 1st year?
-kbit_acc_grade_bsl_wide %>%
-  ggplot(aes(x = `kbit_acc_1st year`, y = `grade_bsl_1st year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal() +
-  labs(title = "Does Accuracy on the KBIT-2 Matrices Task after 1 year of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
-
-# Does Accuracy on the KBIT-2 Matrices Task after 1 year of study predict BSL grades at the end of 2nd year?
-kbit_acc_grade_bsl_wide %>%
-  ggplot(aes(x = `kbit_acc_1st year`, y = `grade_bsl_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal() +
-  labs(title = "Does Accuracy on the KBIT-2 Matrices Task after 1 year of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
-
-# Does Accuracy on the KBIT-2 Matrices Task after 2 years of study predict BSL grades at the end of 2nd year?
-kbit_acc_grade_bsl_wide %>%
-  ggplot(aes(x = `kbit_acc_2nd year`, y = `grade_bsl_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal() +
-  labs(title = "Does Accuracy on the KBIT-2 Matrices Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
-```
-###### Correlations
-```{r}
-kbit_acc_grade_bsl_wide %>% 
-  filter(`kbit_acc_pre-degree`!= "NA") %>% 
-  filter(`grade_bsl_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`kbit_acc_pre-degree`, 
-                       `grade_bsl_1st year`))
-
-kbit_acc_grade_bsl_wide %>% 
-  filter(`kbit_acc_pre-degree`!= "NA") %>% 
-  filter(`grade_bsl_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`kbit_acc_pre-degree`, 
-                       `grade_bsl_2nd year`))
-
-kbit_acc_grade_bsl_wide %>% 
-  filter(`kbit_acc_1st year`!= "NA") %>% 
-  filter(`grade_bsl_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`kbit_acc_1st year`, 
-                       `grade_bsl_1st year`))
-
-kbit_acc_grade_bsl_wide %>% 
-  filter(`kbit_acc_1st year`!= "NA") %>% 
-  filter(`grade_bsl_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`kbit_acc_1st year`, 
-                       `grade_bsl_2nd year`))
-
-kbit_acc_grade_bsl_wide %>% 
-  filter(`kbit_acc_2nd year`!= "NA") %>% 
-  filter(`grade_bsl_2nd year` != "NA") %>%
-  summarize(AccCOR=cor(`kbit_acc_2nd year`, 
-                       `grade_bsl_2nd year`))
-```
-
-#### Digit Span vs BSL Grades
-##### Accuracy 
-```{r dspan_acc_grade_bsl}
-# Create wider pivot table
-dspan_acc_grade_bsl_wide <- apt %>% 
-  select(session, group, ppt, dspan_corr, grade_bsl) %>% 
-  tidyr::pivot_wider(
-    names_from = session,
-    values_from = c(dspan_corr, grade_bsl))
-
-# Does Accuracy on the Digit Span Task pre-degree predict BSL grades at the end of 1st year?
-dspan_acc_grade_bsl_wide %>%
-  ggplot(aes(x = `dspan_corr_pre-degree`, y = `grade_bsl_1st year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal() +
-  labs(title = "Does Accuracy on the Digit Span Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
-
-# Does Accuracy on the Digit Span Task pre-degree predict BSL grades at the end of 2nd year?
-dspan_acc_grade_bsl_wide %>%
-  ggplot(aes(x = `dspan_corr_pre-degree`, y = `grade_bsl_2nd year`)) +
-  geom_smooth(method= "lm") +
-  geom_point() +
-  theme_minimal() +
-  labs(title = "Does Accuracy on the Digit Span Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
-
-# No datapoints for Digit Span @ '1 year of study'
-
-# Does Accuracy on the Digit Span Task after 2 years of study predict BSL grades at the end of 2nd year?
-dspan_acc_grade_bsl_wide %>%
-  ggplot(aes(x = `dspan_corr_2nd year`, y = `grade_bsl_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal() +
-  labs(title = "Does Accuracy on the Digit Span Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
-```
-
-##### Memory Span 
-```{r dspan_mem_grade_bsl}
-# Create wider pivot table
-dspan_mem_grade_bsl_wide <- apt %>% 
-  select(session, group, ppt, dspan_mem, grade_bsl) %>% 
-  tidyr::pivot_wider(
-    names_from = session,
-    values_from = c(dspan_mem, grade_bsl))
-
-# Does Memory Span on the Digit Span Task pre-degree predict BSL grades at the end of 1st year?
-dspan_mem_grade_bsl_wide %>%
-  ggplot(aes(x = `dspan_mem_pre-degree`, y = `grade_bsl_1st year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal() +
-  labs(title = "Does Memory Span on the Digit Span Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
-
-# Does Memory Span on the Digit Span Task pre-degree predict BSL grades at the end of 2nd year?
-dspan_mem_grade_bsl_wide %>%
-  ggplot(aes(x = `dspan_mem_pre-degree`, y = `grade_bsl_2nd year`)) +
-  geom_smooth(method= "lm") +
-  geom_point() +
-  theme_minimal() +
-  labs(title = "Does Memory Span on the Digit Span Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
-
-# No datapoints for Digit Span @ 1 year of study session
-
-# Does Memory Span on the Digit Span Task after 2 years of study predict BSL grades at the end of 2nd year?
-dspan_mem_grade_bsl_wide %>%
-  ggplot(aes(x = `dspan_mem_2nd year`, y = `grade_bsl_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal() +
-  labs(title = "Does Memory Span on the Digit Span Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
-```
 
 #### 2D Mental Rotation
-
-Create wider pivot table
-```{r mr2d_bsl}
-mr2d_bsl_wide <- apt %>% 
-  select(session, group, ppt, mr2d_sats, bsl_srt, grade_bsl) %>% 
-  tidyr::pivot_wider(
-    names_from = session,
-    values_from = c(mr2d_sats, bsl_srt, grade_bsl))
-```
 
 ###### vs BSL Grades
 Does 2D Mental Rotation performance relate to BSL grades?
 ``` {r mr2d_bsl_grades}
 # Initial 2D Mental Rotation score vs. 1st year BSL grades
-mr2d_bsl_wide %>%
+apt_wide %>%
   ggplot(aes(x = `mr2d_sats_pre-degree`, y = `grade_bsl_1st year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
+  geom_vline(xintercept = 0, alpha = .3) +
   theme_minimal() +
   labs(title = "Initial 2D Mental Rotation score vs. 1st year BSL grades", 
        y = "1st year BSL grade", 
        x = "Initial 2D Mental Rotation score")
 
-mr2d_bsl_wide %>% 
+apt_wide %>% 
   filter(`mr2d_sats_pre-degree`!= "NA") %>% 
   filter(`grade_bsl_1st year` != "NA") %>% 
   summarize(AccCOR=cor(`mr2d_sats_pre-degree`, 
                        `grade_bsl_1st year`))
 
 # Initial 2D Mental Rotation score vs. 2nd year BSL grades
-mr2d_bsl_wide %>%
+apt_wide %>%
   ggplot(aes(x = `mr2d_sats_pre-degree`, y = `grade_bsl_2nd year`)) +
   geom_smooth(method= "lm") +
+  geom_vline(xintercept = 0, alpha = .3) +
   geom_point() +
   theme_minimal() +
   labs(title = "Initial 2D Mental Rotation score vs. 2nd year BSL grades", 
        y = "2nd year BSL grade", 
        x = "Initial 2D Mental Rotation score")
 
-mr2d_bsl_wide %>% 
+apt_wide %>% 
   filter(`mr2d_sats_pre-degree`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>% 
   summarize(AccCOR=cor(`mr2d_sats_pre-degree`, 
                        `grade_bsl_2nd year`))
 
 # 1st year 2D Mental Rotation score vs. 1st year BSL grades
-mr2d_bsl_wide %>%
+apt_wide %>%
   ggplot(aes(x = `mr2d_sats_1st year`, y = `grade_bsl_1st year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
+  geom_vline(xintercept = 0, alpha = .3) +
   theme_minimal() +
   labs(title = "1st year 2D Mental Rotation score vs. 1st year BSL grades", 
        y = "1st year BSL grade", 
        x = "1st year 2D Mental Rotation score")
 
-mr2d_bsl_wide %>% 
+apt_wide %>% 
   filter(`mr2d_sats_1st year`!= "NA") %>% 
   filter(`grade_bsl_1st year` != "NA") %>% 
   summarize(AccCOR=cor(`mr2d_sats_1st year`, 
                        `grade_bsl_1st year`))
 
 # 1st year 2D Mental Rotation score vs. 2nd year BSL grades
-mr2d_bsl_wide %>%
+apt_wide %>%
   ggplot(aes(x = `mr2d_sats_1st year`, y = `grade_bsl_2nd year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
+  geom_vline(xintercept = 0, alpha = .3) +
   theme_minimal() +
   labs(title = "1st year 2D Mental Rotation score vs. 2nd year BSL grades", 
        y = "1st year BSL grade", 
        x = "2nd year 2D Mental Rotation score")
 
-mr2d_bsl_wide %>% 
+apt_wide %>% 
   filter(`mr2d_sats_1st year`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>% 
   summarize(AccCOR=cor(`mr2d_sats_1st year`, 
                        `grade_bsl_2nd year`))
 
 # 2nd year 2D Mental Rotation score vs. 2nd year BSL grades
-mr2d_bsl_wide %>%
+apt_wide %>%
   ggplot(aes(x = `mr2d_sats_2nd year`, y = `grade_bsl_2nd year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
+  geom_vline(xintercept = 0, alpha = .3) +
   theme_minimal() +
   labs(title = "2nd year 2D Mental Rotation score vs. 2nd year BSL grades", 
        y = "2nd year BSL grade", 
        x = "2nd year 2D Mental Rotation score")
 
-mr2d_bsl_wide %>% 
+apt_wide %>% 
   filter(`mr2d_sats_2nd year`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>%   
   summarize(AccCOR=cor(`mr2d_sats_2nd year`, 
@@ -497,7 +302,7 @@ mr2d_bsl_wide %>%
 Does 2D Mental Rotation performance relate to BSL Sentence Reproduction Task?
 ``` {r mr2d_bsl_srt}
 # Initial 2D Mental Rotation score vs. 1st year BSL-SRT scores
-mr2d_bsl_wide %>%
+apt_wide %>%
   ggplot(aes(x = `mr2d_sats_pre-degree`, y = `bsl_srt_1st year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
@@ -506,14 +311,14 @@ mr2d_bsl_wide %>%
        y = "1st year BSL-SRT score", 
        x = "Initial 2D Mental Rotation score")
 
-mr2d_bsl_wide %>% 
+apt_wide %>% 
   filter(`mr2d_sats_pre-degree`!= "NA") %>% 
   filter(`bsl_srt_1st year` != "NA") %>% 
   summarize(AccCOR=cor(`mr2d_sats_pre-degree`, 
                        `bsl_srt_1st year`))
 
 # Initial 2D Mental Rotation score vs. 2nd year BSL-SRT scores
-mr2d_bsl_wide %>%
+apt_wide %>%
   ggplot(aes(x = `mr2d_sats_pre-degree`, y = `bsl_srt_2nd year`)) +
   geom_smooth(method= "lm") +
   geom_point() +
@@ -522,14 +327,14 @@ mr2d_bsl_wide %>%
        y = "2nd year BSL-SRT score", 
        x = "Initial 2D Mental Rotation score")
 
-mr2d_bsl_wide %>% 
+apt_wide %>% 
   filter(`mr2d_sats_pre-degree`!= "NA") %>% 
   filter(`bsl_srt_2nd year` != "NA") %>% 
   summarize(AccCOR=cor(`mr2d_sats_pre-degree`, 
                        `bsl_srt_2nd year`))
 
 # 1st year 2D Mental Rotation score vs. 1st year BSL-SRT scores
-mr2d_bsl_wide %>%
+apt_wide %>%
   ggplot(aes(x = `mr2d_sats_1st year`, y = `bsl_srt_1st year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
@@ -538,14 +343,14 @@ mr2d_bsl_wide %>%
        y = "1st year BSL-SRT score", 
        x = "1st year 2D Mental Rotation score")
 
-mr2d_bsl_wide %>% 
+apt_wide %>% 
   filter(`mr2d_sats_1st year`!= "NA") %>% 
   filter(`bsl_srt_1st year` != "NA") %>% 
   summarize(AccCOR=cor(`mr2d_sats_1st year`, 
                        `bsl_srt_1st year`))
 
 # 1st year 2D Mental Rotation score vs. 2nd year BSL-SRT scores
-mr2d_bsl_wide %>%
+apt_wide %>%
   ggplot(aes(x = `mr2d_sats_1st year`, y = `bsl_srt_2nd year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
@@ -554,14 +359,14 @@ mr2d_bsl_wide %>%
        y = "1st year BSL-SRT score", 
        x = "2nd year 2D Mental Rotation score")
 
-mr2d_bsl_wide %>% 
+apt_wide %>% 
   filter(`mr2d_sats_1st year`!= "NA") %>% 
   filter(`bsl_srt_2nd year` != "NA") %>% 
   summarize(AccCOR=cor(`mr2d_sats_1st year`, 
                        `bsl_srt_2nd year`))
 
 # 2nd year 2D Mental Rotation score vs. 2nd year BSL-SRT scores
-mr2d_bsl_wide %>%
+apt_wide %>%
   ggplot(aes(x = `mr2d_sats_2nd year`, y = `bsl_srt_2nd year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
@@ -570,950 +375,1750 @@ mr2d_bsl_wide %>%
        y = "2nd year BSL-SRT score", 
        x = "2nd year 2D Mental Rotation score")
 
-mr2d_bsl_wide %>% 
+apt_wide %>% 
   filter(`mr2d_sats_2nd year`!= "NA") %>% 
   filter(`bsl_srt_2nd year` != "NA") %>%   
   summarize(AccCOR=cor(`mr2d_sats_2nd year`, 
                        `bsl_srt_2nd year`))
+
+# 3rd year 2D Mental Rotation score vs. 3rd year BSL-SRT scores
+apt_wide %>%
+  ggplot(aes(x = `mr2d_sats_3rd year`, y = `bsl_srt_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "3rd year 2D Mental Rotation score vs. 3rd year BSL-SRT scores", 
+       y = "3rd year BSL-SRT score", 
+       x = "3rd year 2D Mental Rotation score")
 ```
 
 
-##### RT 
-```{r mr2d_rt_grade_bsl}
-# Create wider pivot table
-mr2d_rt_grade_bsl_wide <- apt %>% 
-  select(session, group, ppt, mr2d_rt, grade_bsl) %>% 
-  tidyr::pivot_wider(
-    names_from = session,
-    values_from = c(mr2d_rt, grade_bsl))
+#### 3D Mental Rotation 
 
-# Does Reaction Time on the 2D Mental Rotation Task pre-degree predict BSL grades at the end of 1st year?
-mr2d_rt_grade_bsl_wide %>%
-  ggplot(aes(x = `mr2d_rt_pre-degree`, y = `grade_bsl_1st year`)) +
+##### vs BSL Grades
+Does 3D Mental Rotation performance relate to BSL grades?
+``` {r mr3d_bsl_grades}
+# Initial 3D Mental Rotation score vs. 1st year BSL grades
+apt_wide %>%
+  ggplot(aes(x = `mr3d_sats_pre-degree`, y = `grade_bsl_1st year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
   theme_minimal() +
-  labs(title = "Does Reaction Time on the 2D Mental Rotation Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
+  labs(title = "Initial 3D Mental Rotation score vs. 1st year BSL grades", 
+       y = "1st year BSL grade", 
+       x = "Initial 3D Mental Rotation score")
 
-# Does Reaction Time on the 2D Mental Rotation Task pre-degree predict BSL grades at the end of 2nd year?
-mr2d_rt_grade_bsl_wide %>%
-  ggplot(aes(x = `mr2d_rt_pre-degree`, y = `grade_bsl_2nd year`)) +
-  geom_smooth(method= "lm") +
-  geom_point() +
-  theme_minimal() +
-  labs(title = "Does Reaction Time on the 2D Mental Rotation Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
-
-# Does Reaction Time on the 2D Mental Rotation Task after 1 year of study predict BSL grades at the end of 1st year?
-mr2d_rt_grade_bsl_wide %>%
-  ggplot(aes(x = `mr2d_rt_1st year`, y = `grade_bsl_1st year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal() +
-  labs(title = "Does Reaction Time on the 2D Mental Rotation Task after 1 year of study\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = " ")
-
-# Does Reaction Time on the 2D Mental Rotation Task after 1 year of study predict BSL grades at the end of 2nd year?
-mr2d_rt_grade_bsl_wide %>%
-  ggplot(aes(x = `mr2d_rt_1st year`, y = `grade_bsl_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal() +
-  labs(title = "Does Reaction Time on the 2D Mental Rotation Task after 1 year of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
-
-# Does Reaction Time on the 2D Mental Rotation Task after 2 years of study predict BSL grades at the end of 2nd year?
-mr2d_rt_grade_bsl_wide %>%
-  ggplot(aes(x = `mr2d_rt_2nd year`, y = `grade_bsl_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal() +
-  labs(title = "Does Reaction Time on the 2D Mental Rotation Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = " ")
-```
-
-###### Correlations
-```{r}
-mr2d_rt_grade_bsl_wide %>% 
-  filter(`mr2d_rt_pre-degree`!= "NA") %>% 
+apt_wide %>% 
+  filter(`mr3d_sats_pre-degree`!= "NA") %>% 
   filter(`grade_bsl_1st year` != "NA") %>% 
-  summarize(rtCOR=cor(`mr2d_rt_pre-degree`, 
-                       `grade_bsl_1st year`))
-# strongly driven by an outlier
-
-mr2d_rt_grade_bsl_wide %>% 
-  filter(`mr2d_rt_pre-degree`!= "NA") %>% 
-  filter(`grade_bsl_2nd year` != "NA") %>% 
-  summarize(rtCOR=cor(`mr2d_rt_pre-degree`, 
-                       `grade_bsl_2nd year`))
-# strongly driven by an outlier
-
-mr2d_rt_grade_bsl_wide %>% 
-  filter(`mr2d_rt_1st year`!= "NA") %>% 
-  filter(`grade_bsl_1st year` != "NA") %>% 
-  summarize(rtCOR=cor(`mr2d_rt_1st year`, 
-                       `grade_bsl_1st year`))
-# strongly driven by an outlier
-
-
-mr2d_rt_grade_bsl_wide %>% 
-  filter(`mr2d_rt_1st year`!= "NA") %>% 
-  filter(`grade_bsl_2nd year` != "NA") %>% 
-  summarize(rtCOR=cor(`mr2d_rt_1st year`, 
-                       `grade_bsl_2nd year`))
-
-mr2d_rt_grade_bsl_wide %>% 
-  filter(`mr2d_rt_2nd year`!= "NA") %>% 
-  filter(`grade_bsl_2nd year` != "NA") %>%  
-  summarize(rtCOR=cor(`mr2d_rt_2nd year`, 
-                       `grade_bsl_2nd year`))
-```
-
-#### 3D Mental Rotation vs BSL Grades
-##### Accuracy 
-```{r mr3d_acc_grade_bsl}
-# Create wider pivot table
-mr3d_acc_grade_bsl_wide <- apt %>% 
-  select(session, group, ppt, mr3d_acc, grade_bsl) %>% 
-  tidyr::pivot_wider(
-    names_from = session,
-    values_from = c(mr3d_acc, grade_bsl))
-
-# Does Accuracy on the 3D Mental Rotation Task pre-degree predict BSL grades at the end of 1st year?
-mr3d_acc_grade_bsl_wide %>%
-  ggplot(aes(x = `mr3d_acc_pre-degree`, y = `grade_bsl_1st year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
-  theme_minimal() +
-  labs(title = "Does Accuracy on the 3D Mental Rotation Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = "Accuracy on the 3D Mental Rotation Task pre-degree")
-
-# Does Accuracy on the 3D Mental Rotation Task pre-degree predict BSL grades at the end of 2nd year?
-mr3d_acc_grade_bsl_wide %>%
-  ggplot(aes(x = `mr3d_acc_pre-degree`, y = `grade_bsl_2nd year`)) +
-  geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
-  geom_point() +
-  theme_minimal() +
-  labs(title= "Does Accuracy on the 3D Mental Rotation Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Accuracy on the 3D Mental Rotation Task pre-degree") 
-
-# only 2 datapoints for 3DMR @ timepoint 2
-
-# Does Accuracy on the 3D Mental Rotation Task after 2 years of study predict BSL grades at the end of 2nd year?
-mr3d_acc_grade_bsl_wide %>%
-  ggplot(aes(x = `mr3d_acc_2nd year`, y = `grade_bsl_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
-  theme_minimal() +
-  labs(title= "Does Accuracy on the 3D Mental Rotation Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Accuracy on the 3D Mental Rotation Task after 2 years") 
-
-```
-###### Correlations
-```{r}
-mr3d_acc_grade_bsl_wide %>% 
-  filter(`mr3d_acc_pre-degree`!= "NA") %>% 
-  filter(`grade_bsl_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr3d_acc_pre-degree`, 
+  summarize(AccCOR=cor(`mr3d_sats_pre-degree`, 
                        `grade_bsl_1st year`))
 
-mr3d_acc_grade_bsl_wide %>% 
-  filter(`mr3d_acc_pre-degree`!= "NA") %>% 
-  filter(`grade_bsl_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr3d_acc_pre-degree`, 
-                       `grade_bsl_2nd year`))
-
-mr3d_acc_grade_bsl_wide %>% 
-  filter(`mr3d_acc_2nd year`!= "NA") %>% 
-  filter(`grade_bsl_2nd year` != "NA") %>%   
-  summarize(AccCOR=cor(`mr3d_acc_2nd year`, 
-                       `grade_bsl_2nd year`))
-
-```
-
-##### RT 
-```{r mr3d_rt_grade_bsl}
-# Create wider pivot table
-mr3d_rt_grade_bsl_wide <- apt %>% 
-  select(session, group, ppt, mr3d_rt, grade_bsl) %>% 
-  tidyr::pivot_wider(
-    names_from = session,
-    values_from = c(mr3d_rt, grade_bsl))
-
-# Does Reaction Time on the 3D Mental Rotation Task pre-degree predict BSL grades at the end of 1st year?
-mr3d_rt_grade_bsl_wide %>%
-  ggplot(aes(x = `mr3d_rt_pre-degree`, y = `grade_bsl_1st year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal()+
-  labs(title= "Does Reaction Time on the 3D Mental Rotation Task pre-degree\npredict BSL grades at the end of 1st year?", y = "1st year BSL grade", x = "Reaction Time on the 3D Mental Rotation Task pre-degree") 
-
-# Does Reaction Time on the 3D Mental Rotation Task pre-degree predict BSL grades at the end of 2nd year?
-mr3d_rt_grade_bsl_wide %>%
-  ggplot(aes(x = `mr3d_rt_pre-degree`, y = `grade_bsl_2nd year`)) +
+# Initial 3D Mental Rotation score vs. 2nd year BSL grades
+apt_wide %>%
+  ggplot(aes(x = `mr3d_sats_pre-degree`, y = `grade_bsl_2nd year`)) +
   geom_smooth(method= "lm") +
   geom_point() +
-  theme_minimal()+
-  labs(title= "Does Reaction Time on the 3D Mental Rotation Task pre-degree\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Reaction Time on the 3D Mental Rotation Task pre-degree") 
-
-# only 2 datapoints for 3DMR @ timepoint 2
-
-
-# Does Reaction Time on the 3D Mental Rotation Task after 2 years of study predict BSL grades at the end of 2nd year?
-mr3d_rt_grade_bsl_wide %>%
-  ggplot(aes(x = `mr3d_rt_2nd year`, y = `grade_bsl_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
   theme_minimal() +
-  labs(title= "Does Reaction Time on the 3D Mental Rotation Task after 2 years of study\npredict BSL grades at the end of 2nd year?", y = "2nd year BSL grade", x = "Reaction Time on the 3D Mental Rotation Task after 2 years of study") 
-
-```
-
-###### Correlations
-```{r}
-mr3d_rt_grade_bsl_wide %>% 
-  filter(`mr3d_rt_pre-degree`!= "NA") %>% 
-  filter(`grade_bsl_1st year` != "NA") %>% 
-  summarize(rtCOR=cor(`mr3d_rt_pre-degree`, 
-                       `grade_bsl_1st year`))
-
-mr3d_rt_grade_bsl_wide %>% 
-  filter(`mr3d_rt_pre-degree`!= "NA") %>% 
-  filter(`grade_bsl_2nd year` != "NA") %>% 
-  summarize(rtCOR=cor(`mr3d_rt_pre-degree`, 
-                       `grade_bsl_2nd year`))
-
-mr3d_rt_grade_bsl_wide %>% 
-  filter(`mr3d_rt_2nd year`!= "NA") %>% 
-  filter(`grade_bsl_2nd year` != "NA") %>%   
-  summarize(rtCOR=cor(`mr3d_rt_2nd year`, 
-                       `grade_bsl_2nd year`))
-```
-
-#### Barratt Impulsiveness Scale vs BSL Grades
-
-```{r bis_tot_grade_bsl}
-# Create wider pivot table
-bis_tot_grade_bsl_wide <- apt %>% 
-  select(session, group, ppt, bis_tot, grade_bsl) %>% 
-  tidyr::pivot_wider(
-    names_from = session,
-    values_from = c(bis_tot, grade_bsl))
-
-# Does Total Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study predict BSL grades at the end of 2nd year?
-bis_tot_grade_bsl_wide %>%
-  filter(`bis_tot_2nd year` != "na") %>% 
-  filter(`grade_bsl_2nd year` != "na") %>% 
-  ggplot(aes(x = `bis_tot_2nd year`, y = `grade_bsl_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal() +
-  labs(title= "Does Impulsivity predict BSL grades at the end of 2nd year?", 
+  labs(title = "Initial 3D Mental Rotation score vs. 2nd year BSL grades", 
        y = "2nd year BSL grade", 
-       x = " ")
+       x = "Initial 3D Mental Rotation score")
 
-# Correlation
-bis_tot_grade_bsl_wide %>% 
-  filter(`bis_tot_2nd year`!= "NA") %>% 
+apt_wide %>% 
+  filter(`mr3d_sats_pre-degree`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>% 
-  summarize(COR=cor(`bis_tot_2nd year`, 
+  summarize(AccCOR=cor(`mr3d_sats_pre-degree`, 
+                       `grade_bsl_2nd year`))
+
+# 1st year 3D Mental Rotation score vs. 1st year BSL grades
+apt_wide %>%
+  ggplot(aes(x = `mr3d_sats_1st year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "1st year 3D Mental Rotation score vs. 1st year BSL grades", 
+       y = "1st year BSL grade", 
+       x = "1st year 3D Mental Rotation score")
+
+apt_wide %>% 
+  filter(`mr3d_sats_1st year`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`mr3d_sats_1st year`, 
+                       `grade_bsl_1st year`))
+
+# 1st year 3D Mental Rotation score vs. 2nd year BSL grades
+apt_wide %>%
+  ggplot(aes(x = `mr3d_sats_1st year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "1st year 3D Mental Rotation score vs. 2nd year BSL grades", 
+       y = "1st year BSL grade", 
+       x = "2nd year 3D Mental Rotation score")
+
+apt_wide %>% 
+  filter(`mr3d_sats_1st year`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`mr3d_sats_1st year`, 
+                       `grade_bsl_2nd year`))
+
+# 2nd year 3D Mental Rotation score vs. 2nd year BSL grades
+apt_wide %>%
+  ggplot(aes(x = `mr3d_sats_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "2nd year 3D Mental Rotation score vs. 2nd year BSL grades", 
+       y = "2nd year BSL grade", 
+       x = "2nd year 3D Mental Rotation score")
+
+apt_wide %>% 
+  filter(`mr3d_sats_2nd year`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>%   
+  summarize(AccCOR=cor(`mr3d_sats_2nd year`, 
                        `grade_bsl_2nd year`))
 
 ```
 
-#### MLAT Number Learning
-```{r mlat_acc_grade_bsl}
-# Create wider pivot table
-mlat_acc_grade_bsl_wide <- apt %>% 
-  select(session, group, ppt, mlat_acc, grade_bsl) %>% 
-  tidyr::pivot_wider(
-    names_from = session,
-    values_from = c(mlat_acc, grade_bsl))
+##### vs BSL-SRT
+Does 3D Mental Rotation performance relate to BSL Sentence Reproduction Task?
+``` {r mr3d_bsl_srt}
+# Initial 3D Mental Rotation score vs. 1st year BSL-SRT scores
+apt_wide %>%
+  ggplot(aes(x = `mr3d_sats_pre-degree`, y = `bsl_srt_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Initial 3D Mental Rotation score vs. 1st year BSL-SRT scores", 
+       y = "1st year BSL-SRT score", 
+       x = "Initial 3D Mental Rotation score")
 
-# Does initial MLAT Number Learning Accuracy predict BSL grades at the end of 2nd year?
-mlat_acc_grade_bsl_wide %>%
+apt_wide %>% 
+  filter(`mr3d_sats_pre-degree`!= "NA") %>% 
+  filter(`bsl_srt_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`mr3d_sats_pre-degree`, 
+                       `bsl_srt_1st year`))
+
+# Initial 3D Mental Rotation score vs. 2nd year BSL-SRT scores
+apt_wide %>%
+  ggplot(aes(x = `mr3d_sats_pre-degree`, y = `bsl_srt_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Initial 3D Mental Rotation score vs. 2nd year BSL-SRT scores", 
+       y = "2nd year BSL-SRT score", 
+       x = "Initial 3D Mental Rotation score")
+
+apt_wide %>% 
+  filter(`mr3d_sats_pre-degree`!= "NA") %>% 
+  filter(`bsl_srt_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`mr3d_sats_pre-degree`, 
+                       `bsl_srt_2nd year`))
+
+# Initial 3D Mental Rotation score vs. 3rd year BSL-SRT scores
+apt_wide %>%
+  ggplot(aes(x = `mr3d_sats_pre-degree`, y = `bsl_srt_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Initial 3D Mental Rotation score vs. 3rd year BSL-SRT scores", 
+       y = "3rd year BSL-SRT score", 
+       x = "Initial 3D Mental Rotation score")
+
+apt_wide %>% 
+  filter(`mr3d_sats_pre-degree`!= "NA") %>% 
+  filter(`bsl_srt_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`mr3d_sats_pre-degree`, 
+                       `bsl_srt_3rd year`))
+
+# 1st year 3D Mental Rotation score vs. 1st year BSL-SRT scores
+apt_wide %>%
+  ggplot(aes(x = `mr3d_sats_1st year`, y = `bsl_srt_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "1st year 3D Mental Rotation score vs. 1st year BSL-SRT scores", 
+       y = "1st year BSL-SRT score", 
+       x = "1st year 3D Mental Rotation score")
+
+apt_wide %>% 
+  filter(`mr3d_sats_1st year`!= "NA") %>% 
+  filter(`bsl_srt_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`mr3d_sats_1st year`, 
+                       `bsl_srt_1st year`))
+
+# 1st year 3D Mental Rotation score vs. 2nd year BSL-SRT scores
+apt_wide %>%
+  ggplot(aes(x = `mr3d_sats_1st year`, y = `bsl_srt_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "1st year 3D Mental Rotation score vs. 2nd year BSL-SRT scores", 
+       y = "1st year BSL-SRT score", 
+       x = "2nd year 3D Mental Rotation score")
+
+apt_wide %>% 
+  filter(`mr3d_sats_1st year`!= "NA") %>% 
+  filter(`bsl_srt_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`mr3d_sats_1st year`, 
+                       `bsl_srt_2nd year`))
+
+# 2nd year 3D Mental Rotation score vs. 2nd year BSL-SRT scores
+apt_wide %>%
+  ggplot(aes(x = `mr3d_sats_2nd year`, y = `bsl_srt_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "2nd year 3D Mental Rotation score vs. 2nd year BSL-SRT scores", 
+       y = "2nd year BSL-SRT score", 
+       x = "2nd year 3D Mental Rotation score")
+
+apt_wide %>% 
+  filter(`mr3d_sats_2nd year`!= "NA") %>% 
+  filter(`bsl_srt_2nd year` != "NA") %>%   
+  summarize(AccCOR=cor(`mr3d_sats_2nd year`, 
+                       `bsl_srt_2nd year`))
+
+# 3rd year 3D Mental Rotation score vs. 3rd year BSL-SRT scores
+apt_wide %>%
+  ggplot(aes(x = `mr3d_sats_3rd year`, y = `bsl_srt_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "3rd year 3D Mental Rotation score vs. 3rd year BSL-SRT scores", 
+       y = "3rd year BSL-SRT score", 
+       x = "3rd year 3D Mental Rotation score")
+
+apt_wide %>% 
+  filter(`mr3d_sats_3rd year`!= "NA") %>% 
+  filter(`bsl_srt_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`mr3d_sats_3rd year`, 
+                       `bsl_srt_3rd year`))
+```
+#### MLAT Number Learning
+##### vs BSL Grades
+```{r mlat_grade_bsl}
+# Initial MLAT Number Learning Accuracy vs. BSL grades 1st year
+apt_wide %>%
+  filter(`mlat_acc_pre-degree` != "na") %>% 
+  filter(`grade_bsl_1st year` != "na") %>% 
+  ggplot(aes(x = `mlat_acc_pre-degree`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Initial MLAT Number Learning Accuracy vs. BSL grades 1st year", 
+       x = "MLAT Number Learning Accuracy")
+
+apt_wide %>% 
+  filter(`mlat_acc_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`mlat_acc_pre-degree`, 
+                       `grade_bsl_1st year`))
+
+# Initial MLAT Number Learning Accuracy vs. BSL grades 2nd year
+apt_wide %>%
   filter(`mlat_acc_pre-degree` != "na") %>% 
   filter(`grade_bsl_2nd year` != "na") %>% 
   ggplot(aes(x = `mlat_acc_pre-degree`, y = `grade_bsl_2nd year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
   theme_minimal() +
-  labs(title= "Does initial MLAT Number Learning Accuracy predict BSL grades at the end of 2nd year?", x = "MLAT Number Learning Accuracy")
+  labs(title= "Initial MLAT Number Learning Accuracy vs. BSL grades 2nd year", 
+       x = "MLAT Number Learning Accuracy")
 
+apt_wide %>% 
+  filter(`mlat_acc_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`mlat_acc_pre-degree`, 
+                       `grade_bsl_2nd year`))
 ```
 
-### Predictors of Interpreting performance
+##### vs BSL-SRT
+```{r mlat_bsl-srt}
+# Initial MLAT Number Learning Accuracy vs. BSL-SRT 3rd year
+apt_wide %>%
+  filter(`mlat_acc_pre-degree` != "na") %>% 
+  filter(`bsl_srt_3rd year` != "na") %>% 
+  ggplot(aes(x = `mlat_acc_pre-degree`, y = `bsl_srt_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Initial MLAT Number Learning Accuracy vs. BSL-SRT score 3rd year", 
+       x = "MLAT Number Learning Accuracy")
 
-#### Dual N-Back vs Interpreting Grades
-##### Letter Matching
-```{r nback_lett_grade_terp}
-# Create wider pivot table
-nback_lett_grade_terp_wide <- apt %>% 
-  select(session, group, ppt, nback_lett, grade_terp) %>% 
-  tidyr::pivot_wider(
-    names_from = session,
-    values_from = c(nback_lett, grade_terp))
+apt_wide %>% 
+  filter(`mlat_acc_pre-degree`!= "NA") %>% 
+  filter(`bsl_srt_3rd year` != "NA") %>% 
+  summarize(AccCOR=cor(`mlat_acc_pre-degree`, 
+                       `bsl_srt_3rd year`))
+```
+### No predicted impact on BSL
 
-# Does Accuracy in Letter Matching on the Dual N-Back Task pre-degree predict Interpreting Grades at the end of 1st year?
-nback_lett_grade_terp_wide %>%
-  ggplot(aes(x = `nback_lett_pre-degree`, y = `grade_terp_1st year`)) +
+#### Kirklees Sentence Reading
+
+##### vs BSL Grades
+```{r kirk_acc_grade_bsl}
+# Kirklees Sentence Reading pre-degree vs. BSL grades 1st year
+apt_wide %>%
+  ggplot(aes(x = `kirk_acc_pre-degree`, y = `grade_bsl_1st year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
   scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
   theme_minimal() +
-  labs(title = "Does Accuracy in Letter Matching on the Dual N-Back Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = "Accuracy in Letter Matching on the Dual N-Back Task pre-degree")
+  labs(title = "Kirklees Sentence Reading pre-degree vs. BSL grades 1st year", y = "1st year BSL grade", x = "Kirklees Sentence Reading pre-degree")
 
-# Does Accuracy in Letter Matching on the Dual N-Back Task pre-degree predict Interpreting Grades at the end of 2nd year?
-nback_lett_grade_terp_wide %>%
-  ggplot(aes(x = `nback_lett_pre-degree`, y = `grade_terp_2nd year`)) +
+apt_wide %>% 
+  filter(`kirk_acc_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`kirk_acc_pre-degree`, 
+                       `grade_bsl_1st year`))
+
+# Kirklees Sentence Reading pre-degree vs. BSL grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `kirk_acc_pre-degree`, y = `grade_bsl_2nd year`)) +
   geom_smooth(method= "lm") +
   scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
   geom_point() +
   theme_minimal() +
-  labs(title = "Does Accuracy in Letter Matching on the Dual N-Back Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy in Letter Matching on the Dual N-Back Task pre-degree")
+  labs(title = "Kirklees Sentence Reading pre-degree vs. BSL grades 2nd year", y = "2nd year BSL grade", x = "Kirklees Sentence Reading pre-degree")
 
-# Does Accuracy in Letter Matching on the Dual N-Back Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
-nback_lett_grade_terp_wide %>%
-  ggplot(aes(x = `nback_lett_1st year`, y = `grade_terp_2nd year`)) +
+apt_wide %>% 
+  filter(`kirk_acc_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`kirk_acc_pre-degree`, 
+                       `grade_bsl_2nd year`))
+
+# Kirklees Sentence Reading 1st year vs. BSL grades 1st year
+apt_wide %>%
+  ggplot(aes(x = `kirk_acc_1st year`, y = `grade_bsl_1st year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
   scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
   theme_minimal() +
-  labs(title = "Does Accuracy in Letter Matching on the Dual N-Back Task after 1 year of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy in Letter Matching on the Dual N-Back Task after 1 year")
+  labs(title = "Kirklees Sentence Reading 1st year vs. BSL grades 1st year", y = "1st year BSL grade", x = "Kirklees Sentence Reading after 1 year")
 
-# Does Accuracy in Letter Matching on the Dual N-Back Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
-nback_lett_grade_terp_wide %>%
-  ggplot(aes(x = `nback_lett_2nd year`, y = `grade_terp_2nd year`)) +
+apt_wide %>% 
+  filter(`kirk_acc_1st year`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`kirk_acc_1st year`, 
+                       `grade_bsl_1st year`))
+
+# Kirklees Sentence Reading 1st year vs. BSL grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `kirk_acc_1st year`, y = `grade_bsl_2nd year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
   scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
   theme_minimal() +
-  labs(title = "Does Accuracy in Letter Matching on the Dual N-Back Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy in Letter Matching on the Dual N-Back Task after 2 years")
+  labs(title = "Kirklees Sentence Reading 1st year vs. BSL grades 2nd year", 
+       y = "2nd year BSL grade", 
+       x = "Kirklees Sentence Reading after 1 year")
+
+apt_wide %>% 
+  filter(`kirk_acc_1st year`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`kirk_acc_1st year`, 
+                       `grade_bsl_2nd year`))
+
+# Kirklees Sentence Reading 2nd year vs. BSL grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `kirk_acc_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Kirklees Sentence Reading 2nd year vs. BSL grades 2nd year", 
+       y = "2nd year BSL grade", 
+       x = "Kirklees Sentence Reading 2nd year")
+
+apt_wide %>% 
+  filter(`kirk_acc_2nd year`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>%
+  summarize(AccCOR=cor(`kirk_acc_2nd year`, 
+                       `grade_bsl_2nd year`))
+```
+##### vs BSL-SRT
+Does Kirklees Sentence Reading performance relate to BSL Sentence Reproduction Task?
+``` {r kirk_bsl_srt}
+# Initial Kirklees Sentence Reading score vs. 3rd year BSL-SRT scores
+apt_wide %>%
+  ggplot(aes(x = `kirk_acc_pre-degree`, y = `bsl_srt_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Initial Kirklees Sentence Reading score vs. 3rd year BSL-SRT scores", 
+       y = "3rd year BSL-SRT score", 
+       x = "Initial Kirklees Sentence Reading score")
+
+apt_wide %>% 
+  filter(`kirk_acc_pre-degree`!= "NA") %>% 
+  filter(`bsl_srt_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`kirk_acc_pre-degree`, 
+                       `bsl_srt_3rd year`))
+
+# 2nd year Kirklees Sentence Reading score vs. 3rd year BSL-SRT scores
+apt_wide %>%
+  ggplot(aes(x = `kirk_acc_2nd year`, y = `bsl_srt_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "2nd year Kirklees Sentence Reading score vs. 3rd year BSL-SRT scores", 
+       y = "3rd year BSL-SRT score", 
+       x = "2nd year Kirklees Sentence Reading score")
+
+apt_wide %>% 
+  filter(`kirk_acc_2nd year`!= "NA") %>% 
+  filter(`bsl_srt_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`kirk_acc_2nd year`, 
+                       `bsl_srt_3rd year`))
 ```
 
-##### Spatial Matching
-```{r nback_spat_grade_terp}
-# Create wider pivot table
-nback_spat_grade_terp_wide <- apt %>% 
-  select(session, group, ppt, nback_spat, grade_terp) %>% 
-  tidyr::pivot_wider(
-    names_from = session,
-    values_from = c(nback_spat, grade_terp))
+#### KBIT-2 Matrices 
 
-# Does Accuracy in Spatial Matching on the Dual N-Back Task pre-degree predict Interpreting Grades at the end of 1st year?
-nback_spat_grade_terp_wide %>%
-  ggplot(aes(x = `nback_spat_pre-degree`, y = `grade_terp_1st year`)) +
+##### vs BSL Grades
+```{r kbit_acc_grade_bsl}
+# KBIT-2 Matrices pre-degree vs. BSL grades 1st year
+apt_wide %>%
+  ggplot(aes(x = `kbit_acc_pre-degree`, y = `grade_bsl_1st year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
   theme_minimal() +
-  labs(title = "Does Accuracy in Spatial Matching on the Dual N-Back Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = "Accuracy in Spatial Matching on the Dual N-Back Task pre-degre")
+  labs(title = "KBIT-2 Matrices pre-degree vs. BSL grades 1st year", 
+       y = "1st year BSL grade", x = " ")
 
-# Does Accuracy in Spatial Matching on the Dual N-Back Task pre-degree predict Interpreting Grades at the end of 2nd year?
-nback_spat_grade_terp_wide %>%
-  ggplot(aes(x = `nback_spat_pre-degree`, y = `grade_terp_2nd year`)) +
+apt_wide %>% 
+  filter(`kbit_acc_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`kbit_acc_pre-degree`, 
+                       `grade_bsl_1st year`))
+
+# KBIT-2 Matrices pre-degree vs. BSL grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `kbit_acc_pre-degree`, y = `grade_bsl_2nd year`)) +
   geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
   geom_point() +
   theme_minimal() +
-  labs(title = "Does Accuracy in Spatial Matching on the Dual N-Back Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy in Spatial Matching on the Dual N-Back Task pre-degree")
+  labs(title = "KBIT-2 Matrices pre-degree vs. BSL grades 2nd year", 
+       y = "2nd year BSL grade", x = " ")
 
-# Does Accuracy in Spatial Matching on the Dual N-Back Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
-nback_spat_grade_terp_wide %>%
-  ggplot(aes(x = `nback_spat_1st year`, y = `grade_terp_2nd year`)) +
+apt_wide %>% 
+  filter(`kbit_acc_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`kbit_acc_pre-degree`, 
+                       `grade_bsl_2nd year`))
+
+# KBIT-2 Matrices 1st year vs. BSL grades 1st year
+apt_wide %>%
+  ggplot(aes(x = `kbit_acc_1st year`, y = `grade_bsl_1st year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
   theme_minimal() +
-  labs(title = "Does Accuracy in Spatial Matching on the Dual N-Back Task after 1 year of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy in Spatial Matching on the Dual N-Back Task after 1 year")
+  labs(title = "KBIT-2 Matrices 1st year vs. BSL grades 1st year", 
+       y = "1st year BSL grade", x = " ")
 
-# Does Accuracy in Spatial Matching on the Dual N-Back Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
-nback_spat_grade_terp_wide %>%
-  ggplot(aes(x = `nback_spat_2nd year`, y = `grade_terp_2nd year`)) +
+apt_wide %>% 
+  filter(`kbit_acc_1st year`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`kbit_acc_1st year`, 
+                       `grade_bsl_1st year`))
+
+# KBIT-2 Matrices 1st year vs. BSL grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `kbit_acc_1st year`, y = `grade_bsl_2nd year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
   theme_minimal() +
-  labs(title = "Does Accuracy in Spatial Matching on the Dual N-Back Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy in Spatial Matching on the Dual N-Back Task after 2 years")
+  labs(title = "KBIT-2 Matrices 1st year vs. BSL grades 2nd year", 
+       y = "2nd year BSL grade", x = " ")
+
+apt_wide %>% 
+  filter(`kbit_acc_1st year`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`kbit_acc_1st year`, 
+                       `grade_bsl_2nd year`))
+
+# KBIT-2 Matrices 2nd year vs. BSL grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `kbit_acc_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "KBIT-2 Matrices 2nd year vs. BSL grades 2nd year", 
+       y = "2nd year BSL grade", x = " ")
+
+apt_wide %>% 
+  filter(`kbit_acc_2nd year`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>%
+  summarize(AccCOR=cor(`kbit_acc_2nd year`, 
+                       `grade_bsl_2nd year`))
+```
+
+##### vs BSL-SRT
+Does KBIT-2 Matrices performance relate to BSL Sentence Reproduction Task?
+``` {r kbit_bsl_srt}
+# Initial KBIT-2 Matrices score vs. 3rd year BSL-SRT scores
+apt_wide %>%
+  ggplot(aes(x = `kbit_acc_pre-degree`, y = `bsl_srt_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Initial KBIT-2 Matrices score vs. 3rd year BSL-SRT scores", 
+       y = "3rd year BSL-SRT score", 
+       x = "Initial KBIT-2 Matrices score")
+
+apt_wide %>% 
+  filter(`kbit_acc_pre-degree`!= "NA") %>% 
+  filter(`bsl_srt_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`kbit_acc_pre-degree`, 
+                       `bsl_srt_3rd year`))
+
+# 2nd year KBIT-2 Matrices score vs. 3rd year BSL-SRT scores
+apt_wide %>%
+  ggplot(aes(x = `kbit_acc_2nd year`, y = `bsl_srt_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "2nd year KBIT-2 Matrices score vs. 3rd year BSL-SRT scores", 
+       y = "3rd year BSL-SRT score", 
+       x = "2nd year KBIT-2 Matrices score")
+
+apt_wide %>% 
+  filter(`kbit_acc_2nd year`!= "NA") %>% 
+  filter(`bsl_srt_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`kbit_acc_2nd year`, 
+                       `bsl_srt_3rd year`))
+```
+
+#### Digit Span 
+##### vs BSL Grades
+```{r dspan_bsl}
+# Digit Span pre-degree vs. BSL grades 1st year
+apt_wide %>%
+  ggplot(aes(x = `dspan_corr_pre-degree`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Digit Span pre-degree vs. BSL grades 1st year", y = "1st year BSL grade", x = " ")
+
+# Digit Span pre-degree vs. BSL grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `dspan_corr_pre-degree`, y = `grade_bsl_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Digit Span pre-degree vs. BSL grades 2nd year", y = "2nd year BSL grade", x = " ")
+
+# No datapoints for Digit Span @ '1 year of study'
+
+# Digit Span 2nd year vs. BSL grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `dspan_corr_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Digit Span 2nd year vs BSL grades 2nd year", y = "2nd year BSL grade", x = " ")
+```
+
+##### vs BSL-SRT
+Does Digit Span score relate to BSL-SRT score?
+``` {r dspan_bsl_srt}
+# Initial Digit Span score vs. 3rd year BSL-SRT scores
+apt_wide %>%
+  ggplot(aes(x = `dspan_corr_pre-degree`, y = `bsl_srt_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Initial Digit Span score vs. 3rd year BSL-SRT scores", 
+       y = "3rd year BSL-SRT score", 
+       x = "Initial Digit Span score")
+
+apt_wide %>% 
+  filter(`dspan_corr_pre-degree`!= "NA") %>% 
+  filter(`bsl_srt_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`dspan_corr_pre-degree`, 
+                       `bsl_srt_3rd year`))
+
+# 2nd year Digit Span score vs. 3rd year BSL-SRT scores
+apt_wide %>%
+  ggplot(aes(x = `dspan_corr_2nd year`, y = `bsl_srt_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "2nd year Digit Span score vs. 3rd year BSL-SRT scores", 
+       y = "3rd year BSL-SRT score", 
+       x = "2nd year Digit Span score")
+
+apt_wide %>% 
+  filter(`dspan_corr_2nd year`!= "NA") %>% 
+  filter(`bsl_srt_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`dspan_corr_2nd year`, 
+                       `bsl_srt_3rd year`))
+```
+
+#### Barratt Impulsiveness Scale 
+##### vs BSL Grades
+```{r bis_grade_bsl}
+# Barratt Impulsiveness Scale 2nd year vs BSL grades 2nd year
+apt_wide %>%
+  filter(`bis_tot_2nd year` != "na") %>% 
+  filter(`grade_bsl_2nd year` != "na") %>% 
+  ggplot(aes(x = `bis_tot_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Impulsivity vs. BSL grades 2nd year", 
+       y = "2nd year BSL grade", x = "BIS 2nd year")
+
+apt_wide %>% 
+  filter(`bis_tot_2nd year`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>% 
+  summarize(COR=cor(`bis_tot_2nd year`, 
+                       `grade_bsl_2nd year`))
+```
+
+##### vs BSL-SRT
+```{r bis_bsl_srt}
+# Barratt Impulsiveness Scale 2nd year vs BSL-SRT 3rd year
+apt_wide %>%
+  filter(`bis_tot_2nd year` != "na") %>% 
+  filter(`bsl_srt_3rd year` != "na") %>% 
+  ggplot(aes(x = `bis_tot_2nd year`, y = `bsl_srt_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Impulsivity 2nd year vs. BSL grades 3rd year", 
+       y = "3rd year BSL grade", x = "BIS Score 2nd year")
+
+apt_wide %>% 
+  filter(`bis_tot_2nd year`!= "NA") %>% 
+  filter(`bsl_srt_3rd year` != "NA") %>% 
+  summarize(COR=cor(`bis_tot_2nd year`, 
+                       `bsl_srt_3rd year`))
 ```
 
 
-##### Combined accuracy
-```{r nback_comb_grade_terp}
-# Create wider pivot table
-nback_comb_grade_terp_wide <- apt %>% 
-  select(session, group, ppt, nback_comb, grade_terp) %>% 
-  tidyr::pivot_wider(
-    names_from = session,
-    values_from = c(nback_comb, grade_terp))
+### Predicted impact on interpreting
 
-# Does Combined Accuracy on the Dual N-Back Task pre-degree predict Interpreting Grades at the end of 1st year?
-nback_comb_grade_terp_wide %>%
+#### Dual N-Back 
+
+##### vs Interpreting Grades
+```{r nback_terp_grade}
+# Dual N-Back pre-degree vs. Interpreting Grades 1st year
+apt_wide %>%
   ggplot(aes(x = `nback_comb_pre-degree`, y = `grade_terp_1st year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
   scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
   theme_minimal() +
-  labs(title = "Does Combined Accuracy on the Dual N-Back Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = "Combined Accuracy on the Dual N-Back Task pre-degree")
+  labs(title = " Dual N-Back pre-degree vs. Interpreting Grades 1st year", 
+       y = "1st year Interpreting grade", x = "Dual N-Back pre-degree")
 
-# Does Combined Accuracy on the Dual N-Back Task pre-degree predict Interpreting Grades at the end of 2nd year?
-nback_comb_grade_terp_wide %>%
-  ggplot(aes(x = `nback_comb_pre-degree`, y = `grade_terp_2nd year`)) +
-  geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
-  geom_point() +
-  theme_minimal() +
-  labs(title = "Does Combined Accuracy on the Dual N-Back Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Combined Accuracy on the Dual N-Back Task pre-degree")
-
-# Does Combined Accuracy on the Dual N-Back Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
-nback_comb_grade_terp_wide %>%
-  ggplot(aes(x = `nback_comb_1st year`, y = `grade_terp_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
-  theme_minimal() +
-  labs(title = "Does Combined Accuracy on the Dual N-Back Task after 1 year of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Combined Accuracy on the Dual N-Back Task after 1 year of study")
-
-# Does Combined Accuracy on the Dual N-Back Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
-nback_comb_grade_terp_wide %>%
-  ggplot(aes(x = `nback_comb_2nd year`, y = `grade_terp_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
-  theme_minimal() +
-  labs(title = "Does Combined Accuracy on the Dual N-Back Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Combined Accuracy on the Dual N-Back Task after 2 years of study")
-```
-###### Correlations
-```{r}
-nback_comb_grade_terp_wide %>% 
+apt_wide %>% 
   filter(`nback_comb_pre-degree`!= "NA") %>% 
   filter(`grade_terp_1st year` != "NA") %>% 
   summarize(AccCOR=cor(`nback_comb_pre-degree`, 
                        `grade_terp_1st year`))
 
-nback_comb_grade_terp_wide %>% 
+# Dual N-Back pre-degree vs. Interpreting Grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `nback_comb_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  geom_point() +
+  theme_minimal() +
+  labs(title = " Dual N-Back pre-degree vs. Interpreting Grades 2nd year", 
+       y = "2nd year Interpreting grade", x = "Dual N-Back pre-degree")
+
+apt_wide %>% 
   filter(`nback_comb_pre-degree`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>% 
   summarize(AccCOR=cor(`nback_comb_pre-degree`, 
                        `grade_terp_2nd year`))
 
-nback_comb_grade_terp_wide %>% 
+# Dual N-Back 1st year vs. Interpreting Grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `nback_comb_1st year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = " Dual N-Back 1st year vs. Interpreting Grades 2nd year", 
+       y = "2nd year Interpreting grade", x = "Dual N-Back 1st year")
+
+apt_wide %>% 
   filter(`nback_comb_1st year`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>% 
   summarize(AccCOR=cor(`nback_comb_1st year`, 
                        `grade_terp_2nd year`))
 
-nback_comb_grade_terp_wide %>% 
+# Dual N-Back 2nd year vs. Interpreting Grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `nback_comb_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = " Dual N-Back 2nd year vs. Interpreting Grades 2nd year", 
+       y = "2nd year Interpreting grade", x = "Dual N-Back 2nd year")
+
+apt_wide %>% 
   filter(`nback_comb_2nd year`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>%   
   summarize(AccCOR=cor(`nback_comb_2nd year`, 
                        `grade_terp_2nd year`))
 ```
 
-#### Corsi Blocks vs Interpreting Grades 
+##### vs Eng>BSL interpreting
+```{r nback_e2b_terp}
+#  Dual N-Back pre-degree vs. Eng to BSL interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `nback_comb_pre-degree`, y = `terp_e2b_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = " Dual N-Back pre-degree vs. Eng to BSL interpreting 3rd year",
+       y = "Eng to BSL interpreting 3rd year", x = "Dual N-Back pre-degree")
 
+apt_wide %>% 
+  filter(`nback_comb_pre-degree`!= "NA") %>% 
+  filter(`terp_e2b_3rd year` != "NA") %>% 
+  summarize(AccCOR=cor(`nback_comb_pre-degree`, 
+                       `terp_e2b_3rd year`))
+
+#  Dual N-Back 2nd year vs. Eng to BSL interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `nback_comb_2nd year`, y = `terp_e2b_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = " Dual N-Back 2nd year vs. Eng to BSL interpreting 3rd year",
+       y = "Eng to BSL interpreting 3rd year", x = "Dual N-Back 2nd year")
+
+apt_wide %>% 
+  filter(`nback_comb_2nd year`!= "NA") %>% 
+  filter(`terp_e2b_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`nback_comb_2nd year`, 
+                       `terp_e2b_3rd year`))
+
+#  Dual N-Back 3rd year vs. Eng to BSL interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `nback_comb_3rd year`, y = `terp_e2b_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = " Dual N-Back 3rd year vs. Eng to BSL interpreting 3rd year",
+       y = "Eng to BSL interpreting 3rd year", x = "Dual N-Back 3rd year")
+
+apt_wide %>% 
+  filter(`nback_comb_3rd year`!= "NA") %>% 
+  filter(`terp_e2b_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`nback_comb_3rd year`, 
+                       `terp_e2b_3rd year`))
+```
+
+##### vs BSL>Eng interpreting
+```{r nback_b2e_terp}
+# Dual N-Back pre-degree vs. BSL to Eng interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `nback_comb_pre-degree`, y = `terp_b2e_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = " Dual N-Back pre-degree vs. BSL to Eng interpreting 3rd year",
+       y = "BSL to Eng interpreting 3rd year", x = "Dual N-Back pre-degree")
+
+apt_wide %>% 
+  filter(`nback_comb_pre-degree`!= "NA") %>% 
+  filter(`terp_b2e_3rd year` != "NA") %>% 
+  summarize(AccCOR=cor(`nback_comb_pre-degree`, 
+                       `terp_b2e_3rd year`))
+
+# Dual N-Back 2nd year vs. BSL to Eng interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `nback_comb_2nd year`, y = `terp_b2e_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = " Dual N-Back 2nd year vs. BSL to Eng interpreting 3rd year",
+       y = "BSL to Eng interpreting 3rd year", x = "Dual N-Back 2nd year")
+
+apt_wide %>% 
+  filter(`nback_comb_2nd year`!= "NA") %>% 
+  filter(`terp_b2e_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`nback_comb_2nd year`, 
+                       `terp_b2e_3rd year`))
+
+# Dual N-Back 3rd year vs. BSL to Eng interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `nback_comb_3rd year`, y = `terp_b2e_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = " Dual N-Back 3rd year vs. BSL to Eng interpreting 3rd year",
+       y = "BSL to Eng interpreting 3rd year", x = "Dual N-Back 3rd year")
+
+apt_wide %>% 
+  filter(`nback_comb_3rd year`!= "NA") %>% 
+  filter(`terp_b2e_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`nback_comb_3rd year`, 
+                       `terp_b2e_3rd year`))
+```
+
+#### Corsi Blocks 
+##### vs Interpreting Grades 
 ```{r corsi_terp}
-# Create wider pivot table
-corsi_terp_wide <- apt %>% 
-  select(session, group, ppt, corsi_corr, grade_terp) %>% 
-  tidyr::pivot_wider(
-    names_from = session,
-    values_from = c(corsi_corr, grade_terp))
-
-# Do Correct Responses on the Corsi Blocks Task pre-degree predict Interpreting Grades at the end of 1st year?
-corsi_terp_wide %>%
+# Corsi Blocks pre-degree vs. Interpreting Grades 1st year
+apt_wide %>%
   ggplot(aes(x = `corsi_corr_pre-degree`, y = `grade_terp_1st year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
   theme_minimal() +
-  labs(title = "Do Correct Responses on the Corsi Blocks Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+  labs(title = "Corsi Blocks pre-degree vs. Interpreting Grades 1st year", 
+       y = "1st year Interpreting grade", x = "Corsi Blocks pre-degree")
 
-# Do Correct Responses on the Corsi Blocks Task pre-degree predict Interpreting Grades at the end of 2nd year?
-corsi_terp_wide %>%
+# Corsi Blocks pre-degree vs. Interpreting Grades 2nd year
+apt_wide %>%
   ggplot(aes(x = `corsi_corr_pre-degree`, y = `grade_terp_2nd year`)) +
   geom_smooth(method= "lm") +
   geom_point() +
   theme_minimal() +
-  labs(title = "Do Correct Responses on the Corsi Blocks Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+  labs(title = "Corsi Blocks pre-degree vs. Interpreting Grades 2nd year", 
+       y = "2nd year Interpreting grade", x = "Corsi Blocks pre-degree")
 
-# Do Correct Responses on the Corsi Blocks Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
-corsi_terp_wide %>%
+# Corsi Blocks 1st year vs. Interpreting Grades 2nd year
+apt_wide %>%
   ggplot(aes(x = `corsi_corr_1st year`, y = `grade_terp_2nd year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
   theme_minimal() +
-  labs(title = "Do Correct Responses on the Corsi Blocks Task after 1 year of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+  labs(title = "Corsi Blocks 1st year vs. Interpreting Grades 2nd year", 
+       y = "2nd year Interpreting grade", x = "Corsi Blocks 1st year")
 
-# Do Correct Responses on the Corsi Blocks Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
-corsi_terp_wide %>%
+# Corsi Blocks 2nd year vs. Interpreting Grades 2nd year
+apt_wide %>%
   ggplot(aes(x = `corsi_corr_2nd year`, y = `grade_terp_2nd year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
   theme_minimal() +
-  labs(title = "Do Correct Responses on the Corsi Blocks Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+  labs(title = "Corsi Blocks 2nd year vs. Interpreting Grades 2nd year", 
+       y = "2nd year Interpreting grade", x = "Corsi Blocks 2nd year")
 ```
 
-#### Kirklees Sentence Reading vs Interpreting Grades
+##### vs Eng>BSL interpreting
+```{r corsi_e2b_terp}
+#  Corsi Blocks pre-degree vs. Eng to BSL interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `corsi_corr_pre-degree`, y = `terp_e2b_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = " Corsi Blocks pre-degree vs. Eng to BSL interpreting 3rd year",
+       y = "Eng to BSL interpreting 3rd year", x = "Corsi Blocks pre-degree")
 
-```{r kirk_acc_grade_terp}
-# Create wider pivot table
-kirk_acc_grade_terp_wide <- apt %>% 
-  select(session, group, ppt, kirk_acc, grade_terp) %>% 
-  tidyr::pivot_wider(
-    names_from = session,
-    values_from = c(kirk_acc, grade_terp))
+apt_wide %>% 
+  filter(`corsi_corr_pre-degree`!= "NA") %>% 
+  filter(`terp_e2b_3rd year` != "NA") %>% 
+  summarize(AccCOR=cor(`corsi_corr_pre-degree`, 
+                       `terp_e2b_3rd year`))
 
-# Does Accuracy on the Kirklees Sentence Reading Task pre-degree predict Interpreting Grades at the end of 1st year?
-kirk_acc_grade_terp_wide %>%
+#  Corsi Blocks 2nd year vs. Eng to BSL interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `corsi_corr_2nd year`, y = `terp_e2b_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = " Corsi Blocks 2nd year vs. Eng to BSL interpreting 3rd year",
+       y = "Eng to BSL interpreting 3rd year", x = "Corsi Blocks 2nd year")
+
+apt_wide %>% 
+  filter(`corsi_corr_2nd year`!= "NA") %>% 
+  filter(`terp_e2b_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`corsi_corr_2nd year`, 
+                       `terp_e2b_3rd year`))
+
+#  Corsi Blocks 3rd year vs. Eng to BSL interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `corsi_corr_3rd year`, y = `terp_e2b_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = " Corsi Blocks 3rd year vs. Eng to BSL interpreting 3rd year",
+       y = "Eng to BSL interpreting 3rd year", x = "Corsi Blocks 3rd year")
+
+apt_wide %>% 
+  filter(`corsi_corr_3rd year`!= "NA") %>% 
+  filter(`terp_e2b_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`corsi_corr_3rd year`, 
+                       `terp_e2b_3rd year`))
+```
+
+##### vs BSL>Eng interpreting
+```{r corsi_b2e_terp}
+#  Corsi Blocks pre-degree vs. BSL to Eng interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `corsi_corr_pre-degree`, y = `terp_b2e_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = " Corsi Blocks pre-degree vs. BSL to Eng interpreting 3rd year",
+       y = "BSL to Eng interpreting 3rd year", x = "Corsi Blocks pre-degree")
+
+apt_wide %>% 
+  filter(`corsi_corr_pre-degree`!= "NA") %>% 
+  filter(`terp_b2e_3rd year` != "NA") %>% 
+  summarize(AccCOR=cor(`corsi_corr_pre-degree`, 
+                       `terp_b2e_3rd year`))
+
+#  Corsi Blocks 2nd year vs. BSL to Eng interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `corsi_corr_2nd year`, y = `terp_b2e_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = " Corsi Blocks 2nd year vs. BSL to Eng interpreting 3rd year",
+       y = "BSL to Eng interpreting 3rd year", x = "Corsi Blocks 2nd year")
+
+apt_wide %>% 
+  filter(`corsi_corr_2nd year`!= "NA") %>% 
+  filter(`terp_b2e_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`corsi_corr_2nd year`, 
+                       `terp_b2e_3rd year`))
+
+#  Corsi Blocks 3rd year vs. BSL to Eng interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `corsi_corr_3rd year`, y = `terp_b2e_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = " Corsi Blocks 3rd year vs. BSL to Eng interpreting 3rd year",
+       y = "BSL to Eng interpreting 3rd year", x = "Corsi Blocks 3rd year")
+
+apt_wide %>% 
+  filter(`corsi_corr_3rd year`!= "NA") %>% 
+  filter(`terp_b2e_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`corsi_corr_3rd year`, 
+                       `terp_b2e_3rd year`))
+```
+
+#### Digit Span 
+
+##### vs Interpreting Grades
+```{r dspan_grade_terp}
+# Digit Span pre-degree vs. Interpreting Grades 1st year
+apt_wide %>%
+  ggplot(aes(x = `dspan_corr_pre-degree`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Digit Span pre-degree vs. Interpreting Grades 1st year", 
+       y = "1st year Interpreting grade", x = "Digit Span pre-degree")
+
+apt_wide %>% 
+  filter(`dspan_corr_pre-degree`!= "NA") %>% 
+  filter(`grade_terp_1st year` != "NA") %>% 
+  summarize(AccCOR=cor(`dspan_corr_pre-degree`, 
+                       `grade_terp_1st year`))
+
+# Digit Span pre-degree vs. Interpreting Grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `dspan_corr_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Digit Span pre-degree vs. Interpreting Grades 2nd year", 
+       y = "2nd year Interpreting grade", x = "Digit Span pre-degree")
+
+apt_wide %>% 
+  filter(`dspan_corr_pre-degree`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>% 
+  summarize(AccCOR=cor(`dspan_corr_pre-degree`, 
+                       `grade_terp_2nd year`))
+
+# Digit Span 2nd year vs. Interpreting Grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `dspan_corr_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Digit Span 2nd year vs. Interpreting Grades 2nd year", 
+       y = "2nd year Interpreting grade", x = "Digit Span pre-degree")
+
+apt_wide %>% 
+  filter(`dspan_corr_2nd year`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>%
+  summarize(AccCOR=cor(`dspan_corr_2nd year`, 
+                       `grade_terp_2nd year`))
+```
+##### vs Eng>BSL interpreting
+```{r dspan_e2b_terp}
+# Digit Span pre-degree vs. Eng to BSL interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `dspan_corr_pre-degree`, y = `terp_e2b_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Digit Span pre-degree vs. Eng to BSL interpreting 3rd year",
+       y = "Eng to BSL interpreting 3rd year", x = "Digit Span pre-degree")
+
+apt_wide %>% 
+  filter(`dspan_corr_pre-degree`!= "NA") %>% 
+  filter(`terp_e2b_3rd year` != "NA") %>% 
+  summarize(AccCOR=cor(`dspan_corr_pre-degree`, 
+                       `terp_e2b_3rd year`))
+
+# Digit Span 2nd year vs. Eng to BSL interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `dspan_corr_2nd year`, y = `terp_e2b_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Digit Span 2nd year vs. Eng to BSL interpreting 3rd year",
+       y = "Eng to BSL interpreting 3rd year", x = "Digit Span 2nd year")
+
+apt_wide %>% 
+  filter(`dspan_corr_2nd year`!= "NA") %>% 
+  filter(`terp_e2b_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`dspan_corr_2nd year`, 
+                       `terp_e2b_3rd year`))
+
+# Digit Span 3rd year vs. Eng to BSL interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `dspan_corr_3rd year`, y = `terp_e2b_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Digit Span 3rd year vs. Eng to BSL interpreting 3rd year",
+       y = "Eng to BSL interpreting 3rd year", x = "Digit Span 3rd year")
+
+apt_wide %>% 
+  filter(`dspan_corr_3rd year`!= "NA") %>% 
+  filter(`terp_e2b_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`dspan_corr_3rd year`, 
+                       `terp_e2b_3rd year`))
+```
+##### vs BSL>Eng interpreting
+```{r dspan_b2e_terp}
+# Digit Span pre-degree vs. BSL to Eng interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `dspan_corr_pre-degree`, y = `terp_b2e_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Digit Span pre-degree vs. BSL to Eng interpreting 3rd year",
+       y = "BSL to Eng interpreting 3rd year", x = "Digit Span pre-degree")
+
+apt_wide %>% 
+  filter(`dspan_corr_pre-degree`!= "NA") %>% 
+  filter(`terp_b2e_3rd year` != "NA") %>% 
+  summarize(AccCOR=cor(`dspan_corr_pre-degree`, 
+                       `terp_b2e_3rd year`))
+
+# Digit Span 2nd year vs. BSL to Eng interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `dspan_corr_2nd year`, y = `terp_b2e_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Digit Span 2nd year vs. BSL to Eng interpreting 3rd year",
+       y = "BSL to Eng interpreting 3rd year", x = "Digit Span 2nd year")
+
+apt_wide %>% 
+  filter(`dspan_corr_2nd year`!= "NA") %>% 
+  filter(`terp_b2e_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`dspan_corr_2nd year`, 
+                       `terp_b2e_3rd year`))
+
+# Digit Span 3rd year vs. BSL to Eng interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `dspan_corr_3rd year`, y = `terp_b2e_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Digit Span 3rd year vs. BSL to Eng interpreting 3rd year",
+       y = "BSL to Eng interpreting 3rd year", x = "Digit Span 3rd year")
+
+apt_wide %>% 
+  filter(`dspan_corr_3rd year`!= "NA") %>% 
+  filter(`terp_b2e_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`dspan_corr_3rd year`, 
+                       `terp_b2e_3rd year`))
+```
+
+### No predicted impact on interpreting
+
+#### Kirklees Sentence Reading
+
+##### vs Interpreting Grades
+```{r kirk_terp_grade}
+# Kirklees Sentence Reading pre-degree vs. Interpreting Grades 1st year
+apt_wide %>%
   ggplot(aes(x = `kirk_acc_pre-degree`, y = `grade_terp_1st year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
   scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
   theme_minimal() +
-  labs(title = "Does Accuracy on the Kirklees Sentence Reading Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = "Accuracy on the Kirklees Sentence Reading Task pre-degree")
+  labs(title = "Kirklees Sentence Reading pre-degree vs. Interpreting Grades 1st year", 
+       y = "1st year Interpreting grade", x = "Kirklees Sentence Reading pre-degree")
 
-# Does Accuracy on the Kirklees Sentence Reading Task pre-degree predict Interpreting Grades at the end of 2nd year?
-kirk_acc_grade_terp_wide %>%
-  ggplot(aes(x = `kirk_acc_pre-degree`, y = `grade_terp_2nd year`)) +
-  geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
-  geom_point() +
-  theme_minimal() +
-  labs(title = "Does Accuracy on the Kirklees Sentence Reading Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy on the Kirklees Sentence Reading Task pre-degree")
-
-# Does Accuracy on the Kirklees Sentence Reading Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
-kirk_acc_grade_terp_wide %>%
-  ggplot(aes(x = `kirk_acc_1st year`, y = `grade_terp_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
-  theme_minimal() +
-  labs(title = "Does Accuracy on the Kirklees Sentence Reading Task after 1 year of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy on the Kirklees Sentence Reading Task after 1 year")
-
-# Does Accuracy on the Kirklees Sentence Reading Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
-kirk_acc_grade_terp_wide %>%
-  ggplot(aes(x = `kirk_acc_2nd year`, y = `grade_terp_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
-  theme_minimal() +
-  labs(title = "Does Accuracy on the Kirklees Sentence Reading Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy on the Kirklees Sentence Reading Task after 2 years")
-```
-
-###### Correlations
-```{r}
-kirk_acc_grade_terp_wide %>% 
+apt_wide %>% 
   filter(`kirk_acc_pre-degree`!= "NA") %>% 
   filter(`grade_terp_1st year` != "NA") %>% 
   summarize(AccCOR=cor(`kirk_acc_pre-degree`, 
                        `grade_terp_1st year`))
 
-kirk_acc_grade_terp_wide %>% 
+# Kirklees Sentence Reading pre-degree vs. Interpreting Grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `kirk_acc_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Kirklees Sentence Reading pre-degree vs. Interpreting Grades 2nd year", 
+       y = "2nd year Interpreting grade", x = "Kirklees Sentence Reading pre-degree")
+
+apt_wide %>% 
   filter(`kirk_acc_pre-degree`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>% 
   summarize(AccCOR=cor(`kirk_acc_pre-degree`, 
                        `grade_terp_2nd year`))
 
-kirk_acc_grade_terp_wide %>% 
+# Kirklees Sentence Reading 1st year vs. Interpreting Grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `kirk_acc_1st year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Kirklees Sentence Reading 1st year vs. Interpreting Grades 2nd year", 
+       y = "2nd year Interpreting grade", 
+       x = "Kirklees Sentence Reading after 1 year")
+
+apt_wide %>% 
   filter(`kirk_acc_1st year`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>% 
   summarize(AccCOR=cor(`kirk_acc_1st year`, 
                        `grade_terp_2nd year`))
 
-kirk_acc_grade_terp_wide %>% 
+# Kirklees Sentence Reading 2nd year vs. Interpreting Grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `kirk_acc_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = "Kirklees Sentence Reading 2nd year vs. Interpreting Grades 2nd year", 
+       y = "2nd year Interpreting grade", x = "Kirklees Sentence Reading 2nd year")
+
+apt_wide %>% 
   filter(`kirk_acc_2nd year`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>%
   summarize(AccCOR=cor(`kirk_acc_2nd year`, 
                        `grade_terp_2nd year`))
 ```
 
-#### KBIT-2 Matrices vs Interpreting Grades
-```{r kbit_acc_grade_terp}
-# Create wider pivot table
-kbit_acc_grade_terp_wide <- apt %>% 
-  select(session, group, ppt, kbit_acc, grade_terp) %>% 
-  tidyr::pivot_wider(
-    names_from = session,
-    values_from = c(kbit_acc, grade_terp))
+##### vs Eng>BSL interpreting
+```{r kirk_e2b_terp}
+# Kirklees pre-degree vs. Eng to BSL interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `kirk_acc_pre-degree`, y = `terp_e2b_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Kirklees pre-degree vs. Eng to BSL interpreting 3rd year",
+       y = "Eng to BSL interpreting 3rd year", 
+       x = "Kirklees pre-degree")
 
-# Does Accuracy on the KBIT-2 Matrices Task pre-degree predict Interpreting Grades at the end of 1st year?
-kbit_acc_grade_terp_wide %>%
+apt_wide %>% 
+  filter(`kirk_acc_pre-degree`!= "NA") %>% 
+  filter(`terp_e2b_3rd year` != "NA") %>% 
+  summarize(AccCOR=cor(`kirk_acc_pre-degree`, 
+                       `terp_e2b_3rd year`))
+
+# Kirklees 2nd year vs. Eng to BSL interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `kirk_acc_2nd year`, y = `terp_e2b_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Kirklees 2nd year vs. Eng to BSL interpreting 3rd year",
+       y = "Eng to BSL interpreting 3rd year",
+       x = "Kirklees 2nd year")
+
+apt_wide %>% 
+  filter(`kirk_acc_2nd year`!= "NA") %>% 
+  filter(`terp_e2b_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`kirk_acc_2nd year`, 
+                       `terp_e2b_3rd year`))
+```
+
+##### vs BSL>Eng interpreting
+```{r kirk_b2e_terp}
+# Kirklees pre-degree vs. BSL to Eng interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `kirk_acc_pre-degree`, y = `terp_b2e_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Kirklees pre-degree vs. BSL to Eng interpreting 3rd year",
+       y = "BSL to Eng interpreting 3rd year", 
+       x = "Kirklees pre-degree")
+
+apt_wide %>% 
+  filter(`kirk_acc_pre-degree`!= "NA") %>% 
+  filter(`terp_b2e_3rd year` != "NA") %>% 
+  summarize(AccCOR=cor(`kirk_acc_pre-degree`, 
+                       `terp_b2e_3rd year`))
+
+# Kirklees 2nd year vs. BSL to Eng interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `kirk_acc_2nd year`, y = `terp_b2e_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "Kirklees 2nd year vs. BSL to Eng interpreting 3rd year",
+       y = "BSL to Eng interpreting 3rd year",
+       x = "Kirklees 2nd year")
+
+apt_wide %>% 
+  filter(`kirk_acc_2nd year`!= "NA") %>% 
+  filter(`terp_b2e_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`kirk_acc_2nd year`, 
+                       `terp_b2e_3rd year`))
+```
+
+#### KBIT-2 Matrices 
+
+##### vs Interpreting Grades
+```{r kbit_grade_terp}
+# KBIT-2 Matrices pre-degree vs. Interpreting Grades 1st year
+apt_wide %>%
   ggplot(aes(x = `kbit_acc_pre-degree`, y = `grade_terp_1st year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
   theme_minimal() +
-  labs(title = "Does Accuracy on the KBIT-2 Matrices Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+  labs(title = "KBIT-2 Matrices pre-degree vs. Interpreting Grades 1st year", 
+       y = "1st year Interpreting grade", x = " ")
 
-# Does Accuracy on the KBIT-2 Matrices Task pre-degree predict Interpreting Grades at the end of 2nd year?
-kbit_acc_grade_terp_wide %>%
+# KBIT-2 Matrices pre-degree vs. Interpreting Grades 2nd year
+apt_wide %>%
   ggplot(aes(x = `kbit_acc_pre-degree`, y = `grade_terp_2nd year`)) +
   geom_smooth(method= "lm") +
   geom_point() +
   theme_minimal() +
-  labs(title = "Does Accuracy on the KBIT-2 Matrices Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+  labs(title = "KBIT-2 Matrices pre-degree vs. Interpreting Grades 2nd year", 
+       y = "2nd year Interpreting grade", x = " ")
 
-# Does Accuracy on the KBIT-2 Matrices Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
-kbit_acc_grade_terp_wide %>%
+# KBIT-2 Matrices 1st year vs. Interpreting Grades 2nd year
+apt_wide %>%
   ggplot(aes(x = `kbit_acc_1st year`, y = `grade_terp_2nd year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
   theme_minimal() +
-  labs(title = "Does Accuracy on the KBIT-2 Matrices Task after 1 year of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+  labs(title = "KBIT-2 Matrices 1st year vs. Interpreting Grades 2nd year", 
+       y = "2nd year Interpreting grade", x = " ")
 
-# Does Accuracy on the KBIT-2 Matrices Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
-kbit_acc_grade_terp_wide %>%
+# KBIT-2 Matrices 2nd year vs. Interpreting Grades 2nd year
+apt_wide %>%
   ggplot(aes(x = `kbit_acc_2nd year`, y = `grade_terp_2nd year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
   theme_minimal() +
-  labs(title = "Does Accuracy on the KBIT-2 Matrices Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+  labs(title = "KBIT-2 Matrices 2nd year vs. Interpreting Grades 2nd year", 
+       y = "2nd year Interpreting grade", x = " ")
 ```
 
-#### Digit Span vs Interpreting Grades
-```{r dspan_acc_grade_terp}
-# Create wider pivot table
-dspan_acc_grade_terp_wide <- apt %>% 
-  select(session, group, ppt, dspan_corr, grade_terp) %>% 
-  tidyr::pivot_wider(
-    names_from = session,
-    values_from = c(dspan_corr, grade_terp))
-
-# Does Accuracy on the Digit Span Task pre-degree predict Interpreting Grades at the end of 1st year?
-dspan_acc_grade_terp_wide %>%
-  ggplot(aes(x = `dspan_corr_pre-degree`, y = `grade_terp_1st year`)) +
+##### vs Eng>BSL interpreting
+```{r kbit_e2b_terp}
+# KBIT-2 Matrices pre-degree vs. Eng to BSL interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `kbit_acc_pre-degree`, y = `terp_e2b_3rd year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
   theme_minimal() +
-  labs(title = "Does Accuracy on the Digit Span Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = " ")
+  labs(title = "KBIT-2 Matrices pre-degree vs. Eng to BSL interpreting 3rd year",
+       y = "Eng to BSL interpreting 3rd year", 
+       x = "KBIT-2 Matrices pre-degree")
 
-# Does Accuracy on the Digit Span Task pre-degree predict Interpreting Grades at the end of 2nd year?
-dspan_acc_grade_terp_wide %>%
-  ggplot(aes(x = `dspan_corr_pre-degree`, y = `grade_terp_2nd year`)) +
-  geom_smooth(method= "lm") +
-  geom_point() +
-  theme_minimal() +
-  labs(title = "Does Accuracy on the Digit Span Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+apt_wide %>% 
+  filter(`kbit_acc_pre-degree`!= "NA") %>% 
+  filter(`terp_e2b_3rd year` != "NA") %>% 
+  summarize(AccCOR=cor(`kbit_acc_pre-degree`, 
+                       `terp_e2b_3rd year`))
 
-# Does Accuracy on the Digit Span Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
-dspan_acc_grade_terp_wide %>%
-  ggplot(aes(x = `dspan_corr_2nd year`, y = `grade_terp_2nd year`)) +
+# KBIT-2 Matrices 2nd year vs. Eng to BSL interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `kbit_acc_2nd year`, y = `terp_e2b_3rd year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
   theme_minimal() +
-  labs(title = "Does Accuracy on the Digit Span Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+  labs(title = "KBIT-2 Matrices 2nd year vs. Eng to BSL interpreting 3rd year",
+       y = "Eng to BSL interpreting 3rd year",
+       x = "KBIT-2 Matrices 2nd year")
+
+apt_wide %>% 
+  filter(`kbit_acc_2nd year`!= "NA") %>% 
+  filter(`terp_e2b_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`kbit_acc_2nd year`, 
+                       `terp_e2b_3rd year`))
 ```
 
-###### Correlations
-```{r}
-dspan_acc_grade_terp_wide %>% 
-  filter(`dspan_corr_pre-degree`!= "NA") %>% 
-  filter(`grade_terp_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`dspan_corr_pre-degree`, 
-                       `grade_terp_1st year`))
+##### vs BSL>Eng interpreting
+```{r kbit_b2e_terp}
+# KBIT-2 Matrices pre-degree vs. BSL to Eng interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `kbit_acc_pre-degree`, y = `terp_b2e_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "KBIT-2 Matrices pre-degree vs. BSL to Eng interpreting 3rd year",
+       y = "BSL to Eng interpreting 3rd year", 
+       x = "KBIT-2 Matrices pre-degree")
 
-dspan_acc_grade_terp_wide %>% 
-  filter(`dspan_corr_pre-degree`!= "NA") %>% 
-  filter(`grade_terp_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`dspan_corr_pre-degree`, 
-                       `grade_terp_2nd year`))
+apt_wide %>% 
+  filter(`kbit_acc_pre-degree`!= "NA") %>% 
+  filter(`terp_b2e_3rd year` != "NA") %>% 
+  summarize(AccCOR=cor(`kbit_acc_pre-degree`, 
+                       `terp_b2e_3rd year`))
 
-dspan_acc_grade_terp_wide %>% 
-  filter(`dspan_corr_2nd year`!= "NA") %>% 
-  filter(`grade_terp_2nd year` != "NA") %>%
-  summarize(AccCOR=cor(`dspan_corr_2nd year`, 
-                       `grade_terp_2nd year`))
+# KBIT-2 Matrices 2nd year vs. BSL to Eng interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `kbit_acc_2nd year`, y = `terp_b2e_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "KBIT-2 Matrices 2nd year vs. BSL to Eng interpreting 3rd year",
+       y = "BSL to Eng interpreting 3rd year",
+       x = "KBIT-2 Matrices 2nd year")
+
+apt_wide %>% 
+  filter(`kbit_acc_2nd year`!= "NA") %>% 
+  filter(`terp_b2e_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`kbit_acc_2nd year`, 
+                       `terp_b2e_3rd year`))
 ```
 
-
-#### 2D Mental Rotation vs Interpreting Grades
-##### Accuracy 
+#### 2D Mental Rotation
+##### vs Interpreting Grades
 ```{r mr2d_terp}
-# Create wider pivot table
-mr2d_terp_wide <- apt %>% 
-  select(session, group, ppt, mr2d_sats, grade_terp) %>% 
-  tidyr::pivot_wider(
-    names_from = session,
-    values_from = c(mr2d_sats, grade_terp))
-
-# Does Accuracy on the 2D Mental Rotation Task pre-degree predict Interpreting Grades at the end of 2nd year?
-mr2d_terp_wide %>%
+# 2D Mental Rotation pre-degree vs. Interpreting Grades 2nd year
+apt_wide %>%
   ggplot(aes(x = `mr2d_sats_pre-degree`, y = `grade_terp_2nd year`)) +
   geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
   geom_point() +
   theme_minimal() +
-  labs(title = "Does Accuracy on the 2D Mental Rotation Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy on the 2D Mental Rotation Task pre-degree")
+  labs(title = "2D Mental Rotation pre-degree vs. Interpreting Grades 2nd year", y = "2nd year Interpreting grade", x = "2D Mental Rotation pre-degree")
 
-# Does Accuracy on the 2D Mental Rotation Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
-mr2d_terp_wide %>%
-  ggplot(aes(x = `mr2d_sats_1st year`, y = `grade_terp_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
-  theme_minimal() +
-  labs(title = "Does Accuracy on the 2D Mental Rotation Task after 1 year of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy on the 2D Mental Rotation Task after 1 year of study")
-
-# Does Accuracy on the 2D Mental Rotation Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
-mr2d_terp_wide %>%
-  ggplot(aes(x = `mr2d_sats_2nd year`, y = `grade_terp_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
-  theme_minimal() +
-  labs(title = "Does Accuracy on the 2D Mental Rotation Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy on the 2D Mental Rotation Task after 2 years of study")
-```
-
-###### Correlations
-```{r}
-mr2d_terp_wide %>% 
+apt_wide %>% 
   filter(`mr2d_sats_pre-degree`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>% 
   summarize(AccCOR=cor(`mr2d_sats_pre-degree`, 
                        `grade_terp_2nd year`))
 
-mr2d_terp_wide %>% 
+# 2D Mental Rotation 1st year vs. Interpreting Grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `mr2d_sats_1st year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "2D Mental Rotation 1st year vs. Interpreting Grades 2nd year", y = "2nd year Interpreting grade", x = "2D Mental Rotation 1st year")
+
+apt_wide %>% 
   filter(`mr2d_sats_1st year`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>% 
   summarize(AccCOR=cor(`mr2d_sats_1st year`, 
                        `grade_terp_2nd year`))
 
-mr2d_terp_wide %>% 
+# 2D Mental Rotation 2nd year vs. Interpreting Grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `mr2d_sats_2nd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "2D Mental Rotation 2nd year vs. Interpreting Grades 2nd year", y = "2nd year Interpreting grade", x = "2D Mental Rotation 2nd year")
+
+apt_wide %>% 
   filter(`mr2d_sats_2nd year`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>%   
   summarize(AccCOR=cor(`mr2d_sats_2nd year`, 
                        `grade_terp_2nd year`))
 ```
-
-
-##### RT 
-```{r mr2d_rt_grade_terp}
-# Create wider pivot table
-mr2d_rt_grade_terp_wide <- apt %>% 
-  select(session, group, ppt, mr2d_rt, grade_terp) %>% 
-  tidyr::pivot_wider(
-    names_from = session,
-    values_from = c(mr2d_rt, grade_terp))
-
-# Does Reaction Time on the 2D Mental Rotation Task pre-degree predict Interpreting Grades at the end of 2nd year?
-mr2d_rt_grade_terp_wide %>%
-  ggplot(aes(x = `mr2d_rt_pre-degree`, y = `grade_terp_2nd year`)) +
-  geom_smooth(method= "lm") +
-  geom_point() +
-  theme_minimal() +
-  labs(title = "Does Reaction Time on the 2D Mental Rotation Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
-
-# Does Reaction Time on the 2D Mental Rotation Task after 1 year of study predict Interpreting Grades at the end of 2nd year?
-mr2d_rt_grade_terp_wide %>%
-  ggplot(aes(x = `mr2d_rt_1st year`, y = `grade_terp_2nd year`)) +
+##### vs Eng>BSL interpreting
+```{r mr2d_e2b_terp}
+# 2D Mental Rotation 2nd year vs. Eng to BSL interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `mr2d_sats_2nd year`, y = `terp_e2b_3rd year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
   theme_minimal() +
-  labs(title = "Does Reaction Time on the 2D Mental Rotation Task after 1 year of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+  labs(title = "2D Mental Rotation 2nd year vs. Eng to BSL interpreting 3rd year",
+       y = "Eng to BSL interpreting 3rd year",
+       x = "2D Mental Rotation 2nd year")
 
-# Does Reaction Time on the 2D Mental Rotation Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
-mr2d_rt_grade_terp_wide %>%
-  ggplot(aes(x = `mr2d_rt_2nd year`, y = `grade_terp_2nd year`)) +
+apt_wide %>% 
+  filter(`mr2d_sats_2nd year`!= "NA") %>% 
+  filter(`terp_e2b_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`mr2d_sats_2nd year`, 
+                       `terp_e2b_3rd year`))
+
+# 2D Mental Rotation 3rd year vs. Eng to BSL interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `mr2d_sats_3rd year`, y = `terp_e2b_3rd year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
   theme_minimal() +
-  labs(title = "Does Reaction Time on the 2D Mental Rotation Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
-```
+  labs(title = "2D Mental Rotation 3rd year vs. Eng to BSL interpreting 3rd year",
+       y = "Eng to BSL interpreting 3rd year",
+       x = "2D Mental Rotation 3rd year")
 
-###### Correlations
-```{r}
-mr2d_rt_grade_terp_wide %>% 
-  filter(`mr2d_rt_pre-degree`!= "NA") %>% 
-  filter(`grade_terp_2nd year` != "NA") %>% 
-  summarize(rtCOR=cor(`mr2d_rt_pre-degree`, 
-                       `grade_terp_2nd year`))
-
-mr2d_rt_grade_terp_wide %>% 
-  filter(`mr2d_rt_1st year`!= "NA") %>% 
-  filter(`grade_terp_2nd year` != "NA") %>% 
-  summarize(rtCOR=cor(`mr2d_rt_1st year`, 
-                       `grade_terp_2nd year`))
-
-mr2d_rt_grade_terp_wide %>% 
-  filter(`mr2d_rt_2nd year`!= "NA") %>% 
-  filter(`grade_terp_2nd year` != "NA") %>%   
-  summarize(rtCOR=cor(`mr2d_rt_2nd year`, 
-                       `grade_terp_2nd year`))
-```
-
-#### 3D Mental Rotation vs Interpreting Grades
-##### Accuracy 
-```{r mr3d_acc_grade_terp}
-# Create wider pivot table
-mr3d_acc_grade_terp_wide <- apt %>% 
-  select(session, group, ppt, mr3d_acc, grade_terp) %>% 
-  tidyr::pivot_wider(
-    names_from = session,
-    values_from = c(mr3d_acc, grade_terp))
-
-# Does Accuracy on the 3D Mental Rotation Task pre-degree predict Interpreting Grades at the end of 1st year?
-mr3d_acc_grade_terp_wide %>%
-  ggplot(aes(x = `mr3d_acc_pre-degree`, y = `grade_terp_1st year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
-  theme_minimal() +
-  labs(title = "Does Accuracy on the 3D Mental Rotation Task pre-degree\npredict Interpreting Grades at the end of 1st year?", y = "1st year Interpreting grade", x = "Accuracy on the 3D Mental Rotation Task pre-degree")
-
-# Does Accuracy on the 3D Mental Rotation Task pre-degree predict Interpreting Grades at the end of 2nd year?
-mr3d_acc_grade_terp_wide %>%
-  ggplot(aes(x = `mr3d_acc_pre-degree`, y = `grade_terp_2nd year`)) +
-  geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
-  geom_point() +
-  theme_minimal() +
-  labs(title= "Does Accuracy on the 3D Mental Rotation Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy on the 3D Mental Rotation Task pre-degree") 
-
-# Does Accuracy on the 3D Mental Rotation Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
-mr3d_acc_grade_terp_wide %>%
-  ggplot(aes(x = `mr3d_acc_2nd year`, y = `grade_terp_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
-  theme_minimal() +
-  labs(title= "Does Accuracy on the 3D Mental Rotation Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Accuracy on the 3D Mental Rotation Task after 2 years") 
+apt_wide %>% 
+  filter(`mr2d_sats_3rd year`!= "NA") %>% 
+  filter(`terp_e2b_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`mr2d_sats_3rd year`, 
+                       `terp_e2b_3rd year`))
 
 ```
 
-###### Correlations
-```{r}
-mr3d_acc_grade_terp_wide %>% 
-  filter(`mr3d_acc_pre-degree`!= "NA") %>% 
+##### vs BSL>Eng interpreting
+```{r mr2d_b2e_terp}
+# 2D Mental Rotation 2nd year vs. BSL to Eng interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `mr2d_sats_2nd year`, y = `terp_b2e_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "2D Mental Rotation 2nd year vs. BSL to Eng interpreting 3rd year",
+       y = "BSL to Eng interpreting 3rd year",
+       x = "2D Mental Rotation 2nd year")
+
+apt_wide %>% 
+  filter(`mr2d_sats_2nd year`!= "NA") %>% 
+  filter(`terp_b2e_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`mr2d_sats_2nd year`, 
+                       `terp_b2e_3rd year`))
+
+# 2D Mental Rotation 3rd year vs. BSL to Eng interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `mr2d_sats_3rd year`, y = `terp_b2e_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "2D Mental Rotation 3rd year vs. BSL to Eng interpreting 3rd year",
+       y = "BSL to Eng interpreting 3rd year",
+       x = "2D Mental Rotation 2nd year")
+
+apt_wide %>% 
+  filter(`mr2d_sats_3rd year`!= "NA") %>% 
+  filter(`terp_b2e_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`mr2d_sats_3rd year`, 
+                       `terp_b2e_3rd year`))
+```
+
+#### 3D Mental Rotation 
+##### vs Interpreting Grades
+```{r mr3d_grade_terp}
+# 3D Mental Rotation pre-degree vs. Interpreting Grades 1st year
+apt_wide %>%
+  ggplot(aes(x = `mr3d_sats_pre-degree`, y = `grade_terp_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "3D Mental Rotation pre-degree vs. Interpreting Grades 1st year", 
+       y = "1st year Interpreting grade", 
+       x = "3D Mental Rotation pre-degree")
+
+apt_wide %>% 
+  filter(`mr3d_sats_pre-degree`!= "NA") %>% 
   filter(`grade_terp_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr3d_acc_pre-degree`, 
+  summarize(AccCOR=cor(`mr3d_sats_pre-degree`, 
                        `grade_terp_1st year`))
 
-mr3d_acc_grade_terp_wide %>% 
-  filter(`mr3d_acc_pre-degree`!= "NA") %>% 
+# 3D Mental Rotation pre-degree vs. Interpreting Grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `mr3d_sats_pre-degree`, y = `grade_terp_2nd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title= "3D Mental Rotation pre-degree vs. Interpreting Grades 2nd year", 
+       y = "2nd year Interpreting grade", 
+       x = "3D Mental Rotation pre-degree") 
+
+apt_wide %>% 
+  filter(`mr3d_sats_pre-degree`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr3d_acc_pre-degree`, 
+  summarize(AccCOR=cor(`mr3d_sats_pre-degree`, 
                        `grade_terp_2nd year`))
 
-mr3d_acc_grade_terp_wide %>% 
-  filter(`mr3d_acc_2nd year`!= "NA") %>% 
-  filter(`grade_terp_2nd year` != "NA") %>%   
-  summarize(AccCOR=cor(`mr3d_acc_2nd year`, 
-                       `grade_terp_2nd year`))
-```
-
-##### RT 
-```{r mr3d_rt_grade_terp}
-# Create wider pivot table
-mr3d_rt_grade_terp_wide <- apt %>% 
-  select(session, group, ppt, mr3d_rt, grade_terp) %>% 
-  tidyr::pivot_wider(
-    names_from = session,
-    values_from = c(mr3d_rt, grade_terp))
-
-# Does Reaction Time on the 3D Mental Rotation Task pre-degree predict Interpreting Grades at the end of 1st year?
-mr3d_rt_grade_terp_wide %>%
-  ggplot(aes(x = `mr3d_rt_pre-degree`, y = `grade_terp_1st year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal()+
-  labs(title= "Does Reaction Time on the 3D Mental Rotation Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Reaction Time on the 3D Mental Rotation Task pre-degree") 
-# Does Reaction Time on the 3D Mental Rotation Task pre-degree predict Interpreting Grades at the end of 2nd year?
-mr3d_rt_grade_terp_wide %>%
-  ggplot(aes(x = `mr3d_rt_pre-degree`, y = `grade_terp_2nd year`)) +
-  geom_smooth(method= "lm") +
-  geom_point() +
-  theme_minimal()+
-  labs(title= "Does Reaction Time on the 3D Mental Rotation Task pre-degree\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Reaction Time on the 3D Mental Rotation Task pre-degree") 
-# Does Reaction Time on the 3D Mental Rotation Task after 2 years of study predict Interpreting Grades at the end of 2nd year?
-mr3d_rt_grade_terp_wide %>%
-  ggplot(aes(x = `mr3d_rt_2nd year`, y = `grade_terp_2nd year`)) +
+# 3D Mental Rotation 2nd year vs. Interpreting Grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `mr3d_sats_2nd year`, y = `grade_terp_2nd year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
   theme_minimal() +
-  labs(title= "Does Reaction Time on the 3D Mental Rotation Task after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = "Reaction Time on the 3D Mental Rotation Task after 2 years of study") 
-```
+  labs(title= "3D Mental Rotation 2nd year vs. Interpreting Grades 2nd year",
+       y = "2nd year Interpreting grade", 
+       x = "3D Mental Rotation 2nd year") 
 
-###### Correlations
-```{r}
-mr3d_rt_grade_terp_wide %>% 
-  filter(`mr3d_rt_pre-degree`!= "NA") %>% 
-  filter(`grade_terp_1st year` != "NA") %>% 
-  summarize(rtCOR=cor(`mr3d_rt_pre-degree`, 
-                       `grade_terp_1st year`))
-
-mr3d_rt_grade_terp_wide %>% 
-  filter(`mr3d_rt_pre-degree`!= "NA") %>% 
-  filter(`grade_terp_2nd year` != "NA") %>% 
-  summarize(rtCOR=cor(`mr3d_rt_pre-degree`, 
-                       `grade_terp_2nd year`))
-
-mr3d_rt_grade_terp_wide %>% 
-  filter(`mr3d_rt_2nd year`!= "NA") %>% 
+apt_wide %>% 
+  filter(`mr3d_sats_2nd year`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>%   
-  summarize(rtCOR=cor(`mr3d_rt_2nd year`, 
+  summarize(AccCOR=cor(`mr3d_sats_2nd year`, 
+                       `grade_terp_2nd year`))
+
+# 3D Mental Rotation 3rd year vs. Interpreting Grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `mr3d_sats_3rd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "3D Mental Rotation 3rd year vs. Interpreting Grades 2nd year",
+       y = "2nd year Interpreting grade", 
+       x = "3D Mental Rotation 3rd year") 
+
+apt_wide %>% 
+  filter(`mr3d_sats_3rd year`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>%   
+  summarize(AccCOR=cor(`mr3d_sats_3rd year`, 
                        `grade_terp_2nd year`))
 ```
 
-#### Barratt Impulsiveness Scale vs Interpreting Grades
+##### vs Eng>BSL interpreting
+```{r mr3d_e2b_terp}
+# 3D Mental Rotation pre-degree vs. Eng to BSL interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `mr3d_sats_pre-degree`, y = `terp_e2b_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "3D Mental Rotation pre-degree vs. Eng to BSL interpreting 3rd year",
+       y = "Eng to BSL interpreting 3rd year",
+       x = "3D Mental Rotation pre-degree")
 
-##### Total Impulsiveness 
-```{r bis_tot_grade_terp}
-# Create wider pivot table
-bis_tot_grade_terp_wide <- apt %>% 
-  select(session, group, ppt, bis_tot, grade_terp) %>% 
-  tidyr::pivot_wider(
-    names_from = session,
-    values_from = c(bis_tot, grade_terp))
+apt_wide %>% 
+  filter(`mr3d_sats_pre-degree`!= "NA") %>% 
+  filter(`terp_e2b_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`mr3d_sats_pre-degree`, 
+                       `terp_e2b_3rd year`))
 
-# Does Total Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study predict Interpreting Grades at the end of 2nd year?
-bis_tot_grade_terp_wide %>%
+# 3D Mental Rotation 2nd year vs. Eng to BSL interpreting  3rd year
+apt_wide %>%
+  ggplot(aes(x = `mr3d_sats_2nd year`, y = `terp_e2b_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "3D Mental Rotation 2nd year vs. Eng to BSL interpreting 3rd year",
+       y = "Eng to BSL interpreting 3rd year",
+       x = "3D Mental Rotation 2nd year")
+
+apt_wide %>% 
+  filter(`mr3d_sats_2nd year`!= "NA") %>% 
+  filter(`terp_e2b_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`mr3d_sats_2nd year`, 
+                       `terp_e2b_3rd year`))
+
+# 3D Mental Rotation 3rd year vs. Eng to BSL interpreting  3rd year
+apt_wide %>%
+  ggplot(aes(x = `mr3d_sats_3rd year`, y = `terp_e2b_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "3D Mental Rotation 3rd year vs. Eng to BSL interpreting 3rd year",
+       y = "Eng to BSL interpreting 3rd year",
+       x = "3D Mental Rotation 3rd year")
+
+apt_wide %>% 
+  filter(`mr3d_sats_3rd year`!= "NA") %>% 
+  filter(`terp_e2b_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`mr3d_sats_3rd year`, 
+                       `terp_e2b_3rd year`))
+
+```
+
+##### vs BSL>Eng interpreting
+```{r mr3d_b2e_terp}
+# 3D Mental Rotation pre-degree vs. BSL to Eng interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `mr3d_sats_pre-degree`, y = `terp_b2e_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "3D Mental Rotation pre-degree vs. BSL to Eng interpreting 3rd year",
+       y = "BSL to BSL interpreting 3rd year",
+       x = "3D Mental Rotation pre-degree")
+
+apt_wide %>% 
+  filter(`mr3d_sats_pre-degree`!= "NA") %>% 
+  filter(`terp_b2e_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`mr3d_sats_pre-degree`, 
+                       `terp_b2e_3rd year`))
+
+# 3D Mental Rotation 2nd year vs. BSL to Eng interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `mr3d_sats_2nd year`, y = `terp_b2e_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "3D Mental Rotation 2nd year vs. BSL to Eng interpreting 3rd year",
+       y = "BSL to Eng interpreting 3rd year",
+       x = "3D Mental Rotation 2nd year")
+
+apt_wide %>% 
+  filter(`mr3d_sats_2nd year`!= "NA") %>% 
+  filter(`terp_b2e_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`mr3d_sats_2nd year`, 
+                       `terp_b2e_3rd year`))
+
+# 3D Mental Rotation 3rd year vs. BSL to Eng interpreting 3rd year
+apt_wide %>%
+  ggplot(aes(x = `mr3d_sats_3rd year`, y = `terp_b2e_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "3D Mental Rotation 3rd year vs. BSL to Eng interpreting 3rd year",
+       y = "BSL to Eng interpreting 3rd year",
+       x = "3D Mental Rotation 2nd year")
+
+apt_wide %>% 
+  filter(`mr3d_sats_3rd year`!= "NA") %>% 
+  filter(`terp_b2e_3rd year` != "NA") %>%   
+  summarize(AccCOR=cor(`mr3d_sats_3rd year`, 
+                       `terp_b2e_3rd year`))
+```
+
+#### Barratt Impulsiveness Scale 
+
+##### vs Interpreting Grades
+```{r bis_terp}
+# Barratt Impulsiveness Scale 2nd year vs. Interpreting Grades 2nd year
+apt_wide %>%
   filter(`bis_tot_2nd year` != "na") %>% 
   filter(`grade_terp_2nd year` != "na") %>% 
   ggplot(aes(x = `bis_tot_2nd year`, y = `grade_terp_2nd year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
   theme_minimal() +
-  labs(title= "Does Total Impulsiveness on the Barratt Impulsiveness Scale after 2 years of study\npredict Interpreting Grades at the end of 2nd year?", y = "2nd year Interpreting grade", x = " ")
+  labs(title= "Impulsivity 2nd year vs. Interpreting Grades 2nd year", 
+       y = "2nd year Interpreting grade", 
+       x = "BIS score 2nd year")
 ```
 
 
-###############################################################################
+##############################################################################
 
-# MODELS
+# Models
 
+## BSL Grades
 What best predicts BSL grades?
 ```{r bsl-grade-models}
-#s4ppts <- apt %>% filter(ppt == "HW1041" | "HW1061" | "HW1121" | "HW1081" |
-#                           "HW1111" | "HW1091" | "WV2011" | "WV2061" | "WV2081")
-
-
-( bsl_grade_mdl <- lm(grade_bsl ~ nback_spat + 
+( bsl_grade_mdl <- lm(grade_bsl ~ nback_comb + 
                                   mr3d_sats + 
                                   corsi_corr +
-                                  kirk_acc + 
-                                  kbit_acc + 
-                                  dspan_corr,
+                                  kirk_acc, 
                                   data = apt) ) 
 summary(bsl_grade_mdl)
-# but is only being fit on 11 observations rn.....
+# only fit on 10 observations
 
+# wide version - pre-degree
+( bsl_grade_mdl_2 <- lm(`grade_bsl_2nd year` ~ 
+                                  `nback_comb_pre-degree` + 
+                                  `mr3d_sats_pre-degree` + 
+                                  `corsi_corr_pre-degree` +
+                                  `kirk_acc_pre-degree` + 
+                                  #`kbit_acc_pre-degree` + 
+                                  `mlat_acc_pre-degree`,
+                                  #`dspan_corr_pre-degree`,
+                                  data = apt_wide) ) 
+summary(bsl_grade_mdl_2)
 
+# final assessments in 3rd year
+( bsl_grade_mdl_3 <- lm(`grade_bsl_2nd year` ~ `nback_comb_3rd year` + 
+                                  `mr3d_sats_3rd year` + 
+                                  `mr2d_sats_3rd year` +
+                                  `corsi_corr_3rd year` +
+                                  `dspan_corr_3rd year`,
+                                  data = apt_wide) ) 
+summary(bsl_grade_mdl_3)
+```
+
+## BSL-SRT
+```{r bsl-srt-models}
+( bsl_srt_mdl <- lm(bsl_srt ~ nback_comb + 
+                                  mr3d_sats + 
+                                  corsi_corr,
+                                  #kirk_acc +
+                                  #kbit_acc + 
+                                  #dspan_corr,
+                                  data = apt) ) 
+summary(bsl_srt_mdl)
+# only being fit on 8 or 9 observations...
+
+# wide version - pre-degree
+( bsl_srt_mdl_2 <- lm(`bsl_srt_3rd year` ~ 
+                                  `nback_comb_pre-degree` + 
+                                  `mr3d_sats_pre-degree` + 
+                                  `corsi_corr_pre-degree` +
+                                  `kirk_acc_pre-degree` + 
+                                  #`kbit_acc_pre-degree` +
+                                  `mlat_acc_pre-degree`, 
+                                  #`dspan_corr_pre-degree`,
+                                  data = apt_wide) ) 
+summary(bsl_srt_mdl_2)
+
+# final assessments in 3rd year
+( bsl_srt_mdl_3 <- lm(`bsl_srt_3rd year` ~ `nback_comb_3rd year` + 
+                                  `mr3d_sats_3rd year` + 
+                                  `mr2d_sats_3rd year` +
+                                  `corsi_corr_3rd year`,
+                                  #`dspan_corr_3rd year`,
+                                  data = apt_wide) ) 
+summary(bsl_srt_mdl_3)
+```
+
+## Interpreting Grades
+```{r terp-grade-models}
 ( terp_grade_mdl <- lm(grade_terp ~ nback_spat + 
                                     mr3d_sats + 
                                     corsi_corr +
                                     kirk_acc + 
-                                    kbit_acc + 
+                                    #kbit_acc + 
                                     dspan_corr,
                                     data = apt) )
 summary(terp_grade_mdl)
-# but is only being fit on 11 observations rn.....
+# but is only being fit on 10 observations.....
 
-# For SRT scores, model doesn't work because no grades yet at final session.
-( srt_mdl <- lm(bsl_srt ~ nback_spat + 
-                          mr3d_sats + 
-                          corsi_corr +
-                          kirk_acc + 
-                          kbit_acc + 
-                          dspan_corr,
-                          data = apt) )
-summary(srt_mdl)
+# wide version - pre-degree
+( terp_grade_mdl_2 <- lm(`grade_terp_2nd year` ~ 
+                                  `nback_comb_pre-degree` + 
+                                  #`mr3d_sats_pre-degree` + 
+                                  `corsi_corr_pre-degree` +
+                                  `kirk_acc_pre-degree` + 
+                                  #`kbit_acc_pre-degree` +
+                                  #`mlat_acc_pre-degree` +
+                                  `dspan_corr_pre-degree`,
+                                  data = apt_wide) )
+summary(terp_grade_mdl_2)
 
+# final assessments in 3rd year
+( terp_grade_mdl_3 <- lm(`grade_terp_2nd year` ~ `nback_comb_3rd year` + 
+                                  `mr3d_sats_3rd year` + 
+                                  `mr2d_sats_3rd year` +
+                                  `corsi_corr_3rd year` +
+                                  `dspan_corr_3rd year`,
+                                  data = apt_wide) ) 
+summary(terp_grade_mdl_3)
 ```
+
+## BSL>Eng interpreting
+
+## Eng>BSL interpreting
 
 ##############################################################################
 
