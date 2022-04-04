@@ -24,10 +24,8 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE,
 ```{r load_packages, message = FALSE, warning = FALSE}
 library(here) # file organisation & folder location
 library(tidyverse) # data wrangling & plotting
-#library(plotrix) # for calculating standard error
 library(scales) # scales on plots
 library(lme4) # for linear mixed models
-library(afex) # for linear mixed models
 library(psych) # for factor analysis
 ```
 
@@ -36,17 +34,15 @@ library(psych) # for factor analysis
 R.Version() 
 packageVersion('here')
 packageVersion('tidyverse')
-#packageVersion('plotrix') 
 packageVersion('scales') 
 packageVersion('lme4') 
-packageVersion('afex')
 packageVersion('psych')
 ```
 
 ## Read pre-wrangled data 
 (see `00-wrangling-setup.Rmd` script)
 ```{r read_in_data}
-here::here()
+# here::here()
 apt <- readRDS(here("data", "apt-data.rds"))
 apt <- as_tibble(apt)
 head(apt)
@@ -65,13 +61,13 @@ apt_wide <- apt %>%
                      values_from = c(nback_lett:grade_terp))
 ```
 
-## Plots/correlations
+# Plots/correlations
 
 ### Predicted impact on BSL
 
 #### Corsi Blocks
 
-###### vs BSL Grades
+##### vs BSL Grades
 ```{r corsi_bsl_grades}
 # Initial visuospatial skill vs. 1st year BSL grades
 apt_wide %>%
@@ -86,8 +82,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`corsi_corr_pre-degree`!= "NA") %>% 
   filter(`grade_bsl_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`corsi_corr_pre-degree`, 
-                       `grade_bsl_1st year`))
+  summarize(RSq=(cor(`corsi_corr_pre-degree`, 
+                       `grade_bsl_1st year`))^2)
 
 # Initial visuospatial skill vs. 2nd year BSL grades
 apt_wide %>%
@@ -102,8 +98,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`corsi_corr_pre-degree`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`corsi_corr_pre-degree`, 
-                       `grade_bsl_2nd year`))
+  summarize(RSq=(cor(`corsi_corr_pre-degree`, 
+                       `grade_bsl_2nd year`))^2)
 
 # 1st year visuospatial skill vs. 1st year BSL grades
 apt_wide %>%
@@ -118,8 +114,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`corsi_corr_1st year`!= "NA") %>% 
   filter(`grade_bsl_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`corsi_corr_1st year`, 
-                       `grade_bsl_1st year`))
+  summarize(RSq=(cor(`corsi_corr_1st year`, 
+                       `grade_bsl_1st year`))^2)
 
 # 1st year visuospatial skill vs. 2nd year BSL grades
 apt_wide %>%
@@ -134,8 +130,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`corsi_corr_1st year`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`corsi_corr_1st year`, 
-                       `grade_bsl_2nd year`))
+  summarize(RSq=(cor(`corsi_corr_1st year`, 
+                       `grade_bsl_2nd year`))^2)
 
 # 2nd year visuospatial skill vs. 2nd year BSL grades
 apt_wide %>%
@@ -150,11 +146,11 @@ apt_wide %>%
 apt_wide %>% 
   filter(`corsi_corr_2nd year`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>%
-  summarize(AccCOR=cor(`corsi_corr_2nd year`, 
-                       `grade_bsl_2nd year`))
+  summarize(RSq=(cor(`corsi_corr_2nd year`, 
+                       `grade_bsl_2nd year`))^2)
 ```
 
-###### vs BSL-SRT
+##### vs BSL-SRT
 Does Corsi Blocks performance relate to BSL Sentence Reproduction Task?
 ``` {r corsi_srt}
 # Initial Corsi Blocks score vs. 3rd year BSL-SRT scores
@@ -170,8 +166,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`corsi_corr_pre-degree`!= "NA") %>% 
   filter(`bsl_srt_3rd year` != "NA") %>% 
-  summarize(AccCOR=cor(`corsi_corr_pre-degree`, 
-                       `bsl_srt_3rd year`))
+  summarize(RSq=(cor(`corsi_corr_pre-degree`, 
+                       `bsl_srt_3rd year`))^2)
 
 # 2nd year Corsi Blocks score vs. 3rd year BSL-SRT scores
 apt_wide %>%
@@ -186,8 +182,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`corsi_corr_2nd year`!= "NA") %>% 
   filter(`bsl_srt_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`corsi_corr_2nd year`, 
-                       `bsl_srt_3rd year`))
+  summarize(RSq=(cor(`corsi_corr_2nd year`, 
+                       `bsl_srt_3rd year`))^2)
 
 # 3rd year Corsi Blocks score vs. 3rd year BSL-SRT scores
 apt_wide %>%
@@ -202,14 +198,14 @@ apt_wide %>%
 apt_wide %>% 
   filter(`corsi_corr_3rd year`!= "NA") %>% 
   filter(`bsl_srt_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`corsi_corr_3rd year`, 
-                       `bsl_srt_3rd year`))
+  summarize(RSq=(cor(`corsi_corr_3rd year`, 
+                       `bsl_srt_3rd year`))^2)
 ```
 
 
 #### 2D Mental Rotation
 
-###### vs BSL Grades
+##### vs BSL Grades
 Does 2D Mental Rotation performance relate to BSL grades?
 ``` {r mr2d_bsl_grades}
 # Initial 2D Mental Rotation score vs. 1st year BSL grades
@@ -226,8 +222,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`mr2d_sats_pre-degree`!= "NA") %>% 
   filter(`grade_bsl_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr2d_sats_pre-degree`, 
-                       `grade_bsl_1st year`))
+  summarize(RSq=(cor(`mr2d_sats_pre-degree`, 
+                       `grade_bsl_1st year`))^2)
 
 # Initial 2D Mental Rotation score vs. 2nd year BSL grades
 apt_wide %>%
@@ -243,8 +239,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`mr2d_sats_pre-degree`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr2d_sats_pre-degree`, 
-                       `grade_bsl_2nd year`))
+  summarize(RSq=(cor(`mr2d_sats_pre-degree`, 
+                       `grade_bsl_2nd year`))^2)
 
 # 1st year 2D Mental Rotation score vs. 1st year BSL grades
 apt_wide %>%
@@ -260,8 +256,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`mr2d_sats_1st year`!= "NA") %>% 
   filter(`grade_bsl_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr2d_sats_1st year`, 
-                       `grade_bsl_1st year`))
+  summarize(RSq=(cor(`mr2d_sats_1st year`, 
+                       `grade_bsl_1st year`))^2)
 
 # 1st year 2D Mental Rotation score vs. 2nd year BSL grades
 apt_wide %>%
@@ -277,8 +273,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`mr2d_sats_1st year`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr2d_sats_1st year`, 
-                       `grade_bsl_2nd year`))
+  summarize(RSq=(cor(`mr2d_sats_1st year`, 
+                       `grade_bsl_2nd year`))^2)
 
 # 2nd year 2D Mental Rotation score vs. 2nd year BSL grades
 apt_wide %>%
@@ -294,92 +290,15 @@ apt_wide %>%
 apt_wide %>% 
   filter(`mr2d_sats_2nd year`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>%   
-  summarize(AccCOR=cor(`mr2d_sats_2nd year`, 
-                       `grade_bsl_2nd year`))
+  summarize(RSq=(cor(`mr2d_sats_2nd year`, 
+                       `grade_bsl_2nd year`))^2)
 ```
 
-###### vs BSL-SRT
+##### vs BSL-SRT
 Does 2D Mental Rotation performance relate to BSL Sentence Reproduction Task?
 ``` {r mr2d_bsl_srt}
-# Initial 2D Mental Rotation score vs. 1st year BSL-SRT scores
-apt_wide %>%
-  ggplot(aes(x = `mr2d_sats_pre-degree`, y = `bsl_srt_1st year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal() +
-  labs(title = "Initial 2D Mental Rotation score vs. 1st year BSL-SRT scores", 
-       y = "1st year BSL-SRT score", 
-       x = "Initial 2D Mental Rotation score")
-
-apt_wide %>% 
-  filter(`mr2d_sats_pre-degree`!= "NA") %>% 
-  filter(`bsl_srt_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr2d_sats_pre-degree`, 
-                       `bsl_srt_1st year`))
-
-# Initial 2D Mental Rotation score vs. 2nd year BSL-SRT scores
-apt_wide %>%
-  ggplot(aes(x = `mr2d_sats_pre-degree`, y = `bsl_srt_2nd year`)) +
-  geom_smooth(method= "lm") +
-  geom_point() +
-  theme_minimal() +
-  labs(title = "Initial 2D Mental Rotation score vs. 2nd year BSL-SRT scores", 
-       y = "2nd year BSL-SRT score", 
-       x = "Initial 2D Mental Rotation score")
-
-apt_wide %>% 
-  filter(`mr2d_sats_pre-degree`!= "NA") %>% 
-  filter(`bsl_srt_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr2d_sats_pre-degree`, 
-                       `bsl_srt_2nd year`))
-
-# 1st year 2D Mental Rotation score vs. 1st year BSL-SRT scores
-apt_wide %>%
-  ggplot(aes(x = `mr2d_sats_1st year`, y = `bsl_srt_1st year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal() +
-  labs(title = "1st year 2D Mental Rotation score vs. 1st year BSL-SRT scores", 
-       y = "1st year BSL-SRT score", 
-       x = "1st year 2D Mental Rotation score")
-
-apt_wide %>% 
-  filter(`mr2d_sats_1st year`!= "NA") %>% 
-  filter(`bsl_srt_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr2d_sats_1st year`, 
-                       `bsl_srt_1st year`))
-
-# 1st year 2D Mental Rotation score vs. 2nd year BSL-SRT scores
-apt_wide %>%
-  ggplot(aes(x = `mr2d_sats_1st year`, y = `bsl_srt_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal() +
-  labs(title = "1st year 2D Mental Rotation score vs. 2nd year BSL-SRT scores", 
-       y = "1st year BSL-SRT score", 
-       x = "2nd year 2D Mental Rotation score")
-
-apt_wide %>% 
-  filter(`mr2d_sats_1st year`!= "NA") %>% 
-  filter(`bsl_srt_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr2d_sats_1st year`, 
-                       `bsl_srt_2nd year`))
-
 # 2nd year 2D Mental Rotation score vs. 2nd year BSL-SRT scores
-apt_wide %>%
-  ggplot(aes(x = `mr2d_sats_2nd year`, y = `bsl_srt_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal() +
-  labs(title = "2nd year 2D Mental Rotation score vs. 2nd year BSL-SRT scores", 
-       y = "2nd year BSL-SRT score", 
-       x = "2nd year 2D Mental Rotation score")
-
-apt_wide %>% 
-  filter(`mr2d_sats_2nd year`!= "NA") %>% 
-  filter(`bsl_srt_2nd year` != "NA") %>%   
-  summarize(AccCOR=cor(`mr2d_sats_2nd year`, 
-                       `bsl_srt_2nd year`))
+# just 4 data points here
 
 # 3rd year 2D Mental Rotation score vs. 3rd year BSL-SRT scores
 apt_wide %>%
@@ -390,6 +309,12 @@ apt_wide %>%
   labs(title = "3rd year 2D Mental Rotation score vs. 3rd year BSL-SRT scores", 
        y = "3rd year BSL-SRT score", 
        x = "3rd year 2D Mental Rotation score")
+
+apt_wide %>% 
+  filter(`mr2d_sats_3rd year`!= "NA") %>% 
+  filter(`bsl_srt_3rd year` != "NA") %>%   
+  summarize(RSq=(cor(`mr2d_sats_3rd year`, 
+                       `bsl_srt_3rd year`))^2)
 ```
 
 
@@ -411,8 +336,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`mr3d_sats_pre-degree`!= "NA") %>% 
   filter(`grade_bsl_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr3d_sats_pre-degree`, 
-                       `grade_bsl_1st year`))
+  summarize(RSq=(cor(`mr3d_sats_pre-degree`, 
+                       `grade_bsl_1st year`))^2)
 
 # Initial 3D Mental Rotation score vs. 2nd year BSL grades
 apt_wide %>%
@@ -427,8 +352,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`mr3d_sats_pre-degree`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr3d_sats_pre-degree`, 
-                       `grade_bsl_2nd year`))
+  summarize(RSq=(cor(`mr3d_sats_pre-degree`, 
+                       `grade_bsl_2nd year`))^2)
 
 # 1st year 3D Mental Rotation score vs. 1st year BSL grades
 apt_wide %>%
@@ -443,8 +368,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`mr3d_sats_1st year`!= "NA") %>% 
   filter(`grade_bsl_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr3d_sats_1st year`, 
-                       `grade_bsl_1st year`))
+  summarize(RSq=(cor(`mr3d_sats_1st year`, 
+                       `grade_bsl_1st year`))^2)
 
 # 1st year 3D Mental Rotation score vs. 2nd year BSL grades
 apt_wide %>%
@@ -459,8 +384,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`mr3d_sats_1st year`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr3d_sats_1st year`, 
-                       `grade_bsl_2nd year`))
+  summarize(RSq=(cor(`mr3d_sats_1st year`, 
+                       `grade_bsl_2nd year`))^2)
 
 # 2nd year 3D Mental Rotation score vs. 2nd year BSL grades
 apt_wide %>%
@@ -475,46 +400,13 @@ apt_wide %>%
 apt_wide %>% 
   filter(`mr3d_sats_2nd year`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>%   
-  summarize(AccCOR=cor(`mr3d_sats_2nd year`, 
-                       `grade_bsl_2nd year`))
-
+  summarize(RSq=(cor(`mr3d_sats_2nd year`, 
+                       `grade_bsl_2nd year`))^2)
 ```
 
 ##### vs BSL-SRT
 Does 3D Mental Rotation performance relate to BSL Sentence Reproduction Task?
 ``` {r mr3d_bsl_srt}
-# Initial 3D Mental Rotation score vs. 1st year BSL-SRT scores
-apt_wide %>%
-  ggplot(aes(x = `mr3d_sats_pre-degree`, y = `bsl_srt_1st year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal() +
-  labs(title = "Initial 3D Mental Rotation score vs. 1st year BSL-SRT scores", 
-       y = "1st year BSL-SRT score", 
-       x = "Initial 3D Mental Rotation score")
-
-apt_wide %>% 
-  filter(`mr3d_sats_pre-degree`!= "NA") %>% 
-  filter(`bsl_srt_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr3d_sats_pre-degree`, 
-                       `bsl_srt_1st year`))
-
-# Initial 3D Mental Rotation score vs. 2nd year BSL-SRT scores
-apt_wide %>%
-  ggplot(aes(x = `mr3d_sats_pre-degree`, y = `bsl_srt_2nd year`)) +
-  geom_smooth(method= "lm") +
-  geom_point() +
-  theme_minimal() +
-  labs(title = "Initial 3D Mental Rotation score vs. 2nd year BSL-SRT scores", 
-       y = "2nd year BSL-SRT score", 
-       x = "Initial 3D Mental Rotation score")
-
-apt_wide %>% 
-  filter(`mr3d_sats_pre-degree`!= "NA") %>% 
-  filter(`bsl_srt_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr3d_sats_pre-degree`, 
-                       `bsl_srt_2nd year`))
-
 # Initial 3D Mental Rotation score vs. 3rd year BSL-SRT scores
 apt_wide %>%
   ggplot(aes(x = `mr3d_sats_pre-degree`, y = `bsl_srt_3rd year`)) +
@@ -528,56 +420,11 @@ apt_wide %>%
 apt_wide %>% 
   filter(`mr3d_sats_pre-degree`!= "NA") %>% 
   filter(`bsl_srt_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`mr3d_sats_pre-degree`, 
-                       `bsl_srt_3rd year`))
-
-# 1st year 3D Mental Rotation score vs. 1st year BSL-SRT scores
-apt_wide %>%
-  ggplot(aes(x = `mr3d_sats_1st year`, y = `bsl_srt_1st year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal() +
-  labs(title = "1st year 3D Mental Rotation score vs. 1st year BSL-SRT scores", 
-       y = "1st year BSL-SRT score", 
-       x = "1st year 3D Mental Rotation score")
-
-apt_wide %>% 
-  filter(`mr3d_sats_1st year`!= "NA") %>% 
-  filter(`bsl_srt_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr3d_sats_1st year`, 
-                       `bsl_srt_1st year`))
-
-# 1st year 3D Mental Rotation score vs. 2nd year BSL-SRT scores
-apt_wide %>%
-  ggplot(aes(x = `mr3d_sats_1st year`, y = `bsl_srt_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal() +
-  labs(title = "1st year 3D Mental Rotation score vs. 2nd year BSL-SRT scores", 
-       y = "1st year BSL-SRT score", 
-       x = "2nd year 3D Mental Rotation score")
-
-apt_wide %>% 
-  filter(`mr3d_sats_1st year`!= "NA") %>% 
-  filter(`bsl_srt_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr3d_sats_1st year`, 
-                       `bsl_srt_2nd year`))
+  summarize(RSq=(cor(`mr3d_sats_pre-degree`, 
+                       `bsl_srt_3rd year`))^2)
 
 # 2nd year 3D Mental Rotation score vs. 2nd year BSL-SRT scores
-apt_wide %>%
-  ggplot(aes(x = `mr3d_sats_2nd year`, y = `bsl_srt_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal() +
-  labs(title = "2nd year 3D Mental Rotation score vs. 2nd year BSL-SRT scores", 
-       y = "2nd year BSL-SRT score", 
-       x = "2nd year 3D Mental Rotation score")
-
-apt_wide %>% 
-  filter(`mr3d_sats_2nd year`!= "NA") %>% 
-  filter(`bsl_srt_2nd year` != "NA") %>%   
-  summarize(AccCOR=cor(`mr3d_sats_2nd year`, 
-                       `bsl_srt_2nd year`))
+# only 4 data points here
 
 # 3rd year 3D Mental Rotation score vs. 3rd year BSL-SRT scores
 apt_wide %>%
@@ -592,8 +439,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`mr3d_sats_3rd year`!= "NA") %>% 
   filter(`bsl_srt_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`mr3d_sats_3rd year`, 
-                       `bsl_srt_3rd year`))
+  summarize(RSq=(cor(`mr3d_sats_3rd year`, 
+                       `bsl_srt_3rd year`))^2)
 ```
 #### MLAT Number Learning
 ##### vs BSL Grades
@@ -612,8 +459,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`mlat_acc_pre-degree`!= "NA") %>% 
   filter(`grade_bsl_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`mlat_acc_pre-degree`, 
-                       `grade_bsl_1st year`))
+  summarize(RSq=(cor(`mlat_acc_pre-degree`, 
+                       `grade_bsl_1st year`))^2)
 
 # Initial MLAT Number Learning Accuracy vs. BSL grades 2nd year
 apt_wide %>%
@@ -629,8 +476,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`mlat_acc_pre-degree`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`mlat_acc_pre-degree`, 
-                       `grade_bsl_2nd year`))
+  summarize(RSq=(cor(`mlat_acc_pre-degree`, 
+                       `grade_bsl_2nd year`))^2)
 ```
 
 ##### vs BSL-SRT
@@ -649,9 +496,10 @@ apt_wide %>%
 apt_wide %>% 
   filter(`mlat_acc_pre-degree`!= "NA") %>% 
   filter(`bsl_srt_3rd year` != "NA") %>% 
-  summarize(AccCOR=cor(`mlat_acc_pre-degree`, 
-                       `bsl_srt_3rd year`))
+  summarize(RSq=(cor(`mlat_acc_pre-degree`, 
+                       `bsl_srt_3rd year`))^2)
 ```
+
 ### No predicted impact on BSL
 
 #### Kirklees Sentence Reading
@@ -670,8 +518,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`kirk_acc_pre-degree`!= "NA") %>% 
   filter(`grade_bsl_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`kirk_acc_pre-degree`, 
-                       `grade_bsl_1st year`))
+  summarize(RSq=(cor(`kirk_acc_pre-degree`, 
+                       `grade_bsl_1st year`))^2)
 
 # Kirklees Sentence Reading pre-degree vs. BSL grades 2nd year
 apt_wide %>%
@@ -680,13 +528,14 @@ apt_wide %>%
   scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
   geom_point() +
   theme_minimal() +
-  labs(title = "Kirklees Sentence Reading pre-degree vs. BSL grades 2nd year", y = "2nd year BSL grade", x = "Kirklees Sentence Reading pre-degree")
+  labs(title = "Kirklees Sentence Reading pre-degree vs. BSL grades 2nd year", 
+       y = "2nd year BSL grade", x = "Kirklees Sentence Reading pre-degree")
 
 apt_wide %>% 
   filter(`kirk_acc_pre-degree`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`kirk_acc_pre-degree`, 
-                       `grade_bsl_2nd year`))
+  summarize(RSq=(cor(`kirk_acc_pre-degree`, 
+                       `grade_bsl_2nd year`))^2)
 
 # Kirklees Sentence Reading 1st year vs. BSL grades 1st year
 apt_wide %>%
@@ -695,13 +544,14 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
   theme_minimal() +
-  labs(title = "Kirklees Sentence Reading 1st year vs. BSL grades 1st year", y = "1st year BSL grade", x = "Kirklees Sentence Reading after 1 year")
+  labs(title = "Kirklees Sentence Reading 1st year vs. BSL grades 1st year", 
+       y = "1st year BSL grade", x = "Kirklees Sentence Reading after 1 year")
 
 apt_wide %>% 
   filter(`kirk_acc_1st year`!= "NA") %>% 
   filter(`grade_bsl_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`kirk_acc_1st year`, 
-                       `grade_bsl_1st year`))
+  summarize(RSq=(cor(`kirk_acc_1st year`, 
+                       `grade_bsl_1st year`))^2)
 
 # Kirklees Sentence Reading 1st year vs. BSL grades 2nd year
 apt_wide %>%
@@ -711,14 +561,13 @@ apt_wide %>%
   scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
   theme_minimal() +
   labs(title = "Kirklees Sentence Reading 1st year vs. BSL grades 2nd year", 
-       y = "2nd year BSL grade", 
-       x = "Kirklees Sentence Reading after 1 year")
+       y = "2nd year BSL grade", x = "Kirklees Sentence Reading after 1 year")
 
 apt_wide %>% 
   filter(`kirk_acc_1st year`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`kirk_acc_1st year`, 
-                       `grade_bsl_2nd year`))
+  summarize(RSq=(cor(`kirk_acc_1st year`, 
+                       `grade_bsl_2nd year`))^2)
 
 # Kirklees Sentence Reading 2nd year vs. BSL grades 2nd year
 apt_wide %>%
@@ -728,14 +577,13 @@ apt_wide %>%
   scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
   theme_minimal() +
   labs(title = "Kirklees Sentence Reading 2nd year vs. BSL grades 2nd year", 
-       y = "2nd year BSL grade", 
-       x = "Kirklees Sentence Reading 2nd year")
+       y = "2nd year BSL grade", x = "Kirklees Sentence Reading 2nd year")
 
 apt_wide %>% 
   filter(`kirk_acc_2nd year`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>%
-  summarize(AccCOR=cor(`kirk_acc_2nd year`, 
-                       `grade_bsl_2nd year`))
+  summarize(RSq=(cor(`kirk_acc_2nd year`, 
+                       `grade_bsl_2nd year`))^2)
 ```
 ##### vs BSL-SRT
 Does Kirklees Sentence Reading performance relate to BSL Sentence Reproduction Task?
@@ -747,14 +595,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "Initial Kirklees Sentence Reading score vs. 3rd year BSL-SRT scores", 
-       y = "3rd year BSL-SRT score", 
-       x = "Initial Kirklees Sentence Reading score")
+       y = "3rd year BSL-SRT score", x = "Initial Kirklees Sentence Reading score")
 
 apt_wide %>% 
   filter(`kirk_acc_pre-degree`!= "NA") %>% 
   filter(`bsl_srt_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`kirk_acc_pre-degree`, 
-                       `bsl_srt_3rd year`))
+  summarize(RSq=(cor(`kirk_acc_pre-degree`, 
+                       `bsl_srt_3rd year`))^2)
 
 # 2nd year Kirklees Sentence Reading score vs. 3rd year BSL-SRT scores
 apt_wide %>%
@@ -763,14 +610,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "2nd year Kirklees Sentence Reading score vs. 3rd year BSL-SRT scores", 
-       y = "3rd year BSL-SRT score", 
-       x = "2nd year Kirklees Sentence Reading score")
+       y = "3rd year BSL-SRT score", x = "2nd year Kirklees Sentence Reading score")
 
 apt_wide %>% 
   filter(`kirk_acc_2nd year`!= "NA") %>% 
   filter(`bsl_srt_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`kirk_acc_2nd year`, 
-                       `bsl_srt_3rd year`))
+  summarize(RSq=(cor(`kirk_acc_2nd year`, 
+                       `bsl_srt_3rd year`))^2)
 ```
 
 #### KBIT-2 Matrices 
@@ -784,13 +630,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "KBIT-2 Matrices pre-degree vs. BSL grades 1st year", 
-       y = "1st year BSL grade", x = " ")
+       y = "1st year BSL grade", x = "KBIT-2 Matrices pre-degree")
 
 apt_wide %>% 
   filter(`kbit_acc_pre-degree`!= "NA") %>% 
   filter(`grade_bsl_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`kbit_acc_pre-degree`, 
-                       `grade_bsl_1st year`))
+  summarize(RSq=(cor(`kbit_acc_pre-degree`, 
+                       `grade_bsl_1st year`))^2)
 
 # KBIT-2 Matrices pre-degree vs. BSL grades 2nd year
 apt_wide %>%
@@ -799,13 +645,13 @@ apt_wide %>%
   geom_point() +
   theme_minimal() +
   labs(title = "KBIT-2 Matrices pre-degree vs. BSL grades 2nd year", 
-       y = "2nd year BSL grade", x = " ")
+       y = "2nd year BSL grade", x = "KBIT-2 Matrices pre-degree")
 
 apt_wide %>% 
   filter(`kbit_acc_pre-degree`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`kbit_acc_pre-degree`, 
-                       `grade_bsl_2nd year`))
+  summarize(RSq=(cor(`kbit_acc_pre-degree`, 
+                       `grade_bsl_2nd year`))^2)
 
 # KBIT-2 Matrices 1st year vs. BSL grades 1st year
 apt_wide %>%
@@ -814,13 +660,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "KBIT-2 Matrices 1st year vs. BSL grades 1st year", 
-       y = "1st year BSL grade", x = " ")
+       y = "1st year BSL grade", x = "KBIT-2 Matrices 1st year")
 
 apt_wide %>% 
   filter(`kbit_acc_1st year`!= "NA") %>% 
   filter(`grade_bsl_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`kbit_acc_1st year`, 
-                       `grade_bsl_1st year`))
+  summarize(RSq=(cor(`kbit_acc_1st year`, 
+                       `grade_bsl_1st year`))^2)
 
 # KBIT-2 Matrices 1st year vs. BSL grades 2nd year
 apt_wide %>%
@@ -829,13 +675,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "KBIT-2 Matrices 1st year vs. BSL grades 2nd year", 
-       y = "2nd year BSL grade", x = " ")
+       y = "2nd year BSL grade", x = "KBIT-2 Matrices 1st year")
 
 apt_wide %>% 
   filter(`kbit_acc_1st year`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`kbit_acc_1st year`, 
-                       `grade_bsl_2nd year`))
+  summarize(RSq=(cor(`kbit_acc_1st year`, 
+                       `grade_bsl_2nd year`))^2)
 
 # KBIT-2 Matrices 2nd year vs. BSL grades 2nd year
 apt_wide %>%
@@ -844,13 +690,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "KBIT-2 Matrices 2nd year vs. BSL grades 2nd year", 
-       y = "2nd year BSL grade", x = " ")
+       y = "2nd year BSL grade", x = "KBIT-2 Matrices 2nd year")
 
 apt_wide %>% 
   filter(`kbit_acc_2nd year`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>%
-  summarize(AccCOR=cor(`kbit_acc_2nd year`, 
-                       `grade_bsl_2nd year`))
+  summarize(RSq=(cor(`kbit_acc_2nd year`, 
+                       `grade_bsl_2nd year`))^2)
 ```
 
 ##### vs BSL-SRT
@@ -863,14 +709,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "Initial KBIT-2 Matrices score vs. 3rd year BSL-SRT scores", 
-       y = "3rd year BSL-SRT score", 
-       x = "Initial KBIT-2 Matrices score")
+       y = "3rd year BSL-SRT score", x = "Initial KBIT-2 Matrices score")
 
 apt_wide %>% 
   filter(`kbit_acc_pre-degree`!= "NA") %>% 
   filter(`bsl_srt_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`kbit_acc_pre-degree`, 
-                       `bsl_srt_3rd year`))
+  summarize(RSq=(cor(`kbit_acc_pre-degree`, 
+                       `bsl_srt_3rd year`))^2)
 
 # 2nd year KBIT-2 Matrices score vs. 3rd year BSL-SRT scores
 apt_wide %>%
@@ -879,14 +724,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "2nd year KBIT-2 Matrices score vs. 3rd year BSL-SRT scores", 
-       y = "3rd year BSL-SRT score", 
-       x = "2nd year KBIT-2 Matrices score")
+       y = "3rd year BSL-SRT score", x = "2nd year KBIT-2 Matrices score")
 
 apt_wide %>% 
   filter(`kbit_acc_2nd year`!= "NA") %>% 
   filter(`bsl_srt_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`kbit_acc_2nd year`, 
-                       `bsl_srt_3rd year`))
+  summarize(RSq=(cor(`kbit_acc_2nd year`, 
+                       `bsl_srt_3rd year`))^2)
 ```
 
 #### Digit Span 
@@ -898,7 +742,14 @@ apt_wide %>%
   geom_point() +
   geom_smooth(method= "lm") +
   theme_minimal() +
-  labs(title = "Digit Span pre-degree vs. BSL grades 1st year", y = "1st year BSL grade", x = " ")
+  labs(title = "Digit Span pre-degree vs. BSL grades 1st year", 
+       y = "1st year BSL grade", x = "Digit Span pre-degree")
+
+apt_wide %>% 
+  filter(`dspan_corr_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>%   
+  summarize(RSq=(cor(`dspan_corr_pre-degree`, 
+                       `grade_bsl_1st year`))^2)
 
 # Digit Span pre-degree vs. BSL grades 2nd year
 apt_wide %>%
@@ -906,7 +757,14 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   geom_point() +
   theme_minimal() +
-  labs(title = "Digit Span pre-degree vs. BSL grades 2nd year", y = "2nd year BSL grade", x = " ")
+  labs(title = "Digit Span pre-degree vs. BSL grades 2nd year", 
+       y = "2nd year BSL grade", x = "Digit Span pre-degree")
+
+apt_wide %>% 
+  filter(`dspan_corr_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>%   
+  summarize(RSq=(cor(`dspan_corr_pre-degree`, 
+                       `grade_bsl_2nd year`))^2)
 
 # No datapoints for Digit Span @ '1 year of study'
 
@@ -916,7 +774,14 @@ apt_wide %>%
   geom_point() +
   geom_smooth(method= "lm") +
   theme_minimal() +
-  labs(title = "Digit Span 2nd year vs BSL grades 2nd year", y = "2nd year BSL grade", x = " ")
+  labs(title = "Digit Span 2nd year vs BSL grades 2nd year", 
+       y = "2nd year BSL grade", x = "Digit Span 2nd year")
+
+apt_wide %>% 
+  filter(`dspan_corr_2nd year`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>%   
+  summarize(RSq=(cor(`dspan_corr_2nd year`, 
+                       `grade_bsl_2nd year`))^2)
 ```
 
 ##### vs BSL-SRT
@@ -929,14 +794,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "Initial Digit Span score vs. 3rd year BSL-SRT scores", 
-       y = "3rd year BSL-SRT score", 
-       x = "Initial Digit Span score")
+       y = "3rd year BSL-SRT score", x = "Initial Digit Span score")
 
 apt_wide %>% 
   filter(`dspan_corr_pre-degree`!= "NA") %>% 
   filter(`bsl_srt_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`dspan_corr_pre-degree`, 
-                       `bsl_srt_3rd year`))
+  summarize(RSq=(cor(`dspan_corr_pre-degree`, 
+                       `bsl_srt_3rd year`))^2)
 
 # 2nd year Digit Span score vs. 3rd year BSL-SRT scores
 apt_wide %>%
@@ -945,14 +809,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "2nd year Digit Span score vs. 3rd year BSL-SRT scores", 
-       y = "3rd year BSL-SRT score", 
-       x = "2nd year Digit Span score")
+       y = "3rd year BSL-SRT score", x = "2nd year Digit Span score")
 
 apt_wide %>% 
   filter(`dspan_corr_2nd year`!= "NA") %>% 
   filter(`bsl_srt_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`dspan_corr_2nd year`, 
-                       `bsl_srt_3rd year`))
+  summarize(RSq=(cor(`dspan_corr_2nd year`, 
+                       `bsl_srt_3rd year`))^2)
 ```
 
 #### Barratt Impulsiveness Scale 
@@ -972,8 +835,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`bis_tot_2nd year`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>% 
-  summarize(COR=cor(`bis_tot_2nd year`, 
-                       `grade_bsl_2nd year`))
+  summarize(RSq=(cor(`bis_tot_2nd year`, 
+                       `grade_bsl_2nd year`))^2)
 ```
 
 ##### vs BSL-SRT
@@ -986,14 +849,14 @@ apt_wide %>%
   geom_point() +
   geom_smooth(method= "lm") +
   theme_minimal() +
-  labs(title= "Impulsivity 2nd year vs. BSL grades 3rd year", 
-       y = "3rd year BSL grade", x = "BIS Score 2nd year")
+  labs(title= "Impulsivity 2nd year vs. BSL-SRT 3rd year", 
+       y = "3rd year BSL-SRT score", x = "BIS Score 2nd year")
 
 apt_wide %>% 
   filter(`bis_tot_2nd year`!= "NA") %>% 
   filter(`bsl_srt_3rd year` != "NA") %>% 
-  summarize(COR=cor(`bis_tot_2nd year`, 
-                       `bsl_srt_3rd year`))
+  summarize(RSq=(cor(`bis_tot_2nd year`, 
+                       `bsl_srt_3rd year`))^2)
 ```
 
 
@@ -1016,8 +879,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`nback_comb_pre-degree`!= "NA") %>% 
   filter(`grade_terp_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`nback_comb_pre-degree`, 
-                       `grade_terp_1st year`))
+  summarize(RSq=(cor(`nback_comb_pre-degree`, 
+                       `grade_terp_1st year`))^2)
 
 # Dual N-Back pre-degree vs. Interpreting Grades 2nd year
 apt_wide %>%
@@ -1032,24 +895,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`nback_comb_pre-degree`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`nback_comb_pre-degree`, 
-                       `grade_terp_2nd year`))
-
-# Dual N-Back 1st year vs. Interpreting Grades 2nd year
-apt_wide %>%
-  ggplot(aes(x = `nback_comb_1st year`, y = `grade_terp_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
-  theme_minimal() +
-  labs(title = " Dual N-Back 1st year vs. Interpreting Grades 2nd year", 
-       y = "2nd year Interpreting grade", x = "Dual N-Back 1st year")
-
-apt_wide %>% 
-  filter(`nback_comb_1st year`!= "NA") %>% 
-  filter(`grade_terp_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`nback_comb_1st year`, 
-                       `grade_terp_2nd year`))
+  summarize(RSq=(cor(`nback_comb_pre-degree`, 
+                       `grade_terp_2nd year`))^2)
 
 # Dual N-Back 2nd year vs. Interpreting Grades 2nd year
 apt_wide %>%
@@ -1064,13 +911,13 @@ apt_wide %>%
 apt_wide %>% 
   filter(`nback_comb_2nd year`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>%   
-  summarize(AccCOR=cor(`nback_comb_2nd year`, 
-                       `grade_terp_2nd year`))
+  summarize(RSq=(cor(`nback_comb_2nd year`, 
+                       `grade_terp_2nd year`))^2)
 ```
 
 ##### vs Eng>BSL interpreting
 ```{r nback_e2b_terp}
-#  Dual N-Back pre-degree vs. Eng to BSL interpreting 3rd year
+# Dual N-Back pre-degree vs. Eng to BSL interpreting 3rd year
 apt_wide %>%
   ggplot(aes(x = `nback_comb_pre-degree`, y = `terp_e2b_3rd year`)) +
   geom_point() +
@@ -1083,10 +930,10 @@ apt_wide %>%
 apt_wide %>% 
   filter(`nback_comb_pre-degree`!= "NA") %>% 
   filter(`terp_e2b_3rd year` != "NA") %>% 
-  summarize(AccCOR=cor(`nback_comb_pre-degree`, 
-                       `terp_e2b_3rd year`))
+  summarize(RSq=(cor(`nback_comb_pre-degree`, 
+                       `terp_e2b_3rd year`))^2)
 
-#  Dual N-Back 2nd year vs. Eng to BSL interpreting 3rd year
+# Dual N-Back 2nd year vs. Eng to BSL interpreting 3rd year
 apt_wide %>%
   ggplot(aes(x = `nback_comb_2nd year`, y = `terp_e2b_3rd year`)) +
   geom_point() +
@@ -1099,10 +946,10 @@ apt_wide %>%
 apt_wide %>% 
   filter(`nback_comb_2nd year`!= "NA") %>% 
   filter(`terp_e2b_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`nback_comb_2nd year`, 
-                       `terp_e2b_3rd year`))
+  summarize(RSq=(cor(`nback_comb_2nd year`, 
+                       `terp_e2b_3rd year`))^2)
 
-#  Dual N-Back 3rd year vs. Eng to BSL interpreting 3rd year
+# Dual N-Back 3rd year vs. Eng to BSL interpreting 3rd year
 apt_wide %>%
   ggplot(aes(x = `nback_comb_3rd year`, y = `terp_e2b_3rd year`)) +
   geom_point() +
@@ -1115,8 +962,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`nback_comb_3rd year`!= "NA") %>% 
   filter(`terp_e2b_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`nback_comb_3rd year`, 
-                       `terp_e2b_3rd year`))
+  summarize(RSq=(cor(`nback_comb_3rd year`, 
+                       `terp_e2b_3rd year`))^2)
 ```
 
 ##### vs BSL>Eng interpreting
@@ -1134,8 +981,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`nback_comb_pre-degree`!= "NA") %>% 
   filter(`terp_b2e_3rd year` != "NA") %>% 
-  summarize(AccCOR=cor(`nback_comb_pre-degree`, 
-                       `terp_b2e_3rd year`))
+  summarize(RSq=(cor(`nback_comb_pre-degree`, 
+                       `terp_b2e_3rd year`))^2)
 
 # Dual N-Back 2nd year vs. BSL to Eng interpreting 3rd year
 apt_wide %>%
@@ -1150,8 +997,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`nback_comb_2nd year`!= "NA") %>% 
   filter(`terp_b2e_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`nback_comb_2nd year`, 
-                       `terp_b2e_3rd year`))
+  summarize(RSq=(cor(`nback_comb_2nd year`, 
+                       `terp_b2e_3rd year`))^2)
 
 # Dual N-Back 3rd year vs. BSL to Eng interpreting 3rd year
 apt_wide %>%
@@ -1166,8 +1013,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`nback_comb_3rd year`!= "NA") %>% 
   filter(`terp_b2e_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`nback_comb_3rd year`, 
-                       `terp_b2e_3rd year`))
+  summarize(RSq=(cor(`nback_comb_3rd year`, 
+                       `terp_b2e_3rd year`))^2)
 ```
 
 #### Corsi Blocks 
@@ -1224,8 +1071,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`corsi_corr_pre-degree`!= "NA") %>% 
   filter(`terp_e2b_3rd year` != "NA") %>% 
-  summarize(AccCOR=cor(`corsi_corr_pre-degree`, 
-                       `terp_e2b_3rd year`))
+  summarize(RSq=(cor(`corsi_corr_pre-degree`, 
+                       `terp_e2b_3rd year`))^2)
 
 #  Corsi Blocks 2nd year vs. Eng to BSL interpreting 3rd year
 apt_wide %>%
@@ -1239,8 +1086,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`corsi_corr_2nd year`!= "NA") %>% 
   filter(`terp_e2b_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`corsi_corr_2nd year`, 
-                       `terp_e2b_3rd year`))
+  summarize(RSq=(cor(`corsi_corr_2nd year`, 
+                       `terp_e2b_3rd year`))^2)
 
 #  Corsi Blocks 3rd year vs. Eng to BSL interpreting 3rd year
 apt_wide %>%
@@ -1254,8 +1101,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`corsi_corr_3rd year`!= "NA") %>% 
   filter(`terp_e2b_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`corsi_corr_3rd year`, 
-                       `terp_e2b_3rd year`))
+  summarize(RSq=(cor(`corsi_corr_3rd year`, 
+                       `terp_e2b_3rd year`))^2)
 ```
 
 ##### vs BSL>Eng interpreting
@@ -1272,8 +1119,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`corsi_corr_pre-degree`!= "NA") %>% 
   filter(`terp_b2e_3rd year` != "NA") %>% 
-  summarize(AccCOR=cor(`corsi_corr_pre-degree`, 
-                       `terp_b2e_3rd year`))
+  summarize(RSq=(cor(`corsi_corr_pre-degree`, 
+                       `terp_b2e_3rd year`))^2)
 
 #  Corsi Blocks 2nd year vs. BSL to Eng interpreting 3rd year
 apt_wide %>%
@@ -1287,8 +1134,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`corsi_corr_2nd year`!= "NA") %>% 
   filter(`terp_b2e_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`corsi_corr_2nd year`, 
-                       `terp_b2e_3rd year`))
+  summarize(RSq=(cor(`corsi_corr_2nd year`, 
+                       `terp_b2e_3rd year`))^2)
 
 #  Corsi Blocks 3rd year vs. BSL to Eng interpreting 3rd year
 apt_wide %>%
@@ -1302,8 +1149,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`corsi_corr_3rd year`!= "NA") %>% 
   filter(`terp_b2e_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`corsi_corr_3rd year`, 
-                       `terp_b2e_3rd year`))
+  summarize(RSq=(cor(`corsi_corr_3rd year`, 
+                       `terp_b2e_3rd year`))^2)
 ```
 
 #### Digit Span 
@@ -1323,8 +1170,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`dspan_corr_pre-degree`!= "NA") %>% 
   filter(`grade_terp_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`dspan_corr_pre-degree`, 
-                       `grade_terp_1st year`))
+  summarize(RSq=(cor(`dspan_corr_pre-degree`, 
+                       `grade_terp_1st year`))^2)
 
 # Digit Span pre-degree vs. Interpreting Grades 2nd year
 apt_wide %>%
@@ -1339,8 +1186,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`dspan_corr_pre-degree`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`dspan_corr_pre-degree`, 
-                       `grade_terp_2nd year`))
+  summarize(RSq=(cor(`dspan_corr_pre-degree`, 
+                       `grade_terp_2nd year`))^2)
 
 # Digit Span 2nd year vs. Interpreting Grades 2nd year
 apt_wide %>%
@@ -1355,9 +1202,10 @@ apt_wide %>%
 apt_wide %>% 
   filter(`dspan_corr_2nd year`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>%
-  summarize(AccCOR=cor(`dspan_corr_2nd year`, 
-                       `grade_terp_2nd year`))
+  summarize(RSq=(cor(`dspan_corr_2nd year`, 
+                       `grade_terp_2nd year`))^2)
 ```
+
 ##### vs Eng>BSL interpreting
 ```{r dspan_e2b_terp}
 # Digit Span pre-degree vs. Eng to BSL interpreting 3rd year
@@ -1372,8 +1220,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`dspan_corr_pre-degree`!= "NA") %>% 
   filter(`terp_e2b_3rd year` != "NA") %>% 
-  summarize(AccCOR=cor(`dspan_corr_pre-degree`, 
-                       `terp_e2b_3rd year`))
+  summarize(RSq=(cor(`dspan_corr_pre-degree`, 
+                       `terp_e2b_3rd year`))^2)
 
 # Digit Span 2nd year vs. Eng to BSL interpreting 3rd year
 apt_wide %>%
@@ -1387,8 +1235,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`dspan_corr_2nd year`!= "NA") %>% 
   filter(`terp_e2b_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`dspan_corr_2nd year`, 
-                       `terp_e2b_3rd year`))
+  summarize(RSq=(cor(`dspan_corr_2nd year`, 
+                       `terp_e2b_3rd year`))^2)
 
 # Digit Span 3rd year vs. Eng to BSL interpreting 3rd year
 apt_wide %>%
@@ -1402,9 +1250,10 @@ apt_wide %>%
 apt_wide %>% 
   filter(`dspan_corr_3rd year`!= "NA") %>% 
   filter(`terp_e2b_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`dspan_corr_3rd year`, 
-                       `terp_e2b_3rd year`))
+  summarize(RSq=(cor(`dspan_corr_3rd year`, 
+                       `terp_e2b_3rd year`))^2)
 ```
+
 ##### vs BSL>Eng interpreting
 ```{r dspan_b2e_terp}
 # Digit Span pre-degree vs. BSL to Eng interpreting 3rd year
@@ -1419,8 +1268,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`dspan_corr_pre-degree`!= "NA") %>% 
   filter(`terp_b2e_3rd year` != "NA") %>% 
-  summarize(AccCOR=cor(`dspan_corr_pre-degree`, 
-                       `terp_b2e_3rd year`))
+  summarize(RSq=(cor(`dspan_corr_pre-degree`, 
+                       `terp_b2e_3rd year`))^2)
 
 # Digit Span 2nd year vs. BSL to Eng interpreting 3rd year
 apt_wide %>%
@@ -1434,8 +1283,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`dspan_corr_2nd year`!= "NA") %>% 
   filter(`terp_b2e_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`dspan_corr_2nd year`, 
-                       `terp_b2e_3rd year`))
+  summarize(RSq=(cor(`dspan_corr_2nd year`, 
+                       `terp_b2e_3rd year`))^2)
 
 # Digit Span 3rd year vs. BSL to Eng interpreting 3rd year
 apt_wide %>%
@@ -1449,8 +1298,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`dspan_corr_3rd year`!= "NA") %>% 
   filter(`terp_b2e_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`dspan_corr_3rd year`, 
-                       `terp_b2e_3rd year`))
+  summarize(RSq=(cor(`dspan_corr_3rd year`, 
+                       `terp_b2e_3rd year`))^2)
 ```
 
 ### No predicted impact on interpreting
@@ -1472,8 +1321,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`kirk_acc_pre-degree`!= "NA") %>% 
   filter(`grade_terp_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`kirk_acc_pre-degree`, 
-                       `grade_terp_1st year`))
+  summarize(RSq=(cor(`kirk_acc_pre-degree`, 
+                       `grade_terp_1st year`))^2)
 
 # Kirklees Sentence Reading pre-degree vs. Interpreting Grades 2nd year
 apt_wide %>%
@@ -1488,8 +1337,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`kirk_acc_pre-degree`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`kirk_acc_pre-degree`, 
-                       `grade_terp_2nd year`))
+  summarize(RSq=(cor(`kirk_acc_pre-degree`, 
+                       `grade_terp_2nd year`))^2)
 
 # Kirklees Sentence Reading 1st year vs. Interpreting Grades 2nd year
 apt_wide %>%
@@ -1499,14 +1348,13 @@ apt_wide %>%
   scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
   theme_minimal() +
   labs(title = "Kirklees Sentence Reading 1st year vs. Interpreting Grades 2nd year", 
-       y = "2nd year Interpreting grade", 
-       x = "Kirklees Sentence Reading after 1 year")
+       y = "2nd year Interpreting grade", x = "Kirklees Sentence Reading after 1 year")
 
 apt_wide %>% 
   filter(`kirk_acc_1st year`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`kirk_acc_1st year`, 
-                       `grade_terp_2nd year`))
+  summarize(RSq=(cor(`kirk_acc_1st year`, 
+                       `grade_terp_2nd year`))^2)
 
 # Kirklees Sentence Reading 2nd year vs. Interpreting Grades 2nd year
 apt_wide %>%
@@ -1521,8 +1369,8 @@ apt_wide %>%
 apt_wide %>% 
   filter(`kirk_acc_2nd year`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>%
-  summarize(AccCOR=cor(`kirk_acc_2nd year`, 
-                       `grade_terp_2nd year`))
+  summarize(RSq=(cor(`kirk_acc_2nd year`, 
+                       `grade_terp_2nd year`))^2)
 ```
 
 ##### vs Eng>BSL interpreting
@@ -1534,14 +1382,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "Kirklees pre-degree vs. Eng to BSL interpreting 3rd year",
-       y = "Eng to BSL interpreting 3rd year", 
-       x = "Kirklees pre-degree")
+       y = "Eng to BSL interpreting 3rd year", x = "Kirklees pre-degree")
 
 apt_wide %>% 
   filter(`kirk_acc_pre-degree`!= "NA") %>% 
   filter(`terp_e2b_3rd year` != "NA") %>% 
-  summarize(AccCOR=cor(`kirk_acc_pre-degree`, 
-                       `terp_e2b_3rd year`))
+  summarize(RSq=(cor(`kirk_acc_pre-degree`, 
+                       `terp_e2b_3rd year`))^2)
 
 # Kirklees 2nd year vs. Eng to BSL interpreting 3rd year
 apt_wide %>%
@@ -1550,14 +1397,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "Kirklees 2nd year vs. Eng to BSL interpreting 3rd year",
-       y = "Eng to BSL interpreting 3rd year",
-       x = "Kirklees 2nd year")
+       y = "Eng to BSL interpreting 3rd year", x = "Kirklees 2nd year")
 
 apt_wide %>% 
   filter(`kirk_acc_2nd year`!= "NA") %>% 
   filter(`terp_e2b_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`kirk_acc_2nd year`, 
-                       `terp_e2b_3rd year`))
+  summarize(RSq=(cor(`kirk_acc_2nd year`, 
+                       `terp_e2b_3rd year`))^2)
 ```
 
 ##### vs BSL>Eng interpreting
@@ -1569,14 +1415,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "Kirklees pre-degree vs. BSL to Eng interpreting 3rd year",
-       y = "BSL to Eng interpreting 3rd year", 
-       x = "Kirklees pre-degree")
+       y = "BSL to Eng interpreting 3rd year", x = "Kirklees pre-degree")
 
 apt_wide %>% 
   filter(`kirk_acc_pre-degree`!= "NA") %>% 
   filter(`terp_b2e_3rd year` != "NA") %>% 
-  summarize(AccCOR=cor(`kirk_acc_pre-degree`, 
-                       `terp_b2e_3rd year`))
+  summarize(RSq=(cor(`kirk_acc_pre-degree`, 
+                       `terp_b2e_3rd year`))^2)
 
 # Kirklees 2nd year vs. BSL to Eng interpreting 3rd year
 apt_wide %>%
@@ -1585,14 +1430,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "Kirklees 2nd year vs. BSL to Eng interpreting 3rd year",
-       y = "BSL to Eng interpreting 3rd year",
-       x = "Kirklees 2nd year")
+       y = "BSL to Eng interpreting 3rd year", x = "Kirklees 2nd year")
 
 apt_wide %>% 
   filter(`kirk_acc_2nd year`!= "NA") %>% 
   filter(`terp_b2e_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`kirk_acc_2nd year`, 
-                       `terp_b2e_3rd year`))
+  summarize(RSq=(cor(`kirk_acc_2nd year`, 
+                       `terp_b2e_3rd year`))^2)
 ```
 
 #### KBIT-2 Matrices 
@@ -1606,7 +1450,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "KBIT-2 Matrices pre-degree vs. Interpreting Grades 1st year", 
-       y = "1st year Interpreting grade", x = " ")
+       y = "1st year Interpreting grade", x = "KBIT-2 Matrices pre-degree")
+
+apt_wide %>% 
+  filter(`kbit_acc_pre-degree`!= "NA") %>% 
+  filter(`grade_terp_1st year` != "NA") %>% 
+  summarize(RSq=(cor(`kbit_acc_pre-degree`, 
+                       `grade_terp_1st year`))^2)
 
 # KBIT-2 Matrices pre-degree vs. Interpreting Grades 2nd year
 apt_wide %>%
@@ -1615,7 +1465,13 @@ apt_wide %>%
   geom_point() +
   theme_minimal() +
   labs(title = "KBIT-2 Matrices pre-degree vs. Interpreting Grades 2nd year", 
-       y = "2nd year Interpreting grade", x = " ")
+       y = "2nd year Interpreting grade", x = "KBIT-2 Matrices pre-degree")
+
+apt_wide %>% 
+  filter(`kbit_acc_pre-degree`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>% 
+  summarize(RSq=(cor(`kbit_acc_pre-degree`, 
+                       `grade_terp_2nd year`))^2)
 
 # KBIT-2 Matrices 1st year vs. Interpreting Grades 2nd year
 apt_wide %>%
@@ -1624,7 +1480,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "KBIT-2 Matrices 1st year vs. Interpreting Grades 2nd year", 
-       y = "2nd year Interpreting grade", x = " ")
+       y = "2nd year Interpreting grade", x = "KBIT-2 Matrices 1st year")
+
+apt_wide %>% 
+  filter(`kbit_acc_1st year` != "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>% 
+  summarize(RSq=(cor(`kbit_acc_1st year`, 
+                       `grade_terp_2nd year`))^2)
 
 # KBIT-2 Matrices 2nd year vs. Interpreting Grades 2nd year
 apt_wide %>%
@@ -1633,7 +1495,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "KBIT-2 Matrices 2nd year vs. Interpreting Grades 2nd year", 
-       y = "2nd year Interpreting grade", x = " ")
+       y = "2nd year Interpreting grade", x = "KBIT-2 Matrices 2nd year")
+
+apt_wide %>% 
+  filter(`kbit_acc_2nd year` != "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>% 
+  summarize(RSq=(cor(`kbit_acc_2nd year`, 
+                       `grade_terp_2nd year`))^2)
 ```
 
 ##### vs Eng>BSL interpreting
@@ -1645,14 +1513,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "KBIT-2 Matrices pre-degree vs. Eng to BSL interpreting 3rd year",
-       y = "Eng to BSL interpreting 3rd year", 
-       x = "KBIT-2 Matrices pre-degree")
+       y = "Eng to BSL interpreting 3rd year", x = "KBIT-2 Matrices pre-degree")
 
 apt_wide %>% 
   filter(`kbit_acc_pre-degree`!= "NA") %>% 
   filter(`terp_e2b_3rd year` != "NA") %>% 
-  summarize(AccCOR=cor(`kbit_acc_pre-degree`, 
-                       `terp_e2b_3rd year`))
+  summarize(RSq=(cor(`kbit_acc_pre-degree`, 
+                       `terp_e2b_3rd year`))^2)
 
 # KBIT-2 Matrices 2nd year vs. Eng to BSL interpreting 3rd year
 apt_wide %>%
@@ -1661,14 +1528,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "KBIT-2 Matrices 2nd year vs. Eng to BSL interpreting 3rd year",
-       y = "Eng to BSL interpreting 3rd year",
-       x = "KBIT-2 Matrices 2nd year")
+       y = "Eng to BSL interpreting 3rd year", x = "KBIT-2 Matrices 2nd year")
 
 apt_wide %>% 
   filter(`kbit_acc_2nd year`!= "NA") %>% 
   filter(`terp_e2b_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`kbit_acc_2nd year`, 
-                       `terp_e2b_3rd year`))
+  summarize(RSq=(cor(`kbit_acc_2nd year`, 
+                       `terp_e2b_3rd year`))^2)
 ```
 
 ##### vs BSL>Eng interpreting
@@ -1680,14 +1546,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "KBIT-2 Matrices pre-degree vs. BSL to Eng interpreting 3rd year",
-       y = "BSL to Eng interpreting 3rd year", 
-       x = "KBIT-2 Matrices pre-degree")
+       y = "BSL to Eng interpreting 3rd year", x = "KBIT-2 Matrices pre-degree")
 
 apt_wide %>% 
   filter(`kbit_acc_pre-degree`!= "NA") %>% 
   filter(`terp_b2e_3rd year` != "NA") %>% 
-  summarize(AccCOR=cor(`kbit_acc_pre-degree`, 
-                       `terp_b2e_3rd year`))
+  summarize(RSq=(cor(`kbit_acc_pre-degree`, 
+                       `terp_b2e_3rd year`))^2)
 
 # KBIT-2 Matrices 2nd year vs. BSL to Eng interpreting 3rd year
 apt_wide %>%
@@ -1696,14 +1561,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "KBIT-2 Matrices 2nd year vs. BSL to Eng interpreting 3rd year",
-       y = "BSL to Eng interpreting 3rd year",
-       x = "KBIT-2 Matrices 2nd year")
+       y = "BSL to Eng interpreting 3rd year", x = "KBIT-2 Matrices 2nd year")
 
 apt_wide %>% 
   filter(`kbit_acc_2nd year`!= "NA") %>% 
   filter(`terp_b2e_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`kbit_acc_2nd year`, 
-                       `terp_b2e_3rd year`))
+  summarize(RSq=(cor(`kbit_acc_2nd year`, 
+                       `terp_b2e_3rd year`))^2)
 ```
 
 #### 2D Mental Rotation
@@ -1715,13 +1579,14 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   geom_point() +
   theme_minimal() +
-  labs(title = "2D Mental Rotation pre-degree vs. Interpreting Grades 2nd year", y = "2nd year Interpreting grade", x = "2D Mental Rotation pre-degree")
+  labs(title = "2D Mental Rotation pre-degree vs. Interpreting Grades 2nd year", 
+       y = "2nd year Interpreting grade", x = "2D Mental Rotation pre-degree")
 
 apt_wide %>% 
   filter(`mr2d_sats_pre-degree`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr2d_sats_pre-degree`, 
-                       `grade_terp_2nd year`))
+  summarize(RSq=(cor(`mr2d_sats_pre-degree`, 
+                       `grade_terp_2nd year`))^2)
 
 # 2D Mental Rotation 1st year vs. Interpreting Grades 2nd year
 apt_wide %>%
@@ -1729,13 +1594,14 @@ apt_wide %>%
   geom_point() +
   geom_smooth(method= "lm") +
   theme_minimal() +
-  labs(title = "2D Mental Rotation 1st year vs. Interpreting Grades 2nd year", y = "2nd year Interpreting grade", x = "2D Mental Rotation 1st year")
+  labs(title = "2D Mental Rotation 1st year vs. Interpreting Grades 2nd year", 
+       y = "2nd year Interpreting grade", x = "2D Mental Rotation 1st year")
 
 apt_wide %>% 
   filter(`mr2d_sats_1st year`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr2d_sats_1st year`, 
-                       `grade_terp_2nd year`))
+  summarize(RSq=(cor(`mr2d_sats_1st year`, 
+                       `grade_terp_2nd year`))^2)
 
 # 2D Mental Rotation 2nd year vs. Interpreting Grades 2nd year
 apt_wide %>%
@@ -1743,14 +1609,16 @@ apt_wide %>%
   geom_point() +
   geom_smooth(method= "lm") +
   theme_minimal() +
-  labs(title = "2D Mental Rotation 2nd year vs. Interpreting Grades 2nd year", y = "2nd year Interpreting grade", x = "2D Mental Rotation 2nd year")
+  labs(title = "2D Mental Rotation 2nd year vs. Interpreting Grades 2nd year", 
+       y = "2nd year Interpreting grade", x = "2D Mental Rotation 2nd year")
 
 apt_wide %>% 
   filter(`mr2d_sats_2nd year`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>%   
-  summarize(AccCOR=cor(`mr2d_sats_2nd year`, 
-                       `grade_terp_2nd year`))
+  summarize(RSq=(cor(`mr2d_sats_2nd year`, 
+                       `grade_terp_2nd year`))^2)
 ```
+
 ##### vs Eng>BSL interpreting
 ```{r mr2d_e2b_terp}
 # 2D Mental Rotation 2nd year vs. Eng to BSL interpreting 3rd year
@@ -1760,14 +1628,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "2D Mental Rotation 2nd year vs. Eng to BSL interpreting 3rd year",
-       y = "Eng to BSL interpreting 3rd year",
-       x = "2D Mental Rotation 2nd year")
+       y = "Eng to BSL interpreting 3rd year", x = "2D Mental Rotation 2nd year")
 
 apt_wide %>% 
   filter(`mr2d_sats_2nd year`!= "NA") %>% 
   filter(`terp_e2b_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`mr2d_sats_2nd year`, 
-                       `terp_e2b_3rd year`))
+  summarize(RSq=(cor(`mr2d_sats_2nd year`, 
+                       `terp_e2b_3rd year`))^2)
 
 # 2D Mental Rotation 3rd year vs. Eng to BSL interpreting 3rd year
 apt_wide %>%
@@ -1776,15 +1643,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "2D Mental Rotation 3rd year vs. Eng to BSL interpreting 3rd year",
-       y = "Eng to BSL interpreting 3rd year",
-       x = "2D Mental Rotation 3rd year")
+       y = "Eng to BSL interpreting 3rd year", x = "2D Mental Rotation 3rd year")
 
 apt_wide %>% 
   filter(`mr2d_sats_3rd year`!= "NA") %>% 
   filter(`terp_e2b_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`mr2d_sats_3rd year`, 
-                       `terp_e2b_3rd year`))
-
+  summarize(RSq=(cor(`mr2d_sats_3rd year`, 
+                       `terp_e2b_3rd year`))^2)
 ```
 
 ##### vs BSL>Eng interpreting
@@ -1796,14 +1661,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "2D Mental Rotation 2nd year vs. BSL to Eng interpreting 3rd year",
-       y = "BSL to Eng interpreting 3rd year",
-       x = "2D Mental Rotation 2nd year")
+       y = "BSL to Eng interpreting 3rd year", x = "2D Mental Rotation 2nd year")
 
 apt_wide %>% 
   filter(`mr2d_sats_2nd year`!= "NA") %>% 
   filter(`terp_b2e_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`mr2d_sats_2nd year`, 
-                       `terp_b2e_3rd year`))
+  summarize(RSq=(cor(`mr2d_sats_2nd year`, 
+                       `terp_b2e_3rd year`))^2)
 
 # 2D Mental Rotation 3rd year vs. BSL to Eng interpreting 3rd year
 apt_wide %>%
@@ -1812,14 +1676,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "2D Mental Rotation 3rd year vs. BSL to Eng interpreting 3rd year",
-       y = "BSL to Eng interpreting 3rd year",
-       x = "2D Mental Rotation 2nd year")
+       y = "BSL to Eng interpreting 3rd year", x = "2D Mental Rotation 2nd year")
 
 apt_wide %>% 
   filter(`mr2d_sats_3rd year`!= "NA") %>% 
   filter(`terp_b2e_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`mr2d_sats_3rd year`, 
-                       `terp_b2e_3rd year`))
+  summarize(RSq=(cor(`mr2d_sats_3rd year`, 
+                       `terp_b2e_3rd year`))^2)
 ```
 
 #### 3D Mental Rotation 
@@ -1832,14 +1695,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "3D Mental Rotation pre-degree vs. Interpreting Grades 1st year", 
-       y = "1st year Interpreting grade", 
-       x = "3D Mental Rotation pre-degree")
+       y = "1st year Interpreting grade", x = "3D Mental Rotation pre-degree")
 
 apt_wide %>% 
   filter(`mr3d_sats_pre-degree`!= "NA") %>% 
   filter(`grade_terp_1st year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr3d_sats_pre-degree`, 
-                       `grade_terp_1st year`))
+  summarize(RSq=(cor(`mr3d_sats_pre-degree`, 
+                       `grade_terp_1st year`))^2)
 
 # 3D Mental Rotation pre-degree vs. Interpreting Grades 2nd year
 apt_wide %>%
@@ -1848,14 +1710,13 @@ apt_wide %>%
   geom_point() +
   theme_minimal() +
   labs(title= "3D Mental Rotation pre-degree vs. Interpreting Grades 2nd year", 
-       y = "2nd year Interpreting grade", 
-       x = "3D Mental Rotation pre-degree") 
+       y = "2nd year Interpreting grade", x = "3D Mental Rotation pre-degree") 
 
 apt_wide %>% 
   filter(`mr3d_sats_pre-degree`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>% 
-  summarize(AccCOR=cor(`mr3d_sats_pre-degree`, 
-                       `grade_terp_2nd year`))
+  summarize(RSq=(cor(`mr3d_sats_pre-degree`, 
+                       `grade_terp_2nd year`))^2)
 
 # 3D Mental Rotation 2nd year vs. Interpreting Grades 2nd year
 apt_wide %>%
@@ -1864,14 +1725,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title= "3D Mental Rotation 2nd year vs. Interpreting Grades 2nd year",
-       y = "2nd year Interpreting grade", 
-       x = "3D Mental Rotation 2nd year") 
+       y = "2nd year Interpreting grade", x = "3D Mental Rotation 2nd year") 
 
 apt_wide %>% 
   filter(`mr3d_sats_2nd year`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>%   
-  summarize(AccCOR=cor(`mr3d_sats_2nd year`, 
-                       `grade_terp_2nd year`))
+  summarize(RSq=(cor(`mr3d_sats_2nd year`, 
+                       `grade_terp_2nd year`))^2)
 
 # 3D Mental Rotation 3rd year vs. Interpreting Grades 2nd year
 apt_wide %>%
@@ -1880,14 +1740,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title= "3D Mental Rotation 3rd year vs. Interpreting Grades 2nd year",
-       y = "2nd year Interpreting grade", 
-       x = "3D Mental Rotation 3rd year") 
+       y = "2nd year Interpreting grade", x = "3D Mental Rotation 3rd year") 
 
 apt_wide %>% 
   filter(`mr3d_sats_3rd year`!= "NA") %>% 
   filter(`grade_terp_2nd year` != "NA") %>%   
-  summarize(AccCOR=cor(`mr3d_sats_3rd year`, 
-                       `grade_terp_2nd year`))
+  summarize(RSq=(cor(`mr3d_sats_3rd year`, 
+                       `grade_terp_2nd year`))^2)
 ```
 
 ##### vs Eng>BSL interpreting
@@ -1899,14 +1758,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "3D Mental Rotation pre-degree vs. Eng to BSL interpreting 3rd year",
-       y = "Eng to BSL interpreting 3rd year",
-       x = "3D Mental Rotation pre-degree")
+       y = "Eng to BSL interpreting 3rd year", x = "3D Mental Rotation pre-degree")
 
 apt_wide %>% 
   filter(`mr3d_sats_pre-degree`!= "NA") %>% 
   filter(`terp_e2b_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`mr3d_sats_pre-degree`, 
-                       `terp_e2b_3rd year`))
+  summarize(RSq=(cor(`mr3d_sats_pre-degree`, 
+                       `terp_e2b_3rd year`))^2)
 
 # 3D Mental Rotation 2nd year vs. Eng to BSL interpreting  3rd year
 apt_wide %>%
@@ -1915,14 +1773,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "3D Mental Rotation 2nd year vs. Eng to BSL interpreting 3rd year",
-       y = "Eng to BSL interpreting 3rd year",
-       x = "3D Mental Rotation 2nd year")
+       y = "Eng to BSL interpreting 3rd year", x = "3D Mental Rotation 2nd year")
 
 apt_wide %>% 
   filter(`mr3d_sats_2nd year`!= "NA") %>% 
   filter(`terp_e2b_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`mr3d_sats_2nd year`, 
-                       `terp_e2b_3rd year`))
+  summarize(RSq=(cor(`mr3d_sats_2nd year`, 
+                       `terp_e2b_3rd year`))^2)
 
 # 3D Mental Rotation 3rd year vs. Eng to BSL interpreting  3rd year
 apt_wide %>%
@@ -1931,15 +1788,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "3D Mental Rotation 3rd year vs. Eng to BSL interpreting 3rd year",
-       y = "Eng to BSL interpreting 3rd year",
-       x = "3D Mental Rotation 3rd year")
+       y = "Eng to BSL interpreting 3rd year", x = "3D Mental Rotation 3rd year")
 
 apt_wide %>% 
   filter(`mr3d_sats_3rd year`!= "NA") %>% 
   filter(`terp_e2b_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`mr3d_sats_3rd year`, 
-                       `terp_e2b_3rd year`))
-
+  summarize(RSq=(cor(`mr3d_sats_3rd year`, 
+                       `terp_e2b_3rd year`))^2)
 ```
 
 ##### vs BSL>Eng interpreting
@@ -1951,14 +1806,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "3D Mental Rotation pre-degree vs. BSL to Eng interpreting 3rd year",
-       y = "BSL to BSL interpreting 3rd year",
-       x = "3D Mental Rotation pre-degree")
+       y = "BSL to BSL interpreting 3rd year", x = "3D Mental Rotation pre-degree")
 
 apt_wide %>% 
   filter(`mr3d_sats_pre-degree`!= "NA") %>% 
   filter(`terp_b2e_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`mr3d_sats_pre-degree`, 
-                       `terp_b2e_3rd year`))
+  summarize(RSq=(cor(`mr3d_sats_pre-degree`, 
+                       `terp_b2e_3rd year`))^2)
 
 # 3D Mental Rotation 2nd year vs. BSL to Eng interpreting 3rd year
 apt_wide %>%
@@ -1967,14 +1821,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "3D Mental Rotation 2nd year vs. BSL to Eng interpreting 3rd year",
-       y = "BSL to Eng interpreting 3rd year",
-       x = "3D Mental Rotation 2nd year")
+       y = "BSL to Eng interpreting 3rd year", x = "3D Mental Rotation 2nd year")
 
 apt_wide %>% 
   filter(`mr3d_sats_2nd year`!= "NA") %>% 
   filter(`terp_b2e_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`mr3d_sats_2nd year`, 
-                       `terp_b2e_3rd year`))
+  summarize(RSq=(cor(`mr3d_sats_2nd year`, 
+                       `terp_b2e_3rd year`))^2)
 
 # 3D Mental Rotation 3rd year vs. BSL to Eng interpreting 3rd year
 apt_wide %>%
@@ -1983,14 +1836,13 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "3D Mental Rotation 3rd year vs. BSL to Eng interpreting 3rd year",
-       y = "BSL to Eng interpreting 3rd year",
-       x = "3D Mental Rotation 2nd year")
+       y = "BSL to Eng interpreting 3rd year", x = "3D Mental Rotation 2nd year")
 
 apt_wide %>% 
   filter(`mr3d_sats_3rd year`!= "NA") %>% 
   filter(`terp_b2e_3rd year` != "NA") %>%   
-  summarize(AccCOR=cor(`mr3d_sats_3rd year`, 
-                       `terp_b2e_3rd year`))
+  summarize(RSq=(cor(`mr3d_sats_3rd year`, 
+                       `terp_b2e_3rd year`))^2)
 ```
 
 #### Barratt Impulsiveness Scale 
@@ -2006,12 +1858,61 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title= "Impulsivity 2nd year vs. Interpreting Grades 2nd year", 
-       y = "2nd year Interpreting grade", 
-       x = "BIS score 2nd year")
+       y = "2nd year Interpreting grade", x = "BIS score 2nd year")
+
+apt_wide %>% 
+  filter(`bis_tot_2nd year`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>% 
+  summarize(RSq=(cor(`bis_tot_2nd year`, 
+                       `grade_terp_2nd year`))^2)
+```
+
+##### vs Eng>BSL interpreting
+```{r bis_e2b}
+# Barratt Impulsiveness Scale 2nd year vs. Eng to BSL interpreting 3rd year
+apt_wide %>%
+  filter(`bis_tot_2nd year` != "na") %>% 
+  filter(`terp_e2b_3rd year` != "na") %>% 
+  ggplot(aes(x = `bis_tot_2nd year`, y = `terp_e2b_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Impulsivity 2nd year vs. Eng to BSL interpreting 3rd year", 
+       y = "2nd year Interpreting grade", x = "Eng to BSL interpreting 3rd year")
+
+apt_wide %>% 
+  filter(`bis_tot_2nd year`!= "NA") %>% 
+  filter(`terp_e2b_3rd year` != "NA") %>% 
+  summarize(RSq=(cor(`bis_tot_2nd year`, 
+                       `terp_e2b_3rd year`))^2)
+```
+
+```{r bis_b2e}
+# Barratt Impulsiveness Scale 2nd year vs. BSL to Eng interpreting 3rd year
+apt_wide %>%
+  filter(`bis_tot_2nd year` != "na") %>% 
+  filter(`terp_b2e_3rd year` != "na") %>% 
+  ggplot(aes(x = `bis_tot_2nd year`, y = `terp_b2e_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Impulsivity 2nd year vs. BSL to Eng interpreting 3rd year", 
+       y = "2nd year Interpreting grade", x = "BSL to Eng interpreting 3rd year")
+
+apt_wide %>% 
+  filter(`bis_tot_2nd year`!= "NA") %>% 
+  filter(`terp_b2e_3rd year` != "NA") %>% 
+  summarize(RSq=(cor(`bis_tot_2nd year`, 
+                       `terp_b2e_3rd year`))^2)
+```
+
+##### vs BSL>Eng interpreting
+```{r}
+
 ```
 
 
-##############################################################################
+#################################################################
 
 # Models
 
@@ -2120,7 +2021,7 @@ summary(terp_grade_mdl_3)
 
 ## Eng>BSL interpreting
 
-##############################################################################
+#################################################################
 
 # Factor Analysis
 
