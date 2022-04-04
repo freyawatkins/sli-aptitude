@@ -61,9 +61,9 @@ apt_wide <- apt %>%
                      values_from = c(nback_lett:grade_terp))
 ```
 
-# Plots/correlations
+# Plots & correlations
 
-### Predicted impact on BSL
+### BSL: predicted impact
 
 #### Corsi Blocks
 
@@ -355,38 +355,6 @@ apt_wide %>%
   summarize(RSq=(cor(`mr3d_sats_pre-degree`, 
                        `grade_bsl_2nd year`))^2)
 
-# 1st year 3D Mental Rotation score vs. 1st year BSL grades
-apt_wide %>%
-  ggplot(aes(x = `mr3d_sats_1st year`, y = `grade_bsl_1st year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal() +
-  labs(title = "1st year 3D Mental Rotation score vs. 1st year BSL grades", 
-       y = "1st year BSL grade", 
-       x = "1st year 3D Mental Rotation score")
-
-apt_wide %>% 
-  filter(`mr3d_sats_1st year`!= "NA") %>% 
-  filter(`grade_bsl_1st year` != "NA") %>% 
-  summarize(RSq=(cor(`mr3d_sats_1st year`, 
-                       `grade_bsl_1st year`))^2)
-
-# 1st year 3D Mental Rotation score vs. 2nd year BSL grades
-apt_wide %>%
-  ggplot(aes(x = `mr3d_sats_1st year`, y = `grade_bsl_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal() +
-  labs(title = "1st year 3D Mental Rotation score vs. 2nd year BSL grades", 
-       y = "1st year BSL grade", 
-       x = "2nd year 3D Mental Rotation score")
-
-apt_wide %>% 
-  filter(`mr3d_sats_1st year`!= "NA") %>% 
-  filter(`grade_bsl_2nd year` != "NA") %>% 
-  summarize(RSq=(cor(`mr3d_sats_1st year`, 
-                       `grade_bsl_2nd year`))^2)
-
 # 2nd year 3D Mental Rotation score vs. 2nd year BSL grades
 apt_wide %>%
   ggplot(aes(x = `mr3d_sats_2nd year`, y = `grade_bsl_2nd year`)) +
@@ -500,7 +468,7 @@ apt_wide %>%
                        `bsl_srt_3rd year`))^2)
 ```
 
-### No predicted impact on BSL
+### BSL: no predicted impact
 
 #### Kirklees Sentence Reading
 
@@ -733,6 +701,110 @@ apt_wide %>%
                        `bsl_srt_3rd year`))^2)
 ```
 
+#### Dual N-Back 
+
+##### vs BSL Grades
+```{r nback_bsl_grade}
+# Dual N-Back pre-degree vs. BSL Grades 1st year
+apt_wide %>%
+  ggplot(aes(x = `nback_comb_pre-degree`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = " Dual N-Back pre-degree vs. BSL Grades 1st year", 
+       y = "1st year BSL grade", x = "Dual N-Back pre-degree")
+
+apt_wide %>% 
+  filter(`nback_comb_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>% 
+  summarize(RSq=(cor(`nback_comb_pre-degree`, 
+                       `grade_bsl_1st year`))^2)
+
+# Dual N-Back pre-degree vs. BSL Grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `nback_comb_pre-degree`, y = `grade_bsl_2nd year`)) +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  geom_point() +
+  theme_minimal() +
+  labs(title = " Dual N-Back pre-degree vs. BSL Grades 2nd year", 
+       y = "2nd year BSL grade", x = "Dual N-Back pre-degree")
+
+apt_wide %>% 
+  filter(`nback_comb_pre-degree`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>% 
+  summarize(RSq=(cor(`nback_comb_pre-degree`, 
+                       `grade_bsl_2nd year`))^2)
+
+# Dual N-Back 2nd year vs. BSL Grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `nback_comb_2nd year`, y = `grade_bsl_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  theme_minimal() +
+  labs(title = " Dual N-Back 2nd year vs. BSL Grades 2nd year", 
+       y = "2nd year BSL grade", x = "Dual N-Back 2nd year")
+
+apt_wide %>% 
+  filter(`nback_comb_2nd year`!= "NA") %>% 
+  filter(`grade_bsl_2nd year` != "NA") %>%   
+  summarize(RSq=(cor(`nback_comb_2nd year`, 
+                       `grade_bsl_2nd year`))^2)
+```
+##### vs BSL-SRT
+Does Dual N-Back performance relate to BSL Sentence Reproduction Task?
+``` {r nback_srt}
+# Initial Dual N-Back score vs. 3rd year BSL-SRT scores
+apt_wide %>%
+  ggplot(aes(x = `nback_comb_pre-degree`, y = `bsl_srt_3rd year`)) +
+  geom_smooth(method= "lm") +
+  geom_point() +
+  theme_minimal() +
+  labs(title = "Initial Dual N-Back score vs. 3rd year BSL-SRT scores", 
+       y = "3rd year BSL-SRT score", 
+       x = "Initial Dual N-Back score")
+
+apt_wide %>% 
+  filter(`nback_comb_pre-degree`!= "NA") %>% 
+  filter(`bsl_srt_3rd year` != "NA") %>% 
+  summarize(RSq=(cor(`nback_comb_pre-degree`, 
+                       `bsl_srt_3rd year`))^2)
+
+# 2nd year Dual N-Back score vs. 3rd year BSL-SRT scores
+apt_wide %>%
+  ggplot(aes(x = `nback_comb_2nd year`, y = `bsl_srt_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "2nd year Dual N-Back score vs. 3rd year BSL-SRT scores", 
+       y = "3rd year BSL-SRT score", 
+       x = "2nd year Dual N-Back score")
+
+apt_wide %>% 
+  filter(`nback_comb_2nd year`!= "NA") %>% 
+  filter(`bsl_srt_3rd year` != "NA") %>%   
+  summarize(RSq=(cor(`nback_comb_2nd year`, 
+                       `bsl_srt_3rd year`))^2)
+
+# 3rd year Dual N-Back score vs. 3rd year BSL-SRT scores
+apt_wide %>%
+  ggplot(aes(x = `nback_comb_3rd year`, y = `bsl_srt_3rd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "3rd year Dual N-Back score vs. 3rd year BSL-SRT scores", 
+       y = "3rd year BSL-SRT score", 
+       x = "3rd year Dual N-Back score")
+
+apt_wide %>% 
+  filter(`nback_comb_3rd year`!= "NA") %>% 
+  filter(`bsl_srt_3rd year` != "NA") %>%   
+  summarize(RSq=(cor(`nback_comb_3rd year`, 
+                       `bsl_srt_3rd year`))^2)
+```
+
 #### Digit Span 
 ##### vs BSL Grades
 ```{r dspan_bsl}
@@ -860,7 +932,7 @@ apt_wide %>%
 ```
 
 
-### Predicted impact on interpreting
+### Interpreting: predicted impact
 
 #### Dual N-Back 
 
@@ -1029,6 +1101,12 @@ apt_wide %>%
   labs(title = "Corsi Blocks pre-degree vs. Interpreting Grades 1st year", 
        y = "1st year Interpreting grade", x = "Corsi Blocks pre-degree")
 
+apt_wide %>% 
+  filter(`corsi_corr_pre-degree`!= "NA") %>% 
+  filter(`grade_terp_1st year` != "NA") %>% 
+  summarize(RSq=(cor(`corsi_corr_pre-degree`, 
+                       `grade_terp_1st year`))^2)
+
 # Corsi Blocks pre-degree vs. Interpreting Grades 2nd year
 apt_wide %>%
   ggplot(aes(x = `corsi_corr_pre-degree`, y = `grade_terp_2nd year`)) +
@@ -1037,6 +1115,12 @@ apt_wide %>%
   theme_minimal() +
   labs(title = "Corsi Blocks pre-degree vs. Interpreting Grades 2nd year", 
        y = "2nd year Interpreting grade", x = "Corsi Blocks pre-degree")
+
+apt_wide %>% 
+  filter(`corsi_corr_pre-degree`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>% 
+  summarize(RSq=(cor(`corsi_corr_pre-degree`, 
+                       `grade_terp_2nd year`))^2)
 
 # Corsi Blocks 1st year vs. Interpreting Grades 2nd year
 apt_wide %>%
@@ -1047,6 +1131,12 @@ apt_wide %>%
   labs(title = "Corsi Blocks 1st year vs. Interpreting Grades 2nd year", 
        y = "2nd year Interpreting grade", x = "Corsi Blocks 1st year")
 
+apt_wide %>% 
+  filter(`corsi_corr_1st year`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>% 
+  summarize(RSq=(cor(`corsi_corr_1st year`, 
+                       `grade_terp_2nd year`))^2)
+
 # Corsi Blocks 2nd year vs. Interpreting Grades 2nd year
 apt_wide %>%
   ggplot(aes(x = `corsi_corr_2nd year`, y = `grade_terp_2nd year`)) +
@@ -1055,6 +1145,12 @@ apt_wide %>%
   theme_minimal() +
   labs(title = "Corsi Blocks 2nd year vs. Interpreting Grades 2nd year", 
        y = "2nd year Interpreting grade", x = "Corsi Blocks 2nd year")
+
+apt_wide %>% 
+  filter(`corsi_corr_2nd year`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>% 
+  summarize(RSq=(cor(`corsi_corr_2nd year`, 
+                       `grade_terp_2nd year`))^2)
 ```
 
 ##### vs Eng>BSL interpreting
@@ -1302,7 +1398,7 @@ apt_wide %>%
                        `terp_b2e_3rd year`))^2)
 ```
 
-### No predicted impact on interpreting
+### Interpreting: no predicted impact
 
 #### Kirklees Sentence Reading
 
@@ -1919,7 +2015,8 @@ apt_wide %>%
 ## BSL Grades
 What best predicts BSL grades?
 ```{r bsl-grade-models}
-( bsl_grade_mdl <- lm(grade_bsl ~ nback_comb + 
+( bsl_grade_mdl <- lm(grade_bsl ~ nback_comb +
+                                  mr2d_sats +
                                   mr3d_sats + 
                                   corsi_corr +
                                   kirk_acc, 
@@ -1929,18 +2026,17 @@ summary(bsl_grade_mdl)
 
 # wide version - pre-degree
 ( bsl_grade_mdl_2 <- lm(`grade_bsl_2nd year` ~ 
-                                  `nback_comb_pre-degree` + 
+                                  `nback_comb_pre-degree` +
                                   `mr3d_sats_pre-degree` + 
                                   `corsi_corr_pre-degree` +
                                   `kirk_acc_pre-degree` + 
-                                  #`kbit_acc_pre-degree` + 
                                   `mlat_acc_pre-degree`,
-                                  #`dspan_corr_pre-degree`,
                                   data = apt_wide) ) 
 summary(bsl_grade_mdl_2)
 
 # final assessments in 3rd year
-( bsl_grade_mdl_3 <- lm(`grade_bsl_2nd year` ~ `nback_comb_3rd year` + 
+( bsl_grade_mdl_3 <- lm(`grade_bsl_2nd year` ~ 
+                                  `nback_comb_3rd year` + 
                                   `mr3d_sats_3rd year` + 
                                   `mr2d_sats_3rd year` +
                                   `corsi_corr_3rd year` +
@@ -1963,14 +2059,10 @@ summary(bsl_srt_mdl)
 
 # wide version - pre-degree
 ( bsl_srt_mdl_2 <- lm(`bsl_srt_3rd year` ~ 
-                                  `nback_comb_pre-degree` + 
                                   `mr3d_sats_pre-degree` + 
                                   `corsi_corr_pre-degree` +
-                                  `kirk_acc_pre-degree` + 
-                                  #`kbit_acc_pre-degree` +
-                                  `mlat_acc_pre-degree`, 
-                                  #`dspan_corr_pre-degree`,
-                                  data = apt_wide) ) 
+                                  `kirk_acc_pre-degree`, 
+                                   data = apt_wide) ) 
 summary(bsl_srt_mdl_2)
 
 # final assessments in 3rd year
@@ -1989,7 +2081,6 @@ summary(bsl_srt_mdl_3)
                                     mr3d_sats + 
                                     corsi_corr +
                                     kirk_acc + 
-                                    #kbit_acc + 
                                     dspan_corr,
                                     data = apt) )
 summary(terp_grade_mdl)
@@ -1998,17 +2089,16 @@ summary(terp_grade_mdl)
 # wide version - pre-degree
 ( terp_grade_mdl_2 <- lm(`grade_terp_2nd year` ~ 
                                   `nback_comb_pre-degree` + 
-                                  #`mr3d_sats_pre-degree` + 
+                                  `mr3d_sats_pre-degree` + 
                                   `corsi_corr_pre-degree` +
                                   `kirk_acc_pre-degree` + 
-                                  #`kbit_acc_pre-degree` +
-                                  #`mlat_acc_pre-degree` +
                                   `dspan_corr_pre-degree`,
                                   data = apt_wide) )
 summary(terp_grade_mdl_2)
 
 # final assessments in 3rd year
-( terp_grade_mdl_3 <- lm(`grade_terp_2nd year` ~ `nback_comb_3rd year` + 
+( terp_grade_mdl_3 <- lm(`grade_terp_2nd year` ~ 
+                                  `nback_comb_3rd year` + 
                                   `mr3d_sats_3rd year` + 
                                   `mr2d_sats_3rd year` +
                                   `corsi_corr_3rd year` +
@@ -2018,8 +2108,74 @@ summary(terp_grade_mdl_3)
 ```
 
 ## BSL>Eng interpreting
+```{r terp-b2e-models}
+( terp_b2e_mdl <- lm(terp_b2e ~ nback_spat + 
+                                    mr3d_sats + 
+                                    corsi_corr +
+                                    dspan_corr,
+                                    data = apt) )
+summary(terp_b2e_mdl)
+
+# but is only being fit on 10 observations.....
+
+# wide version - pre-degree
+( terp_b2e_mdl_2 <- lm(`terp_b2e_3rd year` ~ 
+                                  `nback_comb_pre-degree` + 
+                                  `mr3d_sats_pre-degree` + 
+                                  `corsi_corr_pre-degree` +
+                                  `dspan_corr_pre-degree`,
+                                  data = apt_wide) )
+summary(terp_b2e_mdl_2)
+
+( terp_b2e_mdl_2 <- lm(`terp_b2e_3rd year` ~ 
+                                  `mr3d_sats_pre-degree`,
+                                  data = apt_wide) )
+
+# final assessments in 3rd year
+( terp_b2e_mdl_3 <- lm(`terp_b2e_3rd year` ~ 
+                                  `nback_comb_3rd year` + 
+                                  `mr3d_sats_3rd year` + 
+                                  `mr2d_sats_3rd year` +
+                                  `corsi_corr_3rd year` +
+                                  `dspan_corr_3rd year`,
+                                  data = apt_wide) ) 
+summary(terp_b2e_mdl_3)
+```
 
 ## Eng>BSL interpreting
+```{r terp-e2b-models}
+( terp_e2b_mdl <- lm(terp_e2b ~ nback_spat + 
+                                    mr3d_sats + 
+                                    corsi_corr +
+                                    dspan_corr,
+                                    data = apt) )
+summary(terp_e2b_mdl)
+
+# but is only being fit on 10 observations.....
+
+# wide version - pre-degree
+( terp_e2b_mdl_2 <- lm(`terp_e2b_3rd year` ~ 
+                                  `nback_comb_pre-degree` + 
+                                  `mr3d_sats_pre-degree` + 
+                                  `corsi_corr_pre-degree` +
+                                  `dspan_corr_pre-degree`,
+                                  data = apt_wide) )
+summary(terp_e2b_mdl_2)
+
+( terp_e2b_mdl_2 <- lm(`terp_e2b_3rd year` ~ 
+                                  `mr3d_sats_pre-degree`,
+                                  data = apt_wide) )
+
+# final assessments in 3rd year
+( terp_e2b_mdl_3 <- lm(`terp_e2b_3rd year` ~ 
+                                  `nback_comb_3rd year` + 
+                                  `mr3d_sats_3rd year` + 
+                                  `mr2d_sats_3rd year` +
+                                  `corsi_corr_3rd year` +
+                                  `dspan_corr_3rd year`,
+                                  data = apt_wide) ) 
+summary(terp_e2b_mdl_3)
+```
 
 #################################################################
 
