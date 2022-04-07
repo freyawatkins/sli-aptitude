@@ -62,6 +62,19 @@ apt_wide <- apt %>%
 ```
 
 # Plots & correlations
+```{r plot-theme}
+# set up a theme for the plots
+theme_details <- theme_bw() + 
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          panel.border = element_rect(colour = "black", size=0.5),
+          plot.title = element_text(face = "bold"),
+          axis.title.x = element_text(face = "bold"),
+          axis.title.y = element_text(face = "bold"),
+          axis.text.x = element_text(size=10, colour="black"),
+          axis.text.y = element_text(colour="black"),
+          legend.position = "none")
+```
 
 ### BSL: predicted impact
 
