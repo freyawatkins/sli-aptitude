@@ -50,7 +50,7 @@ head(apt)
 
 Filter out participants who did not progress beyond interview
 ```{r}
-apt <- apt %>% filter(status != "rejected")
+apt <- apt %>% filter(selection != "rejected")
 ```
 
 Convert data from long format to wide format
@@ -198,6 +198,10 @@ apt_wide %>%
   summarize(RSq=(cor(`corsi_corr_2nd year`, 
                        `bsl_srt_3rd year`))^2)
 
+corsi2_srt3 <- lm(`bsl_srt_3rd year` ~ `corsi_corr_2nd year`,
+                  data = apt_wide)
+summary(corsi2_srt3)
+
 # 3rd year Corsi Blocks score vs. 3rd year BSL-SRT scores
 apt_wide %>%
   ggplot(aes(x = `corsi_corr_3rd year`, y = `bsl_srt_3rd year`)) +
@@ -213,6 +217,10 @@ apt_wide %>%
   filter(`bsl_srt_3rd year` != "NA") %>%   
   summarize(RSq=(cor(`corsi_corr_3rd year`, 
                        `bsl_srt_3rd year`))^2)
+
+corsi3_srt3 <- lm(`bsl_srt_3rd year` ~ `corsi_corr_3rd year`,
+                  data = apt_wide)
+summary(corsi3_srt3)
 ```
 
 
@@ -305,6 +313,10 @@ apt_wide %>%
   filter(`grade_bsl_2nd year` != "NA") %>%   
   summarize(RSq=(cor(`mr2d_sats_2nd year`, 
                        `grade_bsl_2nd year`))^2)
+
+mr2d2_bsl2 <- lm(`grade_bsl_2nd year` ~ `mr2d_sats_2nd year`,
+                  data = apt_wide)
+summary(mr2d2_bsl2)
 ```
 
 ##### vs BSL-SRT
@@ -328,6 +340,10 @@ apt_wide %>%
   filter(`bsl_srt_3rd year` != "NA") %>%   
   summarize(RSq=(cor(`mr2d_sats_3rd year`, 
                        `bsl_srt_3rd year`))^2)
+
+mr2d3_srt3 <- lm(`bsl_srt_3rd year` ~ `mr2d_sats_3rd year`,
+                  data = apt_wide)
+summary(mr2d3_srt3)
 ```
 
 
@@ -351,6 +367,9 @@ apt_wide %>%
   filter(`grade_bsl_1st year` != "NA") %>% 
   summarize(RSq=(cor(`mr3d_sats_pre-degree`, 
                        `grade_bsl_1st year`))^2)
+
+mr3d0_bsl1 <- lm(`grade_bsl_1st year` ~ `mr3d_sats_pre-degree`, data = apt_wide)
+summary(mr3d0_bsl1)
 
 # Initial 3D Mental Rotation score vs. 2nd year BSL grades
 apt_wide %>%
@@ -383,6 +402,10 @@ apt_wide %>%
   filter(`grade_bsl_2nd year` != "NA") %>%   
   summarize(RSq=(cor(`mr3d_sats_2nd year`, 
                        `grade_bsl_2nd year`))^2)
+
+mr3d2_bsl2 <- lm(`grade_bsl_2nd year` ~ `mr3d_sats_2nd year`, 
+                 data = apt_wide)
+summary(mr3d2_bsl2)
 ```
 
 ##### vs BSL-SRT
@@ -403,6 +426,10 @@ apt_wide %>%
   filter(`bsl_srt_3rd year` != "NA") %>%   
   summarize(RSq=(cor(`mr3d_sats_pre-degree`, 
                        `bsl_srt_3rd year`))^2)
+
+mr3d0_srt3 <- lm(`bsl_srt_3rd year` ~ `mr3d_sats_pre-degree`, 
+                 data = apt_wide)
+summary(mr3d0_srt3)
 
 # 2nd year 3D Mental Rotation score vs. 2nd year BSL-SRT scores
 # only 4 data points here
@@ -435,13 +462,16 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title= "Initial MLAT Number Learning Accuracy vs. BSL grades 1st year", 
-       x = "MLAT Number Learning Accuracy")
+       x = "MLAT Number Learning Accuracy", y = "BSL grade 1st year")
 
 apt_wide %>% 
   filter(`mlat_acc_pre-degree`!= "NA") %>% 
   filter(`grade_bsl_1st year` != "NA") %>% 
   summarize(RSq=(cor(`mlat_acc_pre-degree`, 
                        `grade_bsl_1st year`))^2)
+
+mlat_bsl_1 <- lm(`grade_bsl_1st year` ~ `mlat_acc_pre-degree`, data = apt_wide)
+summary(mlat_bsl_1)
 
 # Initial MLAT Number Learning Accuracy vs. BSL grades 2nd year
 apt_wide %>%
@@ -452,13 +482,16 @@ apt_wide %>%
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title= "Initial MLAT Number Learning Accuracy vs. BSL grades 2nd year", 
-       x = "MLAT Number Learning Accuracy")
+       x = "MLAT Number Learning Accuracy", y = "BSL grade 2nd year")
 
 apt_wide %>% 
   filter(`mlat_acc_pre-degree`!= "NA") %>% 
   filter(`grade_bsl_2nd year` != "NA") %>% 
   summarize(RSq=(cor(`mlat_acc_pre-degree`, 
                        `grade_bsl_2nd year`))^2)
+
+mlat_bsl_2 <- lm(`grade_bsl_2nd year` ~ `mlat_acc_pre-degree`, data = apt_wide)
+summary(mlat_bsl_2)
 ```
 
 ##### vs BSL-SRT
@@ -501,6 +534,10 @@ apt_wide %>%
   filter(`grade_bsl_1st year` != "NA") %>% 
   summarize(RSq=(cor(`kirk_acc_pre-degree`, 
                        `grade_bsl_1st year`))^2)
+
+kirk0_bsl1 <- lm(`grade_bsl_1st year` ~ `kirk_acc_pre-degree`, 
+                 data = apt_wide)
+summary(kirk0_bsl1)
 
 # Kirklees Sentence Reading pre-degree vs. BSL grades 2nd year
 apt_wide %>%
@@ -583,6 +620,10 @@ apt_wide %>%
   filter(`bsl_srt_3rd year` != "NA") %>%   
   summarize(RSq=(cor(`kirk_acc_pre-degree`, 
                        `bsl_srt_3rd year`))^2)
+
+kirk0_srt3 <- lm(`bsl_srt_3rd year` ~ `kirk_acc_pre-degree`, 
+                 data = apt_wide)
+summary(kirk0_srt3)
 
 # 2nd year Kirklees Sentence Reading score vs. 3rd year BSL-SRT scores
 apt_wide %>%
@@ -816,6 +857,10 @@ apt_wide %>%
   filter(`bsl_srt_3rd year` != "NA") %>%   
   summarize(RSq=(cor(`nback_comb_3rd year`, 
                        `bsl_srt_3rd year`))^2)
+
+nback3_srt3 <- lm(`bsl_srt_3rd year` ~ `nback_comb_3rd year`,
+                  data = apt_wide)
+summary(nback3_srt3)
 ```
 
 #### Digit Span 
@@ -906,6 +951,23 @@ apt_wide %>%
 #### Barratt Impulsiveness Scale 
 ##### vs BSL Grades
 ```{r bis_grade_bsl}
+# Barratt Impulsiveness Scale 2nd year vs BSL grades 1st year
+apt_wide %>%
+  filter(`bis_tot_2nd year` != "na") %>% 
+  filter(`grade_bsl_1st year` != "na") %>% 
+  ggplot(aes(x = `bis_tot_2nd year`, y = `grade_bsl_1st year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title= "Impulsivity vs. BSL grades 1st year", 
+       y = "1st year BSL grade", x = "BIS 2nd year")
+
+apt_wide %>% 
+  filter(`bis_tot_2nd year`!= "NA") %>% 
+  filter(`grade_bsl_1st year` != "NA") %>% 
+  summarize(RSq=(cor(`bis_tot_2nd year`, 
+                       `grade_bsl_1st year`))^2)
+
 # Barratt Impulsiveness Scale 2nd year vs BSL grades 2nd year
 apt_wide %>%
   filter(`bis_tot_2nd year` != "na") %>% 
@@ -942,6 +1004,10 @@ apt_wide %>%
   filter(`bsl_srt_3rd year` != "NA") %>% 
   summarize(RSq=(cor(`bis_tot_2nd year`, 
                        `bsl_srt_3rd year`))^2)
+
+bis2_srt3 <- lm(`bsl_srt_3rd year` ~ `bis_tot_2nd year`, 
+                 data = apt_wide)
+summary(bis2_srt3)
 ```
 
 
@@ -1049,6 +1115,10 @@ apt_wide %>%
   filter(`terp_e2b_3rd year` != "NA") %>%   
   summarize(RSq=(cor(`nback_comb_3rd year`, 
                        `terp_e2b_3rd year`))^2)
+
+nback3_e2b3 <- lm(`terp_e2b_3rd year` ~ `nback_comb_3rd year`,
+                  data = apt_wide)
+summary(nback3_e2b3)
 ```
 
 ##### vs BSL>Eng interpreting
@@ -1183,6 +1253,10 @@ apt_wide %>%
   summarize(RSq=(cor(`corsi_corr_pre-degree`, 
                        `terp_e2b_3rd year`))^2)
 
+corsi0_e2b3 <- lm(`terp_e2b_3rd year` ~ `corsi_corr_pre-degree`,
+                  data = apt_wide)
+summary(corsi0_e2b3)
+
 #  Corsi Blocks 2nd year vs. Eng to BSL interpreting 3rd year
 apt_wide %>%
   ggplot(aes(x = `corsi_corr_2nd year`, y = `terp_e2b_3rd year`)) +
@@ -1197,6 +1271,10 @@ apt_wide %>%
   filter(`terp_e2b_3rd year` != "NA") %>%   
   summarize(RSq=(cor(`corsi_corr_2nd year`, 
                        `terp_e2b_3rd year`))^2)
+
+corsi2_e2b3 <- lm(`terp_e2b_3rd year` ~ `corsi_corr_2nd year`,
+                  data = apt_wide)
+summary(corsi2_e2b3)
 
 #  Corsi Blocks 3rd year vs. Eng to BSL interpreting 3rd year
 apt_wide %>%
@@ -1245,6 +1323,10 @@ apt_wide %>%
   filter(`terp_b2e_3rd year` != "NA") %>%   
   summarize(RSq=(cor(`corsi_corr_2nd year`, 
                        `terp_b2e_3rd year`))^2)
+
+corsi2_b2e3 <- lm(`terp_b2e_3rd year` ~ `corsi_corr_2nd year`,
+                  data = apt_wide)
+summary(corsi2_b2e3)
 
 #  Corsi Blocks 3rd year vs. BSL to Eng interpreting 3rd year
 apt_wide %>%
@@ -1297,6 +1379,10 @@ apt_wide %>%
   filter(`grade_terp_2nd year` != "NA") %>% 
   summarize(RSq=(cor(`dspan_corr_pre-degree`, 
                        `grade_terp_2nd year`))^2)
+
+dspan0_sli2 <- lm(`grade_terp_2nd year` ~ `dspan_corr_pre-degree`,
+                  data = apt_wide)
+summary(dspan0_sli2)
 
 # Digit Span 2nd year vs. Interpreting Grades 2nd year
 apt_wide %>%
@@ -1699,33 +1785,41 @@ apt_wide %>%
 
 # 2D Mental Rotation 1st year vs. Interpreting Grades 2nd year
 apt_wide %>%
-  ggplot(aes(x = `mr2d_sats_1st year`, y = `grade_terp_2nd year`)) +
-  geom_point() +
-  geom_smooth(method= "lm") +
-  theme_minimal() +
-  labs(title = "2D Mental Rotation 1st year vs. Interpreting Grades 2nd year", 
-       y = "2nd year Interpreting grade", x = "2D Mental Rotation 1st year")
-
-apt_wide %>% 
-  filter(`mr2d_sats_1st year`!= "NA") %>% 
-  filter(`grade_terp_2nd year` != "NA") %>% 
-  summarize(RSq=(cor(`mr2d_sats_1st year`, 
-                       `grade_terp_2nd year`))^2)
-
-# 2D Mental Rotation 2nd year vs. Interpreting Grades 2nd year
-apt_wide %>%
   ggplot(aes(x = `mr2d_sats_2nd year`, y = `grade_terp_2nd year`)) +
   geom_point() +
   geom_smooth(method= "lm") +
   theme_minimal() +
   labs(title = "2D Mental Rotation 2nd year vs. Interpreting Grades 2nd year", 
-       y = "2nd year Interpreting grade", x = "2D Mental Rotation 2nd year")
+       y = "2nd year Interpreting grade", x = "2D Mental Rotation 1st year")
 
 apt_wide %>% 
   filter(`mr2d_sats_2nd year`!= "NA") %>% 
-  filter(`grade_terp_2nd year` != "NA") %>%   
+  filter(`grade_terp_2nd year` != "NA") %>% 
   summarize(RSq=(cor(`mr2d_sats_2nd year`, 
                        `grade_terp_2nd year`))^2)
+
+mr2d2_sli2 <- lm(`grade_terp_2nd year` ~ `mr2d_sats_2nd year`,
+                  data = apt_wide)
+summary(mr2d2_sli2)
+
+# 2D Mental Rotation 2nd year vs. Interpreting Grades 2nd year
+apt_wide %>%
+  ggplot(aes(x = `mr2d_sats_3rd year`, y = `grade_terp_2nd year`)) +
+  geom_point() +
+  geom_smooth(method= "lm") +
+  theme_minimal() +
+  labs(title = "2D Mental Rotation 3rd year vs. Interpreting Grades 2nd year", 
+       y = "3rd year Interpreting grade", x = "2D Mental Rotation 2nd year")
+
+apt_wide %>% 
+  filter(`mr2d_sats_3rd year`!= "NA") %>% 
+  filter(`grade_terp_2nd year` != "NA") %>%   
+  summarize(RSq=(cor(`mr2d_sats_3rd year`, 
+                       `grade_terp_2nd year`))^2)
+
+mr2d3_sli2 <- lm(`grade_terp_2nd year` ~ `mr2d_sats_3rd year`,
+                  data = apt_wide)
+summary(mr2d3_sli2)
 ```
 
 ##### vs Eng>BSL interpreting
@@ -1745,6 +1839,10 @@ apt_wide %>%
   summarize(RSq=(cor(`mr2d_sats_2nd year`, 
                        `terp_e2b_3rd year`))^2)
 
+mr2d2_e2b3 <- lm(`terp_e2b_3rd year` ~ `mr2d_sats_2nd year`,
+                  data = apt_wide)
+summary(mr2d2_e2b3)
+
 # 2D Mental Rotation 3rd year vs. Eng to BSL interpreting 3rd year
 apt_wide %>%
   ggplot(aes(x = `mr2d_sats_3rd year`, y = `terp_e2b_3rd year`)) +
@@ -1759,6 +1857,10 @@ apt_wide %>%
   filter(`terp_e2b_3rd year` != "NA") %>%   
   summarize(RSq=(cor(`mr2d_sats_3rd year`, 
                        `terp_e2b_3rd year`))^2)
+
+mr2d3_e2b3 <- lm(`terp_e2b_3rd year` ~ `mr2d_sats_3rd year`,
+                  data = apt_wide)
+summary(mr2d3_b2e3)
 ```
 
 ##### vs BSL>Eng interpreting
@@ -1778,6 +1880,10 @@ apt_wide %>%
   summarize(RSq=(cor(`mr2d_sats_2nd year`, 
                        `terp_b2e_3rd year`))^2)
 
+mr2d2_b2e3 <- lm(`terp_b2e_3rd year` ~ `mr2d_sats_2nd year`,
+                  data = apt_wide)
+summary(mr2d2_b2e3)
+
 # 2D Mental Rotation 3rd year vs. BSL to Eng interpreting 3rd year
 apt_wide %>%
   ggplot(aes(x = `mr2d_sats_3rd year`, y = `terp_b2e_3rd year`)) +
@@ -1792,6 +1898,10 @@ apt_wide %>%
   filter(`terp_b2e_3rd year` != "NA") %>%   
   summarize(RSq=(cor(`mr2d_sats_3rd year`, 
                        `terp_b2e_3rd year`))^2)
+
+mr2d3_b2e3 <- lm(`terp_b2e_3rd year` ~ `mr2d_sats_3rd year`,
+                  data = apt_wide)
+summary(mr2d3_b2e3)
 ```
 
 #### 3D Mental Rotation 
@@ -1856,6 +1966,10 @@ apt_wide %>%
   filter(`grade_terp_2nd year` != "NA") %>%   
   summarize(RSq=(cor(`mr3d_sats_3rd year`, 
                        `grade_terp_2nd year`))^2)
+
+mr3d3_sli2 <- lm(`grade_terp_2nd year` ~ `mr3d_sats_3rd year`,
+                  data = apt_wide)
+summary(mr3d3_sli2)
 ```
 
 ##### vs Eng>BSL interpreting
@@ -1874,6 +1988,10 @@ apt_wide %>%
   filter(`terp_e2b_3rd year` != "NA") %>%   
   summarize(RSq=(cor(`mr3d_sats_pre-degree`, 
                        `terp_e2b_3rd year`))^2)
+
+mr3d0_e2b3 <- lm(`terp_e2b_3rd year` ~ `mr3d_sats_pre-degree`,
+                  data = apt_wide)
+summary(mr3d0_e2b3)
 
 # 3D Mental Rotation 2nd year vs. Eng to BSL interpreting  3rd year
 apt_wide %>%
@@ -1922,6 +2040,10 @@ apt_wide %>%
   filter(`terp_b2e_3rd year` != "NA") %>%   
   summarize(RSq=(cor(`mr3d_sats_pre-degree`, 
                        `terp_b2e_3rd year`))^2)
+
+mr3d0_b2e3 <- lm(`terp_b2e_3rd year` ~ `mr3d_sats_pre-degree`,
+                  data = apt_wide)
+summary(mr3d0_b2e3)
 
 # 3D Mental Rotation 2nd year vs. BSL to Eng interpreting 3rd year
 apt_wide %>%
@@ -1996,6 +2118,7 @@ apt_wide %>%
                        `terp_e2b_3rd year`))^2)
 ```
 
+##### vs BSL>Eng interpreting
 ```{r bis_b2e}
 # Barratt Impulsiveness Scale 2nd year vs. BSL to Eng interpreting 3rd year
 apt_wide %>%
@@ -2015,10 +2138,6 @@ apt_wide %>%
                        `terp_b2e_3rd year`))^2)
 ```
 
-##### vs BSL>Eng interpreting
-```{r}
-
-```
 
 
 #################################################################
