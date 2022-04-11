@@ -1007,15 +1007,14 @@ apt %>%
 
 ## Continuation model
 Which initial assessments best predict remaining in the degree?
-```{r drop-out-model}
-
+```{r continue-model}
 # fit logistic regression model
 ( continue_mdl <- glm(continue ~ nback_comb + 
                                  corsi_corr + 
                                  kirk_acc + 
                                  kbit_acc +
-                                 dspan_corr + 
-                                 mr3d_sats,
+                                 dspan_corr, 
+                                 #mr3d_sats,
                                  family = binomial, 
                                  data = apt) ) 
 
