@@ -50,7 +50,12 @@ head(apt)
 
 Filter out participants who did not progress beyond interview
 ```{r}
-apt <- apt %>% filter(selection != "rejected")
+apt <- apt %>% filter(selection == "selected")
+```
+
+Filter out participants with deaf family members / L1 BSL
+```{r}
+apt <- apt %>% filter(L1_bsl != 1)
 ```
 
 Convert data from long format to wide format
@@ -523,11 +528,12 @@ apt_wide %>%
 # Kirklees Sentence Reading pre-degree vs. BSL grades 1st year
 apt_wide %>%
   ggplot(aes(x = `kirk_acc_pre-degree`, y = `grade_bsl_1st year`)) +
-  geom_point() +
+  geom_point(aes(color = continuation)) +
   geom_smooth(method= "lm") +
   scale_x_continuous(labels = scales::percent_format(accuracy = 1L)) +
   theme_minimal() +
-  labs(title = "Kirklees Sentence Reading pre-degree vs. BSL grades 1st year", y = "1st year BSL grade", x = "Kirklees Sentence Reading pre-degree")
+  labs(title = "Kirklees Sentence Reading pre-degree vs. BSL grades 1st year", 
+       y = "1st year BSL grade", x = "Kirklees Sentence Reading pre-degree")
 
 apt_wide %>% 
   filter(`kirk_acc_pre-degree`!= "NA") %>% 
@@ -1860,7 +1866,7 @@ apt_wide %>%
 
 mr2d3_e2b3 <- lm(`terp_e2b_3rd year` ~ `mr2d_sats_3rd year`,
                   data = apt_wide)
-summary(mr2d3_b2e3)
+summary(mr2d3_e2b3)
 ```
 
 ##### vs BSL>Eng interpreting
