@@ -47,7 +47,8 @@ packageVersion('afex')
 packageVersion('psych')
 ```
 
-## Read pre-wrangled data (see `00-wrangling-setup.Rmd` script)
+## Read pre-wrangled data 
+(see `00-wrangling-setup.Rmd` script)
 ```{r read_in_data}
 here::here()
 apt <- readRDS(here("data", "apt-data.rds"))
@@ -57,7 +58,12 @@ head(apt)
 
 Filter out participants who did not progress beyond interview
 ```{r}
-apt <- apt %>% filter(status != "rejected")
+apt <- apt %>% filter(selection == "selected")
+```
+
+Filter out participants with deaf family members / L1 BSL
+```{r}
+apt <- apt %>% filter(L1_bsl != 1)
 ```
 
 # Summary tables
