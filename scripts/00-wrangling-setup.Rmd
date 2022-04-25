@@ -39,7 +39,7 @@ packageVersion('psych')
 ## Read in data
 ```{r read_in_data}
 here::here()
-apt <- read_csv(here("data", "2022-04-06_SLI_aptitude_data.csv"))
+apt <- read_csv(here("data", "2022-04-23_SLI_aptitude_data.csv"))
 apt <- as_tibble(apt)
 ```
 
@@ -129,7 +129,7 @@ Fix the variables that are character when they should be factor, or numeric:
 apt <- mutate(apt, across(c("session", "group", "ppt", "selection", "continuation"), factor))
 
 # convert these character variables to numeric
-apt <- mutate(apt, across(c("L1_bsl", "prior_BSL", "age_s1", "dspan_time",
+apt <- mutate(apt, across(c("L1_bsl", "age_s1", "self_rating", "dspan_time",
                             "bis_tot", "bis_att","bis_mot", "bis_nplan", "summ",
                             "copy_sign", "copy_sign", "bsl_srt", "town_map",
                             "terp_b2e"), as.numeric))

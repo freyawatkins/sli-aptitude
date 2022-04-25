@@ -17,7 +17,7 @@ output:
 
 # Setup
 ```{r setup, include=FALSE, message = FALSE, warning = FALSE}
-knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+knitr::opts_chunk$set(echo = TRUE, cache = FALSE)
 ```
 
 ## Load packages
@@ -29,8 +29,6 @@ library(sdamr) # simultaneously nudge + jitter plot points
 library(plotrix) # for calculating standard error
 library(scales) # scales on plots
 library(lme4) # for linear mixed models
-library(afex) # for linear mixed models
-library(psych) # for factor analysis
 ```
 
 ### R / package versions used
@@ -43,8 +41,6 @@ packageVersion('sdamr')
 packageVersion('plotrix') 
 packageVersion('scales') 
 packageVersion('lme4') 
-packageVersion('afex')
-packageVersion('psych')
 ```
 
 ## Read pre-wrangled data 
@@ -58,7 +54,7 @@ head(apt)
 
 Filter out participants who did not progress beyond interview
 ```{r}
-apt <- apt %>% filter(selection == "selected")
+apt <- apt %>% filter(selected != 0)
 ```
 
 Filter out participants with deaf family members / L1 BSL
@@ -295,12 +291,10 @@ theme_details <- theme_bw() +
 ( R1 <- apt %>% 
   filter(!is.na(nback_lett)) %>% 
   ggplot(aes(x = session, y = nback_lett, group = session, fill = session)) +
-  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+  geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
- #geom_boxplot(position = position_nudge(x = .2, y = 0),
- #                width = .2, alpha = 1) +
-  geom_point(position = position_jitter(width = .15), 
-                        size = 0.5) +
+  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+                        size = 2, shape = 21) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   scale_y_continuous(labels = percent_format(accuracy=1)) +
   labs(title = "Accuracy in letter matching during Dual N-Back Task by Session", 
@@ -346,10 +340,10 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ( R1 <- apt %>% 
   filter(!is.na(nback_spat)) %>% 
   ggplot(aes(x = session, y = nback_spat, group = session, fill = session)) +
-  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+  geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitter(width = .15), 
-                        size = 0.5) +
+  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+                        size = 2, shape = 21) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
   labs(title = "Accuracy in spatial matching during Dual N-Back Task by Session", 
@@ -493,10 +487,10 @@ How does Accuracy on the Kirklees Sentence Reading task change over time?
 ( R1 <- apt %>% 
   filter(!is.na(kirk_acc)) %>% 
   ggplot(aes(x = session, y = kirk_acc, group = session, fill = session)) +
-  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+  geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitter(width = .15), 
-                        size = 0.5) +
+  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+                        size = 2, shape = 21) +
   coord_cartesian(ylim = c(0.45, 1)) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   scale_y_continuous(labels = percent_format(accuracy=1)) +
@@ -543,15 +537,16 @@ How does Accuracy on the KBIT-2 Matrices task change over time?
 ( R1 <- apt %>% 
   filter(!is.na(kbit_acc)) %>% 
   ggplot(aes(x = session, y = kbit_acc, group = session, fill = session)) +
-  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+  geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitter(width = .15), 
-                        size = 0.5) +
+  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+                        size = 2, shape = 21) +
   coord_cartesian(ylim = c(.65, 1)) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   scale_y_continuous(labels = percent_format(accuracy=1)) +
   labs(title = "Accuracy on KBIT-2 Matrices Task by Session", 
-       x = "Session", y = "Accuracy") )
+       x = "Session", y = "Accuracy") +
+  theme_details )
   
 # Jitter plot
 J1 <- apt %>% 
@@ -646,10 +641,10 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ( R1 <- apt %>% 
   #filter(!is.na(dspan_mem)) %>% 
   ggplot(aes(x = session, y = dspan_mem, group = session, fill = session)) +
-  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+  geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitter(width = .15), 
-                        size = 0.5) +
+  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+                        size = 2, shape = 21) +
   coord_cartesian(ylim = c(4, 11)) +
   scale_fill_manual(values = c("#7bccc4", "#43a2ca", "#0868ac", "#bae4bc")) +   
   labs(title = "Memory Span on Digit Span Task by Session", 
@@ -764,14 +759,15 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ( R1 <- apt %>% 
   filter(!is.na(mr2d_rt)) %>% 
   ggplot(aes(x = session, y = mr2d_rt, group = session, fill = session)) +
-  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+  geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitter(width = .15), 
-                        size = 0.5)  +
+  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+                        size = 2, shape = 21) +
   coord_cartesian(ylim = c(0, 8500)) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   labs(title = "Reaction Time on 2D Mental Rotation Task by Session", 
-       x = "Session", y = "RT (ms)") )
+       x = "Session", y = "RT (ms)") +
+  theme_details )
 
 # Jitter plot
 J1 <- apt %>% 
@@ -811,10 +807,10 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   ggplot(aes(x = session, y = mr2d_rt, group = session, fill = session)) +
   geom_line(data = indiv, aes(x = session, y = mean, group = ppt),
                       size = 0.1, alpha = 0.3, position = pd) +
-  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+  geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(data=indiv, aes(x = session, y = mean, group = ppt), size = 2, 
-                       shape = 21, position = pd) +
+  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+                        size = 2, shape = 21) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   coord_cartesian(ylim = c(0, 4500)) +
   labs(title = "Reaction Time on 2D Mental Rotation Task by Session", 
@@ -829,16 +825,17 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ( R1 <- apt %>% 
   filter(!is.na(mr2d_sats)) %>% 
   ggplot(aes(x = session, y = mr2d_sats, group = session, fill = session)) +
-  geom_hline(yintercept = 0, alpha = .3) +
-  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+  geom_hline(yintercept = 0, alpha = 0.4, linetype = "dashed") +
+  geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitter(width = .15), 
-                        size = 0.5)  +
+  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+                        size = 2, shape = 21) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   coord_cartesian(ylim = c(-3, 3)) +
   labs(title = "Speed-Accuracy Trade-off Score on 2D Mental Rotation Task by Session", 
        x = "Session", 
-       y = "Speed-Accuracy Trade-off Score\n(Balanced Integration Score") )
+       y = "Speed-Accuracy Trade-off Score\n(Balanced Integration Score") +
+  theme_details )
 
 # Jitter plot
 J1 <- apt %>% 
@@ -847,6 +844,7 @@ J1 <- apt %>%
   summarize(mean=mean(mr2d_sats), sd = sd(mr2d_sats), se=std.error(mr2d_sats)) %>%
   ggplot(aes(x = session, y = mean, fill = session)) +
   coord_cartesian(ylim = c(-3, 3)) +
+  geom_hline(yintercept = 0, alpha = 0.4, linetype = "dashed") +
   geom_bar(stat = 'identity', position = position_dodge()) +
   theme_minimal() +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
@@ -876,10 +874,10 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   geom_hline(yintercept = 0, alpha = 0.4, linetype = "dashed") +
   geom_line(data = indiv, aes(x = session, y = mean, group = ppt),
                       size = 0.1, alpha = 0.5, position = pd) +
-  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+  geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(data=indiv, aes(x = session, y = mean, group = ppt, fill = session),
-             size = 2, shape = 21, position = pd) +
+  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+                        size = 2, shape = 21) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   coord_cartesian(ylim = c(-3, 2)) +
   labs(title = "Speed-Accuracy Trade-off Score on 2D Mental Rotation Task by Session", 
@@ -896,15 +894,16 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   filter(!is.na(mr3d_acc)) %>% 
   #filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
   ggplot(aes(x = session, y = mr3d_acc, group = session, fill = session)) +
-  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+  geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitter(width = .15), 
-                        size = 0.5)  +
+  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+                        size = 2, shape = 21) +
   coord_cartesian(ylim = c(0, 1)) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
   labs(title = "Accuracy on 3D Mental Rotation Task by Session", 
-       x = "Session", y = "Accuracy") )
+       x = "Session", y = "Accuracy") +
+  theme_details )
 
 # Jitter plot
 J1 <- apt %>% 
@@ -946,10 +945,10 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   filter(!is.na(mr3d_rt)) %>% 
   filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
   ggplot(aes(x = session, y = mr3d_rt, group = session, fill = session)) +
-  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+  geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitter(width = .15), 
-                        size = 0.5)  +
+  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+                        size = 2, shape = 21) +
   coord_cartesian(ylim = c(0, 4500)) +
   scale_fill_manual(values = c("#bae4bc", "#43a2ca", "#0868ac")) +
   labs(title = "Reaction Time on 3D Mental Rotation Task by Session", 
@@ -1010,10 +1009,10 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   filter(!is.na(mr3d_sats)) %>% 
   ggplot(aes(x = session, y = mr3d_sats, group = session, fill = session)) +
   geom_hline(yintercept = 0, alpha = .3) +
-  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+  geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitter(width = .15), 
-                        size = 0.5)  +
+  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+                        size = 2, shape = 21) +
   coord_cartesian(ylim = c(-4, 3)) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   labs(title = "Speed-Accuracy Trade-off Score on 3D Mental Rotation Task by Session", 
@@ -1080,10 +1079,10 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   filter(!is.na(bis_tot)) %>% 
   filter(session != "1st year") %>% #only 2 ppts at 2nd session>filter out
   ggplot(aes(x = session, y = bis_tot, group = session, fill = session)) +
-  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+  geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitter(width = .15), 
-                        size = 0.5)  +
+  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+                        size = 2, shape = 21) +
   scale_fill_manual(values = c("#43a2ca", "#0868ac")) +
   coord_cartesian(ylim = c(0, 100)) +
   labs(title = "Total Score on Barratt Impulsivity Scale by Session", 
@@ -1123,21 +1122,21 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 
 # Models
 Does performance on these cognitive and linguistic assessments change over time?
-
+              
 ## Dual N-Back
 ```{r nback-mdl}
 # Does session predict Dual N-Back results?
-( nback_comb_mdl <- lm(nback_comb ~ session, 
+( nback_comb_mdl <- lm(nback_comb ~ session + self_rating, 
                   data = apt) ) 
 
 summary(nback_comb_mdl)
 
-( nback_lett_mdl <- lm(nback_lett ~ session, 
+( nback_lett_mdl <- lm(nback_lett ~ session + self_rating, 
                   data = apt) ) 
 
 summary(nback_lett_mdl)
 
-( nback_spat_mdl <- lm(nback_spat ~ session, 
+( nback_spat_mdl <- lm(nback_spat ~ session + self_rating, 
                   data = apt) ) 
 
 summary(nback_spat_mdl)
@@ -1146,7 +1145,7 @@ summary(nback_spat_mdl)
 ## Corsi Blocks
 ```{r corsi-mdl}
 # Does session predict Corsi Blocks results?
-( corsi_corr_mdl <- lm(corsi_corr ~ session, 
+( corsi_corr_mdl <- lm(corsi_corr ~ session + self_rating, 
                   data = apt) ) 
 
 summary(corsi_corr_mdl)
@@ -1155,7 +1154,7 @@ summary(corsi_corr_mdl)
 ## Kirklees Sentence Reading
 ```{r kirk-mdl}
 # Does session predict Kirklees Sentence Reading results?
-( kirk_mdl <- lm(kirk_acc ~ session, 
+( kirk_mdl <- lm(kirk_acc ~ session + self_rating, 
                  data = apt) ) 
 
 summary(kirk_mdl)
@@ -1164,7 +1163,7 @@ summary(kirk_mdl)
 ## KBIT-2 Matrices
 ```{r kbit-mdl}
 # Does session predict KBIT-2 Matrices results?
-( kbit_mdl <- lm(kbit_acc ~ session, 
+( kbit_mdl <- lm(kbit_acc ~ session + self_rating, 
                   data = apt) ) 
 
 summary(kbit_mdl)
@@ -1173,12 +1172,12 @@ summary(kbit_mdl)
 ## Digit Span
 ```{r dspan-mdl}
 # Does session predict Digit Span results?
-( dspan_corr_mdl <- lm(dspan_corr ~ session, 
+( dspan_corr_mdl <- lm(dspan_corr ~ session + self_rating, 
                   data = apt) ) 
 
 summary(dspan_corr_mdl)
 
-( dspan_mem_mdl <- lm(dspan_mem ~ session, 
+( dspan_mem_mdl <- lm(dspan_mem ~ session + self_rating, 
                   data = apt) ) 
 
 summary(dspan_mem_mdl)
@@ -1187,12 +1186,12 @@ summary(dspan_mem_mdl)
 ## 2D Mental Rotation
 ```{r mr2d-mdl}
 # Does session predict 2D Mental Rotation results?
-( mr2d_sats_mdl <- lm(mr2d_sats ~ session, 
+( mr2d_sats_mdl <- lm(mr2d_sats ~ session + self_rating, 
                   data = apt) ) 
 
 summary(mr2d_sats_mdl)
 
-( mr2d_rt_mdl <- lm(mr2d_rt ~ session, 
+( mr2d_rt_mdl <- lm(mr2d_rt ~ session + self_rating, 
                   data = apt) ) 
 
 summary(mr2d_rt_mdl)
@@ -1200,7 +1199,7 @@ summary(mr2d_rt_mdl)
 apt2 <- apt %>% 
   filter(ppt != "HW025") 
 
-( mr2d_rt_mdl2 <- lm(mr2d_rt ~ session, 
+( mr2d_rt_mdl2 <- lm(mr2d_rt ~ session + self_rating, 
                   data = apt2) ) 
 
 summary(mr2d_rt_mdl2)
@@ -1209,17 +1208,17 @@ summary(mr2d_rt_mdl2)
 ## 3D Mental Rotation
 ```{r mr3d-mdl}
 # Does session predict 3D Mental Rotation results?
-( mr3d_sats_mdl <- lm(mr3d_sats ~ session, 
+( mr3d_sats_mdl <- lm(mr3d_sats ~ session + self_rating, 
                   data = apt) ) 
 
 summary(mr3d_sats_mdl)
 
-( mr3d_acc_mdl <- lm(mr3d_acc ~ session, 
+( mr3d_acc_mdl <- lm(mr3d_acc ~ session + self_rating, 
                   data = apt) ) 
 
 summary(mr3d_acc_mdl)
 
-( mr3d_rt_mdl <- lm(mr3d_rt ~ session, 
+( mr3d_rt_mdl <- lm(mr3d_rt ~ session + self_rating, 
                   data = apt) ) 
 
 summary(mr3d_rt_mdl)
@@ -1231,7 +1230,7 @@ summary(mr3d_rt_mdl)
 apt$session <- fct_relevel(apt$session, "2nd year", after = 0)
 
 # Does session predict Barratt Impulsivity Scale results?
-( bis_mdl <- lm(bis_tot ~ session, 
+( bis_mdl <- lm(bis_tot ~ session + self_rating, 
                   data = apt) ) 
 
 summary(bis_mdl)
