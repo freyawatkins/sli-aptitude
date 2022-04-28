@@ -17,7 +17,7 @@ output:
 
 # Setup
 ```{r setup, include=FALSE, message = FALSE, warning = FALSE}
-knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+knitr::opts_chunk$set(echo = TRUE, cache = FALSE)
 ```
 
 ## Load packages
@@ -27,7 +27,7 @@ library(tidyverse) # data wrangling & plotting
 library(PupillometryR) # raincloud plots
 library(plotrix) # for calculating standard error
 library(scales) # scales on plots
-library(lme4) # for linear mixed models
+library(blorr) # for backward stepwise regression 
 ```
 
 ### R / package versions used
@@ -38,7 +38,7 @@ packageVersion('tidyverse')
 packageVersion('PupillometryR') 
 packageVersion('plotrix') 
 packageVersion('scales') 
-packageVersion('lme4') 
+packageVersion('blorr') 
 ```
 
 ## Read pre-wrangled data 
@@ -51,8 +51,8 @@ head(apt)
 ```
 
 ## Plot theme
+Set up a theme for the plots
 ```{r plot-theme}
-# set up a theme for the plots
 theme_details <- theme_bw() + 
     theme(panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank(),
@@ -66,16 +66,15 @@ theme_details <- theme_bw() +
 ```
 
 # Selection Analysis
-Here we are going to analyse data from session one across to see what predicts being selected for the SLI degree 
-
+Here we are going to analyse data from session one to see what predicts being selected for the SLI degree 
 ```{r selection-grouping}
+# filter out data from later sessions
 apt <- filter(apt, session == "pre-degree")
 
 apt %>% 
   dplyr::group_by(selection) %>% 
   count()
 ```
-
 
 ### Dual N-Back
 ```{r nback_select}
@@ -132,7 +131,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ( J4 <- J3 + theme_details ) 
 
 # ANOVA
-nback_select <- one.way <- aov(nback_comb ~ selection, data = apt)
+nback_select <- aov(nback_comb ~ selection, data = apt)
 
 summary(nback_select)
 ```
@@ -191,7 +190,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ( J4 <- J3 + theme_details )
 
 # ANOVA
-corsi_select <- one.way <- aov(corsi_corr ~ selection, data = apt)
+corsi_select <- aov(corsi_corr ~ selection, data = apt)
 
 summary(corsi_select)
 ```
@@ -252,7 +251,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ( J4 <- J3 + theme_details ) 
 
 # ANOVA
-kirk_select <- one.way <- aov(kirk_acc ~ selection, data = apt)
+kirk_select <- aov(kirk_acc ~ selection, data = apt)
 
 summary(kirk_select)
 ```
@@ -313,7 +312,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ( J4 <- J3 + theme_details )
 
 # ANOVA
-kbit_select <- one.way <- aov(kbit_acc ~ selection, data = apt)
+kbit_select <- aov(kbit_acc ~ selection, data = apt)
 
 summary(kbit_select)
 ```
@@ -483,22 +482,34 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ( J4 <- J3 + theme_details )
 
 # ANOVA
-mr2d_select <- one.way <- aov(mr2d_sats ~ selection, data = apt)
+mr2d_select <- aov(mr2d_sats ~ selection, data = apt)
 
 summary(mr2d_select)
 ```
 ## Selection model
 Which initial assessments best predict being selected for the degree?
 ```{r selected-model}
-# Fit linear model based on Dual N-Back, Corsi, Kirklees & KBIT-2 predictors
-( selected_mdl <- glm(selected ~ nback_comb + 
-                                 corsi_corr + 
-                                 kirk_acc + 
-                                 kbit_acc +
-                                 mr2d_sats, 
-                                 family = binomial, 
-                                 data = apt) ) 
+# Fit linear model based on Dual N-Back, Corsi, Kirklees, KBIT-2, 2D MR & BSL self-rating predictors
+apt_pilot <- apt %>% filter(group == "pilot")
+( selected_mdl <- glm(selected ~ nback_comb + corsi_corr + 
+                                 kirk_acc + kbit_acc +
+                                 mr2d_sats + self_rating, 
+                                 family = "binomial", 
+                                 data = apt_pilot) ) 
 summary(selected_mdl)
+
+# Backward stepwise regression for glm models
+blr_step_p_backward(selected_mdl, prem = 0.1)
+
+# Suggests we should remove: kbit, kirk, nback and corsi
+# this leaves: 2D-MR and BSL self-rating
+
+( selected_mdl_final <- glm(selected ~ mr2d_sats + self_rating, 
+                                 family = "binomial", 
+                                 data = apt_pilot) )
+summary(selected_mdl_final)
+
+anova(selected_mdl_final, selected_mdl, test="Chisq")
 ```
 
 ########################
@@ -1003,35 +1014,71 @@ apt %>%
 ```
 
 ## Digit Span
-~ to do~
+```{r dspan_acc}
+# Summary table
+apt %>% 
+  filter(!is.na(dspan_corr)) %>% 
+  group_by(continuation) %>% 
+  summarise(dspan_acc_mean = mean(dspan_corr), 
+            sd = sd(dspan_corr),
+            se = std.error(dspan_corr))
+
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(dspan_corr)) %>% 
+  ggplot(aes(x = continuation, y = dspan_corr, 
+             group = continuation)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(0.5, 1)) +
+  labs(title = "Digit Span by Group", 
+       x = "Group", 
+       y = "Digit Span Correct Answers)") )
+
+# Jittered bar plot not so good for a trade-off score with bars above/below y=0
+```
 
 ## Continuation model
 Which initial assessments best predict remaining in the degree?
 ```{r continue-model}
 # fit logistic regression model
-( continue_mdl <- glm(continue ~ nback_comb + 
-                                 corsi_corr + 
-                                 kirk_acc + 
-                                 kbit_acc +
-                                 dspan_corr, 
-                                 #mr3d_sats,
+( continue_mdl <- glm(continue ~ nback_comb + corsi_corr + 
+                                 kirk_acc + kbit_acc +
+                                 self_rating + (1|ppt),
                                  family = binomial, 
                                  data = apt) ) 
-
 summary(continue_mdl)
+
+# Backward stepwise regression for glm models
+blorr::blr_step_p_backward(continue_mdl, prem = 0.1)
+# Suggests we should remove: nback, kirk, kbit, self-rating
+# this leaves just: corsi
+
+( continue_mdl_final <- glm(continue ~ corsi_corr, 
+                                 family = "binomial", 
+                                 data = apt) )
+summary(continue_mdl_final)
+
+anova(continue_mdl_final, continue_mdl, test="Chisq")
 ```
 
 + smaller analysis with the extra assessments done at S1 for the grant cohort
 ```{r}
-# Filter to just the pilot cohort
-grant_dat <- apt %>% filter(group == "grant")
+# Filter to just the second cohort
+grant_dat <- apt %>% filter(group == "grant") %>% 
+  filter(dspan_corr != "NA")
 
 # fit logistic regression model
-( continue_mdl2 <- glm(continue ~ dspan_corr + 
+( continue_mdl2 <- glm(continue ~ #nback_comb + corsi_corr + 
+                                 #kirk_acc + kbit_acc +
+                                # self_rating + 
+                                  dspan_corr + 
                                   mr3d_sats,
                                   family = binomial, 
                                   data = grant_dat) ) 
-
+# full model does not converge
 summary(continue_mdl2)
 ```
 

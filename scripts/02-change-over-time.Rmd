@@ -28,7 +28,9 @@ library(PupillometryR) # raincloud plots
 library(sdamr) # simultaneously nudge + jitter plot points
 library(plotrix) # for calculating standard error
 library(scales) # scales on plots
+library(patchwork) # for combining plots
 library(lme4) # for linear mixed models
+library(sjPlot) # for lmm output
 ```
 
 ### R / package versions used
@@ -39,8 +41,10 @@ packageVersion('tidyverse')
 packageVersion('PupillometryR')
 packageVersion('sdamr')
 packageVersion('plotrix') 
-packageVersion('scales') 
+packageVersion('scales')
+packageVersion('patchwork')
 packageVersion('lme4') 
+packageVersion('sjPlot')
 ```
 
 ## Read pre-wrangled data 
@@ -275,13 +279,15 @@ Let's plot the linguistic & cognitive assessments over time
 theme_details <- theme_bw() + 
     theme(panel.grid.major = element_blank(), 
           panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size=0.5),
-          plot.title = element_text(face = "bold"),
-          axis.title.x = element_text(face = "bold"),
-          axis.title.y = element_text(face = "bold"),
-          axis.text.x = element_text(size=10, colour="black"),
-          axis.text.y = element_text(colour="black"),
+          panel.border = element_rect(colour = "black", size = 0.5),
+          plot.title.position = "plot",
+          plot.title = element_text(size = 16, face = "bold"),
+          axis.title.x = element_text(size = 14, face = "bold"),
+          axis.title.y = element_text(size = 14, face = "bold"),
+          axis.text.x = element_text(size = 14, colour = "black"),
+          axis.text.y = element_text(size = 14, colour = "black"),
           legend.position = "none")
+pd <- position_dodge(0.5)
 ```
 
 ### Dual N-Back
@@ -325,7 +331,6 @@ indiv <- apt %>%
   group_by(session, ppt) %>% 
   summarise(mean = mean(nback_lett)) #, sd = sd(nback_lett)) # requires trial level data
 
-pd <- position_dodge(0.5)
 J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
                        shape = 19, position = pd) +
     geom_line(data = indiv, aes(group = ppt),
@@ -385,7 +390,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 #### Combined accuracy
 ```{r nback_comb}
 ## Raincloud plot
-( R1 <- apt %>% 
+( fig3a <- apt %>% 
   filter(!is.na(nback_comb)) %>% 
   ggplot(aes(x = session, y = nback_comb, group = session, fill = session)) +
   geom_flat_violin(position = position_nudge(x = .1, y = 0),
@@ -394,8 +399,8 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
                         size = 2, shape = 21) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   scale_y_continuous(labels = percent_format(accuracy=1)) +
-  labs(title = "Combined accuracy on Dual N-Back Task by Session", 
-       x = "Session", y = "Accuracy") +
+  labs(title = "a) Multimodal Working Memory by Session", 
+       x = "Session", y = "Dual N-Back Accuracy") +
   theme_details )
 
 # Jitter plot  
@@ -435,7 +440,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 How does Accuracy on the Corsi Blocks task change over time?
 ```{r corsi_corr}
 # Raincloud plot
-( R1 <- apt %>% 
+( fig3b <- apt %>% 
   filter(!is.na(corsi_corr)) %>% 
   ggplot(aes(x = session, y = corsi_corr, group = session, fill = session)) +
   geom_flat_violin(position = position_nudge(x = .1, y = 0),
@@ -445,8 +450,8 @@ How does Accuracy on the Corsi Blocks task change over time?
   coord_cartesian(ylim = c(5, 15)) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   scale_y_continuous(labels = scales::number_format(accuracy = 1)) +
-  labs(title = "Correct Responses on Corsi Blocks Task by Session", 
-       x = "Session", y = "Correct Response") +
+  labs(title = "b) Visuospatial Working Memory by Session", 
+       x = "Session", y = "Corsi Blocks Correct Responses") +
   theme_details )
 
 # Jitter plot
@@ -584,7 +589,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 #### Accuracy
 ```{r dspan_corr}
 # Raincloud plot
-( R1 <- apt %>% 
+( fig3c <- apt %>% 
   #filter(!is.na(dspan_corr)) %>% 
   ggplot(aes(x = session, y = dspan_corr, group = session, fill = session)) +
   geom_flat_violin(position = position_nudge(x = .1, y = 0),
@@ -594,8 +599,8 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   coord_cartesian(ylim = c(0.5, 0.9)) +
   scale_fill_manual(values = c("#7bccc4", "#43a2ca", "#0868ac", "#bae4bc")) +  
   scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
-  labs(title = "Accuracy on Digit Span Task by Session", 
-       x = "Session", y = "Accuracy") +
+  labs(title = "c) Auditory Working Memory by Session", 
+       x = "Session", y = "Digit Span Accuracy") +
   theme_details )
 
 # Jitter plot
@@ -610,7 +615,7 @@ J1 <- apt %>%
   theme_minimal() +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
-  labs(title = "Accuracy on Digit Span Task by Session", 
+  labs(title = "Digit Span Task by Session", 
        x = "Session", y = "Accuracy")
 
 limits <- aes(ymax = mean + se, ymin = mean - se)
@@ -1052,23 +1057,24 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ( J4 <- J3 + theme_details )
 
 # Raincloud + Jitter
-
-( RJ <- apt %>% 
+( fig3d <- apt %>% 
   filter(!is.na(mr3d_sats)) %>% 
   ggplot(aes(x = session, y = mr3d_sats, group = session, fill = session)) +
   geom_hline(yintercept = 0, alpha = 0.4, linetype = "dashed") +
-  geom_line(data = indiv, aes(x = session, y = mean, group = ppt),
-                      size = 0.1, alpha = 0.5, position = pd) +
-  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+  geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(data=indiv, aes(x = session, y = mean, group = ppt, fill = session),
-             size = 2, shape = 21, position = pd) +
+  geom_point(position = position_jitternudge(jitter.width = .3, nudge.x = -.15), 
+                        size = 2, shape = 21) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   coord_cartesian(ylim = c(-4, 3)) +
-  labs(title = "Speed-Accuracy Trade-off Score on 3D Mental Rotation Task by Session", 
-       x = "Session", 
-       y = "Speed-Accuracy Trade-off Score\n(Balanced Integration Score)") +
+  labs(title = "d) 3D Mental Rotation by Session", 
+       x = "Session", y = "Speed-Accuracy Trade-off Score") +
   theme_details )
+```
+Combine plots for Figure 3 using patchwork:
+```{r}
+fig3 <- (fig3a | fig3b)/(fig3c | fig3d)
+ggsave("plots/Fig3.png", plot=fig3, width = 12, height = 8, units = "in")
 ```
 
 ### Barratt Impulsivity Scale
@@ -1126,58 +1132,66 @@ Does performance on these cognitive and linguistic assessments change over time?
 ## Dual N-Back
 ```{r nback-mdl}
 # Does session predict Dual N-Back results?
-( nback_comb_mdl <- lm(nback_comb ~ session + self_rating, 
+( nback_comb_mdl <- lmer(nback_comb ~ session + self_rating + (1|ppt), 
                   data = apt) ) 
 
 summary(nback_comb_mdl)
+tab_model(nback_comb_mdl, show.aic = T)
 
-( nback_lett_mdl <- lm(nback_lett ~ session + self_rating, 
+( nback_lett_mdl <- lmer(nback_lett ~ session + self_rating + (1|ppt), 
                   data = apt) ) 
 
 summary(nback_lett_mdl)
+tab_model(nback_lett_mdl, show.aic = T)
 
-( nback_spat_mdl <- lm(nback_spat ~ session + self_rating, 
+( nback_spat_mdl <- lmer(nback_spat ~ session + self_rating + (1|ppt), 
                   data = apt) ) 
 
 summary(nback_spat_mdl)
+tab_model(nback_spat_mdl, show.aic = T)
 ```
 
 ## Corsi Blocks
 ```{r corsi-mdl}
 # Does session predict Corsi Blocks results?
-( corsi_corr_mdl <- lm(corsi_corr ~ session + self_rating, 
+( corsi_corr_mdl <- lmer(corsi_corr ~ session + self_rating + (1|ppt), 
                   data = apt) ) 
 
 summary(corsi_corr_mdl)
+tab_model(corsi_corr_mdl, show.aic = T)
 ```
 
 ## Kirklees Sentence Reading
 ```{r kirk-mdl}
 # Does session predict Kirklees Sentence Reading results?
-( kirk_mdl <- lm(kirk_acc ~ session + self_rating, 
-                 data = apt) ) 
+( kirk_mdl <- lmer(kirk_acc ~ session + self_rating +
+                   age_s1 + (1|ppt), 
+                   data = apt) ) 
 
 summary(kirk_mdl)
+tab_model(kirk_mdl, show.aic = T)
 ```
 
 ## KBIT-2 Matrices
 ```{r kbit-mdl}
 # Does session predict KBIT-2 Matrices results?
-( kbit_mdl <- lm(kbit_acc ~ session + self_rating, 
+( kbit_mdl <- lmer(kbit_acc ~ session + self_rating + (1|ppt), 
                   data = apt) ) 
 
 summary(kbit_mdl)
+tab_model(kbit_mdl, show.aic = T)
 ```
 
 ## Digit Span
 ```{r dspan-mdl}
 # Does session predict Digit Span results?
-( dspan_corr_mdl <- lm(dspan_corr ~ session + self_rating, 
+( dspan_corr_mdl <- lmer(dspan_corr ~ session + self_rating + (1|ppt), 
                   data = apt) ) 
 
 summary(dspan_corr_mdl)
+tab_model(dspan_corr_mdl, show.aic = T)
 
-( dspan_mem_mdl <- lm(dspan_mem ~ session + self_rating, 
+( dspan_mem_mdl <- lmer(dspan_mem ~ session + self_rating + (1|ppt), 
                   data = apt) ) 
 
 summary(dspan_mem_mdl)
@@ -1186,42 +1200,42 @@ summary(dspan_mem_mdl)
 ## 2D Mental Rotation
 ```{r mr2d-mdl}
 # Does session predict 2D Mental Rotation results?
-( mr2d_sats_mdl <- lm(mr2d_sats ~ session + self_rating, 
+( mr2d_sats_mdl <- lmer(mr2d_sats ~ session + self_rating + (1|ppt), 
                   data = apt) ) 
 
 summary(mr2d_sats_mdl)
+tab_model(mr2d_sats_mdl, show.aic = T)
 
-( mr2d_rt_mdl <- lm(mr2d_rt ~ session + self_rating, 
+( mr2d_acc_mdl <- lmer(mr2d_acc ~ session + self_rating + (1|ppt), 
+                  data = apt) ) 
+
+summary(mr2d_acc_mdl)
+tab_model(mr2d_acc_mdl, show.aic = T)
+
+( mr2d_rt_mdl <- lmer(mr2d_rt ~ session + self_rating + (1|ppt), 
                   data = apt) ) 
 
 summary(mr2d_rt_mdl)
-
-apt2 <- apt %>% 
-  filter(ppt != "HW025") 
-
-( mr2d_rt_mdl2 <- lm(mr2d_rt ~ session + self_rating, 
-                  data = apt2) ) 
-
-summary(mr2d_rt_mdl2)
+tab_model(mr2d_rt_mdl, show.aic = T)
 ```
 
 ## 3D Mental Rotation
 ```{r mr3d-mdl}
 # Does session predict 3D Mental Rotation results?
-( mr3d_sats_mdl <- lm(mr3d_sats ~ session + self_rating, 
+( mr3d_sats_mdl <- lmer(mr3d_sats ~ session + self_rating + (1|ppt), 
                   data = apt) ) 
-
 summary(mr3d_sats_mdl)
+tab_model(mr3d_sats_mdl, show.aic = T)
 
-( mr3d_acc_mdl <- lm(mr3d_acc ~ session + self_rating, 
+( mr3d_acc_mdl <- lmer(mr3d_acc ~ session + self_rating + (1|ppt), 
                   data = apt) ) 
-
 summary(mr3d_acc_mdl)
+tab_model(mr3d_acc_mdl, show.aic = T)
 
-( mr3d_rt_mdl <- lm(mr3d_rt ~ session + self_rating, 
+( mr3d_rt_mdl <- lmer(mr3d_rt ~ session + self_rating + (1|ppt), 
                   data = apt) ) 
-
 summary(mr3d_rt_mdl)
+tab_model(mr3d_rt_mdl, show.aic = T)
 ```
 
 ## Barratt Impulsivity Scale
@@ -1230,7 +1244,7 @@ summary(mr3d_rt_mdl)
 apt$session <- fct_relevel(apt$session, "2nd year", after = 0)
 
 # Does session predict Barratt Impulsivity Scale results?
-( bis_mdl <- lm(bis_tot ~ session + self_rating, 
+( bis_mdl <- lmer(bis_tot ~ session + self_rating + (1|ppt), 
                   data = apt) ) 
 
 summary(bis_mdl)
