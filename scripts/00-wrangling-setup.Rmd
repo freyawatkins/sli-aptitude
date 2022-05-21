@@ -1,9 +1,7 @@
 ---
 title: "Sign Language Interpreter Aptitude"
 subtitle: "00 - Wrangling Set-up"
-author:
-  - name: "Freya Watkins"
-    affiliation: "University of Birmingham"
+author: "anonymised for review"
 date: "`r format(Sys.Date(), '%d %B %Y')`"
 output:
   html_document:
@@ -38,8 +36,8 @@ packageVersion('psych')
 
 ## Read in data
 ```{r read_in_data}
-here::here()
-apt <- read_csv(here("data", "2022-04-23_SLI_aptitude_data.csv"))
+#here::here()
+apt <- read_csv(here("data", "apt-data.csv"))
 apt <- as_tibble(apt)
 ```
 
@@ -52,16 +50,16 @@ summary(apt)
 ```
 
 ## Overview of variables
-*session* -     
-*group* -       
-*ppt* -         
-*status* -  
-*status2* -
-*selected* -    
-*continue* -    
-*L1_bsl* -      
-*prior_BSL* -  
-*age_s1* -      
+*session* - testing session (1-4)
+*group* - whether participants belonged to the first two cohorts or second two cohorts (first, second)     
+*ppt* - randomized participant id codes to ensure anonymity (betwee   S01-S99)         
+*selection* - whether participants were selected or rejected for the degree or not (selected, rejected)
+*selected* -  as above in numeric form (1=selected, 0=rejected)
+*continuation* - whether participants continued with the degree at the time of analysis (continuing, withdrew)
+*continue* - as above in numeric form (1=continuing, 0=withdrew)    
+*L1_bsl* - whether ppts were L1 signers of BSL or not (1=L1 BSL, 0=L2 BSL)    
+*self_rating* - initial BSL self-rating on likert scale (1-7) at session 1 
+
 *nback_lett* -  
 *nback_spat* -  
 *nback_comb* -  

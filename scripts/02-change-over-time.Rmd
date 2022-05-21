@@ -1074,7 +1074,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 Combine plots for Figure 3 using patchwork:
 ```{r}
 fig3 <- (fig3a | fig3b)/(fig3c | fig3d)
-ggsave("plots/Fig3.png", plot=fig3, width = 12, height = 8, units = "in")
+ggsave("plots/Fig3.jpeg", plot=fig3, width = 12, height = 8, units = "in")
 ```
 
 ### Barratt Impulsivity Scale

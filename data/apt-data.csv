@@ -1,152 +1,152 @@
-session,group,ppt,status,selected,continue,L1_bsl,prior_BSL,age_s1,nback_lett,nback_spat,nback_comb,corsi_bspan,corsi_score,corsi_corr,corsi_mspan,kirk_ceil,kirk_raw,kirk_acc,kbit_ceil,kbit_raw,kbit_acc,dspan_mem,dspan_corr,dspan_time,mr2d_acc,mr2d_rt,mr2d_sats,mr3d_acc,mr3d_rt,mr3d_sats,bis_tot,bis_att,bis_mot,bis_nplan,mlat_raw,mlat_acc,summ,copy_sign,bsl_srt,town_map,terp_b2e,terp_e2b,grade_bsl,grade_terp,comments
-pre-degree,pilot,HW002,rejected,0,0,NA,NA,NA,0.7,0.75,0.72,6,48,8,5,35,31,0.89,46,44,0.94,NA,NA,NA,0.95,2297,1.2958578267776126,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW004,rejected,0,0,NA,NA,NA,0.73,0.71,0.72,6,54,9,5.5,42,32,0.76,44,42,0.93,NA,NA,NA,0.91,2769,0.6106840350239889,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW009,rejected,0,0,NA,NA,NA,0.75,0.76,0.75,6,60,10,6,29,25,0.86,46,43,0.91,NA,NA,NA,0.92,3397,0.24568311524436848,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW011,rejected,0,0,NA,NA,NA,0.78,0.7,0.74,8,88,11,6.5,32,24,0.75,38,34,0.83,NA,NA,NA,0.88,3202,0.04001112411798741,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW012,rejected,0,0,NA,NA,NA,0.62,0.48,0.55,5,35,7,4.5,33,29,0.88,42,40,0.93,NA,NA,NA,0.97,3944,0.28476872478171167,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW014,rejected,0,0,NA,NA,NA,0.65,0.67,0.66,6,54,9,5.5,31,24,0.77,42,39,0.89,NA,NA,NA,0.88,2279,0.7035495978495405,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW016,rejected,0,0,NA,NA,NA,0.71,0.6,0.66,5,40,8,5,25,19,0.76,34,33,0.95,NA,NA,NA,0.92,6665,-2.103660039852831,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW017,rejected,0,0,NA,NA,NA,0.73,0.73,0.73,8,80,10,6,42,37,0.88,45,41,0.87,NA,NA,NA,0.41,2505,-3.5227303423066165,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW018,rejected,0,0,NA,NA,NA,0.7,0.73,0.71,6,54,9,5.5,38,31,0.82,46,45,0.97,NA,NA,NA,0.95,3943,0.11255953017724818,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW019,rejected,0,0,NA,NA,NA,0.71,0.71,0.71,5,35,7,4.5,32,26,0.81,26,22,0.67,NA,NA,NA,0.77,8240,-4.532877574337751,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW021,rejected,0,0,NA,NA,NA,0.76,0.75,0.75,6,48,8,5,31,19,0.61,43,40,0.9,NA,NA,NA,0.79,3412,-0.8891328546523876,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW022,rejected,0,0,NA,NA,NA,0.76,0.76,0.76,8,72,9,5.5,42,36,0.86,46,46,1,NA,NA,NA,0.94,2147,1.3172277709952804,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW024,rejected,0,0,NA,NA,NA,0.73,0.62,0.67,5,35,7,4.5,27,21,0.78,22,17,0.38,NA,NA,NA,0.52,3045,-2.9598282164127454,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW030,rejected,0,0,NA,NA,NA,0.7,0.75,0.72,6,60,10,6,42,32,0.76,45,38,0.77,NA,NA,NA,0.85,3771,-0.6284312693746784,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW031,rejected,0,0,NA,NA,NA,0.76,0.75,0.75,6,54,9,5.5,32,24,0.75,43,41,0.93,NA,NA,NA,0.95,3698,0.28868837748410686,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW032,rejected,0,0,NA,NA,NA,0.76,0.76,0.76,6,48,8,5,19,14,0.74,42,38,0.86,NA,NA,NA,0.59,2754,-2.1453819719017377,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW033,rejected,0,0,NA,NA,NA,0.65,0.67,0.66,6,54,9,5.5,42,29,0.69,43,40,0.9,NA,NA,NA,0.92,4636,-0.6450256268503165,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW034,rejected,0,0,NA,NA,NA,0.71,0.71,0.71,5,35,7,4.5,38,29,0.76,43,37,0.79,NA,NA,NA,0.87,3934,-0.5726827819690359,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW035,rejected,0,0,NA,NA,NA,0.65,0.73,0.69,5,40,8,5,38,33,0.87,39,35,0.84,NA,NA,NA,0.8,4802,-1.8019304342190539,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW001,continuing,1,1,0,1,18,0.68,0.76,0.72,5,35,7,4.5,38,30,0.79,38,33,0.79,NA,NA,NA,0.73,4052,-1.8680088009894922,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW005,withdrew,1,0,0,0,NA,0.75,0.73,0.74,8,88,11,6.5,39,38,0.97,45,42,0.9,NA,NA,NA,0.91,2580,0.7465548600892798,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW006,withdrew,1,0,0,0,18,0.67,0.75,0.71,6,54,9,5.5,33,30,0.91,40,40,1,NA,NA,NA,0.93,3752,0.07694005389239045,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW007,withdrew,1,0,0,0,NA,0.73,0.71,0.72,6,60,10,6,40,30,0.75,43,39,0.86,NA,NA,NA,0.93,2965,0.6427090450372792,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW008,withdrew,1,0,0,0,NA,0.75,0.73,0.74,8,80,10,6,38,33,0.87,45,45,1,NA,NA,NA,0.95,2507,1.1448902433717338,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW013,continuing,1,1,0,1,17,0.68,0.71,0.7,6,60,10,6,42,31,0.74,46,39,0.78,NA,NA,NA,0.88,3057,0.14425064599347515,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW015,withdrew,1,0,0,0,32,0.73,0.7,0.71,6,48,8,5,42,31,0.74,41,40,0.96,NA,NA,NA,0.91,2376,0.8932090839692765,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW020,withdrew,1,0,0,1,17,0.62,0.71,0.67,8,72,9,5.5,42,30,0.71,45,39,0.81,NA,NA,NA,0.91,1934,1.2109599023759356,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW025,continuing,1,1,1,1,18,0.76,0.76,0.76,6,54,9,5.5,31,27,0.87,37,37,1,NA,NA,NA,0.98,8256,-2.728634943889612,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW026,withdrew,1,0,0,0,18,0.65,0.6,0.63,5,40,8,5,42,28,0.67,45,40,0.84,NA,NA,NA,0.94,2430,1.1137809800245009,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,pilot,HW028,withdrew,1,0,0,0,17,0.73,0.79,0.76,9,126,14,8,38,31,0.82,42,41,0.96,NA,NA,NA,0.95,3696,0.2901261639927343,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,grant,HW1011,continuing,1,1,NA,NA,19,0.67,0.67,0.67,6,54,9,5.5,36,31,0.86,42,40,0.95,8,0.86,4.78,NA,NA,NA,0.92,2417,1.7971645175179687,NA,NA,NA,NA,35,0.78,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,grant,HW1021,continuing,1,1,NA,NA,19,0.65,0.7,0.67,5,40,8,5,30,25,0.83,36,34,0.94,8,0.71,5.34,NA,NA,NA,0.59,4285,-2.957106788709711,NA,NA,NA,NA,17,0.38,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,grant,HW1031,continuing,1,1,NA,NA,49,0.7,0.71,0.71,8,80,10,6,42,39,0.93,41,39,0.95,10,0.88,5.88,NA,NA,NA,0.58,4085,-2.701229495905429,NA,NA,NA,NA,40,0.89,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,grant,HW1041,continuing,1,1,NA,NA,18,0.71,0.76,0.74,6,54,9,5.5,37,28,0.76,43,36,0.84,6,0.7,3.99,NA,NA,NA,0.86,3253,0.1591193550694916,NA,NA,NA,NA,23,0.51,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,grant,HW1051,continuing,1,1,NA,NA,43,0.73,0.73,0.73,6,48,8,5,36,32,0.89,37,36,0.97,7,0.75,4.35,NA,NA,NA,0.9,2442,1.646514245223035,NA,NA,NA,NA,41,0.91,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,grant,HW1061,continuing,1,1,NA,NA,32,0.71,0.71,0.71,6,54,9,5.5,42,39,0.93,45,40,0.89,NA,NA,NA,NA,NA,NA,0.7,2891,-0.17014981119170403,NA,NA,NA,NA,43,0.96,NA,NA,NA,NA,NA,NA,NA,NA,copy sign - use interview version (SW)
-pre-degree,grant,HW1071,continuing,1,1,NA,NA,54,0.62,0.52,0.57,5,40,8,5,30,19,0.63,20,16,0.8,6,0.5,3.38,NA,NA,NA,0.4,4121,-3.7625066097509805,NA,NA,NA,NA,31,0.69,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,grant,HW1081,continuing,1,1,NA,NA,18,0.73,0.75,0.74,5,30,6,4,41,30,0.73,45,39,0.87,5,0.63,2.77,NA,NA,NA,0.75,3527,-0.8822059969145901,NA,NA,NA,NA,43,0.96,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,grant,HW1091,continuing,1,1,NA,NA,18,0.75,0.76,0.75,8,80,10,6,36,20,0.56,46,41,0.89,NA,NA,NA,NA,NA,NA,0.6,3170,-1.1634255211772864,NA,NA,NA,NA,28,0.62,NA,NA,NA,NA,NA,NA,NA,NA,copy sign - use interview version (SW)
-pre-degree,grant,HW1101,continuing,1,1,NA,NA,19,0.75,0.7,0.72,5,40,8,5,39,33,0.85,44,39,0.89,9,0.75,6.79,NA,NA,NA,0.15,3258,-3.8135011064598565,NA,NA,NA,NA,45,1,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,grant,HW1111,continuing,1,1,NA,NA,18,0.71,0.71,0.71,5,35,7,4.5,36,30,0.83,41,41,1,7,0.67,4.83,NA,NA,NA,0.51,3862,-2.7445602527517283,NA,NA,NA,NA,39,0.87,NA,NA,NA,NA,NA,NA,NA,NA,copy sign done tbc (SW?)
-pre-degree,grant,HW1121,continuing,1,1,NA,NA,20,0.78,0.73,0.75,5,40,8,5,42,34,0.81,43,38,0.88,NA,NA,NA,NA,NA,NA,0.68,3398,-1.072045122332487,NA,NA,NA,NA,44,0.98,NA,NA,NA,NA,NA,NA,NA,NA,copy sign - use interview version (SW)
-pre-degree,grant,WV2011,continuing,1,1,NA,NA,21,0.75,0.73,0.74,5,40,8,5,42,39,0.93,46,42,0.91,7,0.67,4.19,NA,NA,NA,0.88,2656,1.2012886361192514,NA,NA,NA,NA,41,0.91,NA,NA,NA,NA,NA,NA,NA,NA,"nback crashed, continued on PEBLPortable"
-pre-degree,grant,WV2021,withdrew,1,0,NA,NA,32,0.67,0.68,0.67,5,35,7,4.5,38,36,0.95,33,32,0.97,7,0.75,4.47,NA,NA,NA,0.46,3832,-2.9770154644159477,NA,NA,NA,NA,44,0.98,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,grant,WV2031,continuing,1,1,NA,NA,34,0.71,0.7,0.71,6,54,9,5.5,40,34,0.85,46,42,0.91,9,0.69,5.15,NA,NA,NA,0.81,3353,-0.2759538131299153,NA,NA,NA,NA,36,0.8,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,grant,WV2041,withdrew,1,0,1,NA,18,0.75,0.67,0.71,6,60,10,6,33,28,0.85,43,39,0.91,6,0.8,3.61,NA,NA,NA,0.84,3025,0.40279479818534636,NA,NA,NA,NA,37,0.82,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,grant,WV2051,continuing,1,1,NA,NA,22,0.68,0.75,0.71,6,48,8,5,31,26,0.84,44,42,0.95,6,0.8,3.31,NA,NA,NA,0.51,3338,-1.927854027948356,NA,NA,NA,NA,43,0.96,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,grant,WV2061,continuing,1,1,NA,NA,40,0.71,0.79,0.75,6,54,9,5.5,42,35,0.83,39,36,0.92,10,0.81,6.28,NA,NA,NA,0.65,3016,-0.6441879710324933,NA,NA,NA,NA,40,0.89,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,grant,WV2071,continuing,1,1,NA,NA,23,0.75,0.75,0.75,5,40,8,5,42,32,0.76,38,31,0.82,6,0.6,3.43,NA,NA,NA,0.5,2002,0.09859248504033591,NA,NA,NA,NA,13,0.29,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,grant,WV2081,continuing,1,1,NA,NA,19,0.76,0.75,0.75,6,60,10,6,42,31,0.74,46,43,0.93,8,0.71,4.52,NA,NA,NA,0.45,3025,-1.7750681745589043,NA,NA,NA,NA,25,0.56,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,grant,WV2091,withdrew,1,0,NA,NA,34,0.76,0.68,0.72,6,54,9,5.5,37,32,0.86,40,37,0.93,5,0.75,2.36,NA,NA,NA,0.89,3279,0.28612368474278116,NA,NA,NA,NA,34,0.76,NA,NA,NA,NA,NA,NA,NA,NA,NA
-pre-degree,grant,WV2111,withdrew,1,0,NA,NA,20,0.7,0.76,0.73,6,54,9,5.5,42,20,0.48,39,37,0.95,6,0.7,4.25,NA,NA,NA,0.49,2530,-0.7801907787524329,NA,NA,NA,NA,38,0.84,NA,NA,NA,NA,NA,NA,NA,NA,NA
-1st year,pilot,HW001,continuing,1,1,0,1,18,0.73,0.73,0.73,5,40,8,5,42,30,0.71,46,36,0.69,NA,NA,NA,0.88,3193,0.04648116340681077,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,68,NA,NA
-1st year,pilot,HW005,withdrew,1,0,0,0,NA,0.68,0.68,0.68,6,60,10,6,42,34,0.81,42,40,0.93,NA,NA,NA,0.97,2036,1.6564170540122678,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,63,NA,NA
-1st year,pilot,HW006,withdrew,1,0,0,0,18,0.75,0.73,0.74,6,60,10,6,39,29,0.74,43,41,0.93,NA,NA,NA,0.89,2808,0.40971911024697716,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,60,NA,NA
-1st year,pilot,HW007,withdrew,1,0,0,0,NA,0.79,0.75,0.77,6,60,10,6,38,28,0.74,43,42,0.97,NA,NA,NA,0.91,2004,1.1606373745739762,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,64,NA,NA
-1st year,pilot,HW008,withdrew,1,0,0,0,NA,0.75,0.78,0.76,8,80,10,6,38,30,0.79,46,46,1,NA,NA,NA,0.97,2351,1.4299656789034496,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,63,NA,NA
-1st year,pilot,HW013,continuing,1,1,0,1,17,0.68,0.7,0.69,8,96,12,7,42,29,0.69,46,39,0.78,NA,NA,NA,0.8,2122,0.12470348734168524,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,68,NA,NA
-1st year,pilot,HW015,withdrew,1,0,0,0,32,0.71,0.71,0.71,6,48,8,5,42,34,0.81,42,38,0.86,NA,NA,NA,0.76,1589,0.16201741617333765,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,74,NA,NA
-1st year,pilot,HW020,withdrew,1,0,0,1,17,0.68,0.76,0.72,8,80,10,6,42,33,0.79,46,40,0.81,NA,NA,NA,0.92,1578,1.5533499448410044,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,60,NA,NA
-1st year,pilot,HW025,continuing,1,1,1,1,18,0.68,0.7,0.69,5,40,8,5,32,28,0.88,39,38,0.96,NA,NA,NA,0.96,5288,-0.7678878529453014,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,74,NA,NA
-1st year,pilot,HW026,withdrew,1,0,0,0,18,0.65,0.75,0.7,6,54,9,5.5,42,31,0.74,46,40,0.81,NA,NA,NA,0.98,1921,1.8255538221877328,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,58,NA,NA
-1st year,pilot,HW028,withdrew,1,0,0,0,17,0.76,0.76,0.76,8,96,12,7,42,35,0.83,46,44,0.94,NA,NA,NA,0.96,2528,1.2162575289605346,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,64,NA,NA
-1st year,grant,HW1011,continuing,1,1,NA,NA,19,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,75,NA,unable to retest here due to Covid
-1st year,grant,HW1021,continuing,1,1,NA,NA,19,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,59,NA,unable to retest here due to Covid
-1st year,grant,HW1031,continuing,1,1,NA,NA,49,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,70,NA,unable to retest here due to Covid
-1st year,grant,HW1041,continuing,1,1,NA,NA,18,0.59,0.71,0.65,6,60,10,6,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.75,2398,0.8774530256102326,48,10,15,23,NA,NA,NA,NA,9,NA,NA,NA,71,NA,did reverse dspan only
-1st year,grant,HW1051,continuing,1,1,NA,NA,43,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,70,NA,unable to retest here due to Covid
-1st year,grant,HW1061,continuing,1,1,NA,NA,32,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,67,NA,unable to retest here due to Covid
-1st year,grant,HW1071,continuing,1,1,NA,NA,54,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,56,NA,only completed BIS
-1st year,grant,HW1081,continuing,1,1,NA,NA,18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,59,NA,unable to retest here due to Covid
-1st year,grant,HW1091,continuing,1,1,NA,NA,18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,56,NA,unable to retest here due to Covid
-1st year,grant,HW1101,continuing,1,1,NA,NA,19,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,57,NA,unable to retest here due to Covid
-1st year,grant,HW1111,continuing,1,1,NA,NA,18,NA,NA,NA,6,60,10,6,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.84,3013,0.4214979941732098,64,15,17,32,NA,NA,NA,NA,9,NA,NA,NA,59,NA,"data loss in nback file, did reverse dspan only"
-1st year,grant,HW1121,continuing,1,1,NA,NA,20,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,69,NA,unable to retest here due to Covid
-1st year,grant,WV2011,continuing,1,1,NA,NA,21,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,78,84,unable to retest here due to Covid
-1st year,grant,WV2021,withdrew,1,0,NA,NA,32,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,unable to retest here due to Covid
-1st year,grant,WV2031,continuing,1,1,NA,NA,34,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,54,59,unable to retest here due to Covid
-1st year,grant,WV2041,withdrew,1,0,1,NA,18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,unable to retest here due to Covid
-1st year,grant,WV2051,continuing,1,1,NA,NA,22,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,79,81,unable to retest here due to Covid
-1st year,grant,WV2061,continuing,1,1,NA,NA,40,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,57,60,unable to retest here due to Covid
-1st year,grant,WV2071,continuing,1,1,NA,NA,23,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,59,54,unable to retest here due to Covid
-1st year,grant,WV2081,continuing,1,1,NA,NA,19,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,72,82,unable to retest here due to Covid
-1st year,grant,WV2091,withdrew,1,0,NA,NA,34,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,48,46,unable to retest here due to Covid
-1st year,grant,WV2111,withdrew,1,0,NA,NA,20,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,45,49,unable to retest here due to Covid
-2nd year,pilot,HW001,continuing,1,1,0,1,18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,60,54,unable to retest here due to Covid
-2nd year,pilot,HW005,withdrew,1,0,0,0,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,withdrew from programme
-2nd year,pilot,HW006,withdrew,1,0,0,0,18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,52,51,unable to retest here due to Covid
-2nd year,pilot,HW007,withdrew,1,0,0,0,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,64,62,unable to retest here due to Covid
-2nd year,pilot,HW008,withdrew,1,0,0,0,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,58,52,unable to retest here due to Covid
-2nd year,pilot,HW013,continuing,1,1,0,1,17,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,70,60,unable to retest here due to Covid
-2nd year,pilot,HW015,withdrew,1,0,0,0,32,0.75,0.71,0.73,6,48,8,5,42,33,0.79,42,36,0.86,7,0.83,4.25,0.86,1991,0.7376627672331114,0.75,2713,0.38649413092881624,73,19,26,28,NA,NA,NA,NA,19,NA,NA,NA,72,72,NA
-2nd year,pilot,HW020,withdrew,1,0,0,1,17,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,55,50,unable to retest here due to Covid
-2nd year,pilot,HW025,continuing,1,1,1,1,18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,60,64,unable to retest here due to Covid
-2nd year,pilot,HW026,withdrew,1,0,0,0,18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,58,53,unable to retest here due to Covid
-2nd year,pilot,HW028,withdrew,1,0,0,0,17,0.73,0.75,0.74,8,80,10,6,42,36,0.86,46,45,0.98,10,0.88,5.92,0.91,1793,1.3123238512341686,0.84,2201,1.6870809226853056,73,21,29,23,NA,NA,NA,NA,13,NA,NA,NA,60,51,NA
-2nd year,grant,HW1011,continuing,1,1,NA,NA,19,0.71,0.76,0.74,6,48,8,5,42,36,0.86,44,41,0.93,8,0.71,4.93,0.86,1610,1.0115610971266344,0.96,2009,2.6564437424124296,89,30,33,26,NA,NA,NA,NA,21,NA,NA,NA,75,72,NA
-2nd year,grant,HW1021,continuing,1,1,NA,NA,19,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,62,46,no interest in taking part again
-2nd year,grant,HW1031,continuing,1,1,NA,NA,49,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,64,67,no interest in taking part again
-2nd year,grant,HW1041,continuing,1,1,NA,NA,18,0.76,0.76,0.76,6,54,9,5.5,41,32,0.78,44,38,0.86,8,0.64,4.86,0.72,2098,-0.5497554259898942,0.88,2009,2.2097026197982244,48,10,17,21,NA,NA,NA,NA,24,NA,NA,NA,71,68,NA
-2nd year,grant,HW1051,continuing,1,1,NA,NA,43,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,0.83,2306,1.4675853174647244,65,13,26,26,NA,NA,NA,NA,NA,NA,NA,NA,67,68,did online tasks but PEBL issues
-2nd year,grant,HW1061,continuing,1,1,NA,NA,32,0.71,0.71,0.71,6,60,10,6,42,38,0.9,45,42,0.93,8,0.71,4.8,0.9,2716,0.5623213335732269,0.74,3030,-0.16342460341068654,62,17,22,23,NA,NA,NA,NA,NA,NA,NA,NA,68,58,NA
-2nd year,grant,HW1071,continuing,1,1,NA,NA,54,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,51,44,no interest in taking part again
-2nd year,grant,HW1081,continuing,1,1,NA,NA,18,0.76,0.79,0.77,5,35,7,4.5,42,31,0.74,46,41,0.89,6,0.7,3.65,0.89,2317,0.7626956981150081,0.88,2810,0.9612642876083366,66,24,21,21,NA,NA,NA,NA,NA,NA,NA,NA,56,54,NA
-2nd year,grant,HW1091,continuing,1,1,NA,NA,18,0.79,0.73,0.76,8,80,10,6,23,14,0.61,43,37,0.86,5,0.63,2.2,0.54,1086,-1.3785882433534133,0.48,1379,0.9579147960900305,83,23,30,30,NA,NA,NA,NA,NA,NA,NA,NA,58,50,NA
-2nd year,grant,HW1101,continuing,1,1,NA,NA,19,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,71,66,no interest in taking part again
-2nd year,grant,HW1111,continuing,1,1,NA,NA,18,0.7,0.74,0.72,6,48,8,5,39,32,0.86,41,40,0.98,8,0.79,6.22,0.84,4419,-1.1807381420993501,0.59,3189,-1.2488815551515127,69,16,20,33,NA,NA,NA,NA,NA,NA,NA,NA,54,51,NA
-2nd year,grant,HW1121,continuing,1,1,NA,NA,20,0.76,0.79,0.78,6,48,8,5,37,36,0.97,41,40,0.98,8,0.64,4.56,0.88,3263,-0.0038413643951488163,0.71,2252,0.8816380154888022,68,21,17,30,NA,NA,NA,NA,NA,NA,NA,NA,68,70,NA
-2nd year,grant,WV2011,continuing,1,1,NA,NA,21,0.75,0.68,0.71,8,88,11,6.5,42,37,0.88,46,45,0.98,8,0.79,4.66,0.93,2017,1.324219850126675,0.93,2345,1.9652263337719251,47,14,19,14,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-2nd year,grant,WV2021,withdrew,1,0,NA,NA,32,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,no interest in taking part again
-2nd year,grant,WV2031,continuing,1,1,NA,NA,34,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,did GoReact tasks only (tablet)
-2nd year,grant,WV2041,withdrew,1,0,1,NA,18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,no interest in taking part again
-2nd year,grant,WV2051,continuing,1,1,NA,NA,22,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,85,72,no interest in taking part again
-2nd year,grant,WV2061,continuing,1,1,NA,NA,40,0.78,0.76,0.77,6,48,8,5,34,31,0.91,35,34,0.97,9,0.81,5.95,0.71,2794,-1.136569174921624,0.55,2823,-0.9018046388287787,60,16,21,23,NA,NA,NA,NA,NA,NA,NA,NA,50,51,NA
-2nd year,grant,WV2071,continuing,1,1,NA,NA,23,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,55,63,no interest in taking part again
-2nd year,grant,WV2081,continuing,1,1,NA,NA,19,NA,NA,NA,NA,NA,NA,NA,42,33,0.79,44,37,0.84,NA,NA,NA,NA,NA,NA,0.74,2348,0.8995403685662215,65,22,20,23,NA,NA,NA,NA,NA,NA,NA,NA,70,67,did all tasks but 4 PEBL ones
-2nd year,grant,WV2091,withdrew,1,0,NA,NA,34,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,34,NA,no interest in taking part again
-2nd year,grant,WV2111,withdrew,1,0,NA,NA,20,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,no interest in taking part again
-3rd year,pilot,HW001,continuing,1,1,0,1,18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-3rd year,pilot,HW005,withdrew,1,0,0,0,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-3rd year,pilot,HW006,withdrew,1,0,0,0,18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-3rd year,pilot,HW007,withdrew,1,0,0,0,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-3rd year,pilot,HW008,withdrew,1,0,0,0,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-3rd year,pilot,HW013,continuing,1,1,0,1,17,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-3rd year,pilot,HW015,withdrew,1,0,0,0,32,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-3rd year,pilot,HW020,withdrew,1,0,0,1,17,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-3rd year,pilot,HW025,continuing,1,1,1,1,18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-3rd year,pilot,HW026,withdrew,1,0,0,0,18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-3rd year,pilot,HW028,withdrew,1,0,0,0,17,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-3rd year,grant,HW1011,continuing,1,1,NA,NA,19,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-3rd year,grant,HW1021,continuing,1,1,NA,NA,19,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-3rd year,grant,HW1031,continuing,1,1,NA,NA,49,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-3rd year,grant,HW1041,continuing,1,1,NA,NA,18,0.71,0.78,0.75,6,60,10,6,NA,NA,NA,NA,NA,NA,7,0.83,3.82,0.75,1919,-0.1616814016795748,0.78,1792,1.9894923439776657,46,10,17,19,NA,NA,NA,NA,14,NA,63.3,54.1,NA,NA,NA
-3rd year,grant,HW1051,continuing,1,1,NA,NA,43,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-3rd year,grant,HW1061,continuing,1,1,NA,NA,32,0.73,0.762,0.75,6,54,9,5.5,NA,NA,NA,NA,NA,NA,8,0.79,4.84,0.84,2185,0.4252693880374748,0.8,2455,1.0678260463017595,58,18,21,19,NA,NA,NA,NA,14,NA,66.6,65.7,NA,NA,NA
-3rd year,grant,HW1071,continuing,1,1,NA,NA,54,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-3rd year,grant,HW1081,continuing,1,1,NA,NA,18,0.67,0.7,0.68,5,35,7,4.5,NA,NA,NA,NA,NA,NA,6,0.7,3.66,0.88,2156,0.7919734681301267,0.89,2243,1.900832938361662,63,19,23,21,NA,NA,NA,NA,7,NA,65.2,49.8,NA,NA,NA
-3rd year,grant,HW1091,continuing,1,1,NA,NA,18,0.73,0.7,0.71,6,60,10,6,NA,NA,NA,NA,NA,NA,6,0.8,NA,0.7,1790,-0.5012643915200491,0.42,2211,-0.6738959676958249,72,21,27,24,NA,NA,NA,NA,12,NA,63.8,61.8,NA,NA,NA
-3rd year,grant,HW1101,continuing,1,1,NA,NA,19,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-3rd year,grant,HW1111,continuing,1,1,NA,NA,18,0.7,0.66,0.68,6,60,10,6,NA,NA,NA,NA,NA,NA,6,0.8,3.84,0.84,3234,-0.3288496357376055,0.79,2910,0.30282055810182684,65,16,18,31,NA,NA,NA,NA,11,NA,58.6,44.5,NA,NA,NA
-3rd year,grant,HW1121,continuing,1,1,NA,NA,20,0.73,0.68,0.71,6,54,9,5.5,NA,NA,NA,NA,NA,NA,8,0.79,4.18,0.92,2367,0.9861431671874883,0.8,2202,1.4621517617125481,71,23,22,26,NA,NA,NA,NA,15,NA,61.2,57.7,NA,NA,NA
-3rd year,grant,WV2011,continuing,1,1,NA,NA,21,0.71,0.73,0.72,6,60,10,6,NA,NA,NA,NA,NA,NA,8,0.86,4.48,0.9,1636,1.3387260482320322,0.96,2338,2.143664452411839,44,11,17,16,NA,NA,NA,NA,20,NA,72.6,83,NA,NA,NA
-3rd year,grant,WV2021,withdrew,1,0,NA,NA,32,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-3rd year,grant,WV2031,continuing,1,1,NA,NA,34,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-3rd year,grant,WV2041,withdrew,1,0,1,NA,18,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-3rd year,grant,WV2051,continuing,1,1,NA,NA,22,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-3rd year,grant,WV2061,continuing,1,1,NA,NA,40,0.78,0.75,0.76,6,48,8,5,NA,NA,NA,NA,NA,NA,9,0.81,6.21,0.88,3005,0.181633095217788,0.66,2671,-0.050628446054642395,55,13,17,25,NA,NA,NA,NA,11,NA,NA,67,NA,NA,NA
-3rd year,grant,WV2071,continuing,1,1,NA,NA,23,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-3rd year,grant,WV2081,continuing,1,1,NA,NA,19,0.71,0.71,0.71,8,88,11,6.5,NA,NA,NA,NA,NA,NA,7,0.75,4.09,0.84,2463,0.22541706333826386,0.7,2233,0.855408768809477,67,22,23,22,NA,NA,NA,NA,13,NA,68.3,77.4,NA,NA,NA
-3rd year,grant,WV2091,withdrew,1,0,NA,NA,34,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-3rd year,grant,WV2111,withdrew,1,0,NA,NA,20,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+﻿session,group,ppt,selection,selected,continuation,continue,L1_bsl,self_rating,bsl_years,nback_lett,nback_spat,nback_comb,corsi_bspan,corsi_score,corsi_corr,corsi_mspan,kirk_ceil,kirk_raw,kirk_acc,kbit_ceil,kbit_raw,kbit_acc,dspan_mem,dspan_corr,dspan_time,mr2d_acc,mr2d_rt,mr3d_acc,mr3d_rt,bis_tot,bis_att,bis_mot,bis_nplan,mlat_raw,mlat_acc,summ,copy_sign,bsl_srt,town_map,terp_b2e,terp_e2b,grade_bsl,grade_terp
+1,first,S70,selected,1,withdrew,1,0,4,10,0.68,0.76,0.72,5,35,7,4.5,38,30,0.79,38,33,0.79,na,na,na,0.73,4052,na,na,na,na,na,na,na,na,na,84,na,na,na,na,na,na
+1,first,S41,selected,1,withdrew,0,0,1,0,0.75,0.73,0.74,8,88,11,6.5,39,38,0.97,45,42,0.9,na,na,na,0.91,2580,na,na,na,na,na,na,na,na,na,74.5,na,na,na,na,na,na
+1,first,S63,selected,1,withdrew,0,0,2,2,0.67,0.75,0.71,6,54,9,5.5,33,30,0.91,40,40,1,na,na,na,0.93,3752,na,na,na,na,na,na,na,na,na,62,na,na,na,na,na,na
+1,first,S90,selected,1,withdrew,0,0,1,0,0.73,0.71,0.72,6,60,10,6,40,30,0.75,43,39,0.86,na,na,na,0.93,2965,na,na,na,na,na,na,na,na,na,69.5,na,na,na,na,na,na
+1,first,S60,selected,1,withdrew,0,0,1,0,0.75,0.73,0.74,8,80,10,6,38,33,0.87,45,45,1,na,na,na,0.95,2507,na,na,na,na,na,na,na,na,na,74,na,na,na,na,na,na
+1,first,S96,selected,1,continuing,1,1,5,14,0.68,0.71,0.7,6,60,10,6,42,31,0.74,46,39,0.78,na,na,na,0.88,3057,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,na,na
+1,first,S65,selected,1,continuing,0,0,2,3,0.73,0.7,0.71,6,48,8,5,42,31,0.74,41,40,0.96,na,na,na,0.91,2376,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,na,na
+1,first,S71,selected,1,withdrew,0,0,1,0,0.62,0.71,0.67,8,72,9,5.5,42,30,0.71,45,39,0.81,na,na,na,0.91,1934,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,na,na
+1,first,S33,selected,1,continuing,1,1,6,18,0.76,0.76,0.76,6,54,9,5.5,31,27,0.87,37,37,1,na,na,na,0.98,8256,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,na,na
+1,first,S25,selected,1,withdrew,0,0,1,0,0.65,0.6,0.63,5,40,8,5,42,28,0.67,45,40,0.84,na,na,na,0.94,2430,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,na,na
+1,first,S19,selected,1,withdrew,0,0,3,0,0.73,0.79,0.76,9,126,14,8,38,31,0.82,42,41,0.96,na,na,na,0.95,3696,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,na,na
+1,second,S77,selected,1,continuing,1,0,3,3,0.67,0.67,0.67,6,54,9,5.5,36,31,0.86,42,40,0.95,8,0.86,4.78,na,na,0.92,2417,na,na,na,na,35,0.78,tbc,tbc,na,na,na,na,na,na
+1,second,S98,selected,1,continuing,1,0,2,1,0.65,0.7,0.67,5,40,8,5,30,25,0.83,36,34,0.94,8,0.71,5.34,na,na,0.59,4285,na,na,na,na,17,0.38,tbc,tbc,na,na,na,na,na,na
+1,second,S31,selected,1,continuing,1,0,1,1,0.7,0.71,0.71,8,80,10,6,42,39,0.93,41,39,0.95,10,0.88,5.88,na,na,0.58,4085,na,na,na,na,40,0.89,tbc,tbc,na,na,na,na,na,na
+1,second,S52,selected,1,continuing,1,0,4,6,0.71,0.76,0.74,6,54,9,5.5,37,28,0.76,43,36,0.84,6,0.7,3.99,na,na,0.86,3253,na,na,na,na,23,0.51,80,83.25,na,na,na,na,na,na
+1,second,S39,selected,1,continuing,1,0,2,0,0.73,0.73,0.73,6,48,8,5,36,32,0.89,37,36,0.97,7,0.75,4.35,na,na,0.9,2442,na,na,na,na,41,0.91,tbc,tbc,na,na,na,na,na,na
+1,second,S84,selected,1,continuing,1,0,1,0,0.71,0.71,0.71,6,54,9,5.5,42,39,0.93,45,40,0.89,na,na,na,na,na,0.7,2891,na,na,na,na,43,0.96,90,na,na,na,na,na,na,na
+1,second,S17,selected,1,continuing,1,0,4,4,0.62,0.52,0.57,5,40,8,5,30,19,0.63,20,16,0.8,6,0.5,3.38,na,na,0.4,4121,na,na,na,na,31,0.69,tbc,tbc,na,na,na,na,na,na
+1,second,S03,selected,1,continuing,1,0,1,0,0.73,0.75,0.74,5,30,6,4,41,30,0.73,45,39,0.87,5,0.63,2.77,na,na,0.75,3527,na,na,na,na,43,0.96,90,70,na,na,na,na,na,na
+1,second,S13,selected,1,continuing,1,0,2,1,0.75,0.76,0.75,8,80,10,6,36,20,0.56,46,41,0.89,na,na,na,na,na,0.6,3170,na,na,na,na,28,0.62,60,72,na,na,na,na,na,na
+1,second,S07,selected,1,continuing,1,0,1,0,0.75,0.7,0.72,5,40,8,5,39,33,0.85,44,39,0.89,9,0.75,6.79,na,na,0.15,3258,na,na,na,na,45,1,tbc,tbc,na,na,na,na,na,na
+1,second,S89,selected,1,continuing,1,0,1,0,0.71,0.71,0.71,5,35,7,4.5,36,30,0.83,41,41,1,7,0.67,4.83,na,na,0.51,3862,na,na,na,na,39,0.87,87.5,na,na,na,na,na,na,na
+1,second,S16,selected,1,continuing,1,0,1,0,0.78,0.73,0.75,5,40,8,5,42,34,0.81,43,38,0.88,na,na,na,na,na,0.68,3398,na,na,na,na,44,0.98,75,na,na,na,na,na,na,na
+1,second,S97,selected,1,continuing,1,0,2,1,0.75,0.73,0.74,5,40,8,5,42,39,0.93,46,42,0.91,7,0.67,4.19,na,na,0.88,2656,na,na,na,na,41,0.91,85,89.5,na,na,na,na,na,na
+1,second,S85,selected,1,withdrew,0,0,4,4,0.67,0.68,0.67,5,35,7,4.5,38,36,0.95,33,32,0.97,7,0.75,4.47,na,na,0.46,3832,na,na,na,na,44,0.98,tbc,na,na,na,na,na,na,na
+1,second,S68,selected,1,continuing,1,0,3,2,0.71,0.7,0.71,6,54,9,5.5,40,34,0.85,46,42,0.91,9,0.69,5.15,na,na,0.81,3353,na,na,na,na,36,0.8,tbc,tbc,na,na,na,na,na,na
+1,second,S10,selected,1,withdrew,0,1,4,18,0.75,0.67,0.71,6,60,10,6,33,28,0.85,43,39,0.91,6,0.8,3.61,na,na,0.84,3025,na,na,na,na,37,0.82,tbc,tbc,na,na,na,na,na,na
+1,second,S73,selected,1,continuing,1,0,4,1,0.68,0.75,0.71,6,48,8,5,31,26,0.84,44,42,0.95,6,0.8,3.31,na,na,0.51,3338,na,na,na,na,43,0.96,tbc,na,na,na,na,na,na,na
+1,second,S49,selected,1,continuing,1,0,3,8,0.71,0.79,0.75,6,54,9,5.5,42,35,0.83,39,36,0.92,10,0.81,6.28,na,na,0.65,3016,na,na,na,na,40,0.89,85,85,na,na,na,na,na,na
+1,second,S42,selected,1,continuing,1,0,3,2,0.75,0.75,0.75,5,40,8,5,42,32,0.76,38,31,0.82,6,0.6,3.43,na,na,0.5,2002,na,na,na,na,13,0.29,tbc,tbc,na,na,na,na,na,na
+1,second,S18,selected,1,continuing,1,0,3,2,0.76,0.75,0.75,6,60,10,6,42,31,0.74,46,43,0.93,8,0.71,4.52,na,na,0.45,3025,na,na,na,na,25,0.56,70,89,na,na,na,na,na,na
+1,second,S92,selected,1,withdrew,0,0,3,12,0.76,0.68,0.72,6,54,9,5.5,37,32,0.86,40,37,0.93,5,0.75,2.36,na,na,0.89,3279,na,na,na,na,34,0.76,tbc,tbc,na,na,na,na,na,na
+1,second,S79,selected,1,withdrew,0,0,3,12,0.7,0.76,0.73,6,54,9,5.5,42,20,0.48,39,37,0.95,6,0.7,4.25,na,na,0.49,2530,na,na,na,na,38,0.84,tbc,tbc,na,na,na,na,na,na
+2,first,S70,selected,1,withdrew,1,0,4,10,0.73,0.73,0.73,5,40,8,5,42,30,0.71,46,36,0.69,na,na,na,0.88,3193,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,68,na
+2,first,S41,selected,1,withdrew,0,0,1,0,0.68,0.68,0.68,6,60,10,6,42,34,0.81,42,40,0.93,na,na,na,0.97,2036,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,63,na
+2,first,S63,selected,1,withdrew,0,0,2,2,0.75,0.73,0.74,6,60,10,6,39,29,0.74,43,41,0.93,na,na,na,0.89,2808,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,60,na
+2,first,S90,selected,1,withdrew,0,0,1,0,0.79,0.75,0.77,6,60,10,6,38,28,0.74,43,42,0.97,na,na,na,0.91,2004,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,64,na
+2,first,S60,selected,1,withdrew,0,0,1,0,0.75,0.78,0.76,8,80,10,6,38,30,0.79,46,46,1,na,na,na,0.97,2351,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,63,na
+2,first,S96,selected,1,continuing,1,1,5,14,0.68,0.7,0.69,8,96,12,7,42,29,0.69,46,39,0.78,na,na,na,0.8,2122,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,68,na
+2,first,S65,selected,1,continuing,0,0,2,3,0.71,0.71,0.71,6,48,8,5,42,34,0.81,42,38,0.86,na,na,na,0.76,1589,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,74,na
+2,first,S71,selected,1,withdrew,0,0,1,0,0.68,0.76,0.72,8,80,10,6,42,33,0.79,46,40,0.81,na,na,na,0.92,1578,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,60,na
+2,first,S33,selected,1,continuing,1,1,6,18,0.68,0.7,0.69,5,40,8,5,32,28,0.88,39,38,0.96,na,na,na,0.96,5288,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,74,na
+2,first,S25,selected,1,withdrew,0,0,1,0,0.65,0.75,0.7,6,54,9,5.5,42,31,0.74,46,40,0.81,na,na,na,0.98,1921,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,58,na
+2,first,S19,selected,1,withdrew,0,0,3,0,0.76,0.76,0.76,8,96,12,7,42,35,0.83,46,44,0.94,na,na,na,0.96,2528,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,64,na
+2,second,S77,selected,1,continuing,1,0,3,3,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,75,na
+2,second,S98,selected,1,continuing,1,0,2,1,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,59,na
+2,second,S31,selected,1,continuing,1,0,1,1,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,70,na
+2,second,S52,selected,1,continuing,1,0,4,6,0.59,0.71,0.65,6,60,10,6,na,na,na,na,na,na,na,na,na,na,na,0.75,2398,48,10,15,23,na,na,tbc,na,9,tbc,na,na,71,na
+2,second,S39,selected,1,continuing,1,0,2,0,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,70,na
+2,second,S84,selected,1,continuing,1,0,1,0,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,67,na
+2,second,S17,selected,1,continuing,1,0,4,4,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,tbc,tbc,tbc,tbc,na,na,na,na,na,na,na,na,56,na
+2,second,S03,selected,1,continuing,1,0,1,0,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,59,na
+2,second,S13,selected,1,continuing,1,0,2,1,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,56,na
+2,second,S07,selected,1,continuing,1,0,1,0,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,57,na
+2,second,S89,selected,1,continuing,1,0,1,0,na,na,na,6,60,10,6,na,na,na,na,na,na,na,na,na,na,na,0.84,3013,64,15,17,32,na,na,tbc,na,9,tbc,na,na,59,na
+2,second,S16,selected,1,continuing,1,0,1,0,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,69,na
+2,second,S97,selected,1,continuing,1,0,2,1,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,78,84
+2,second,S85,selected,1,withdrew,0,0,4,4,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+2,second,S68,selected,1,continuing,1,0,3,2,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,54,59
+2,second,S10,selected,1,withdrew,0,1,4,18,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+2,second,S73,selected,1,continuing,1,0,4,1,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,79,81
+2,second,S49,selected,1,continuing,1,0,3,8,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,57,60
+2,second,S42,selected,1,continuing,1,0,3,2,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,59,54
+2,second,S18,selected,1,continuing,1,0,3,2,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,72,82
+2,second,S92,selected,1,withdrew,0,0,3,12,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,48,46
+2,second,S79,selected,1,withdrew,0,0,3,12,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,45,49
+3,first,S70,selected,1,withdrew,1,0,4,10,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,60,54
+3,first,S41,selected,1,withdrew,0,0,1,0,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+3,first,S63,selected,1,withdrew,0,0,2,2,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,52,51
+3,first,S90,selected,1,withdrew,0,0,1,0,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,64,62
+3,first,S60,selected,1,withdrew,0,0,1,0,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,58,52
+3,first,S96,selected,1,continuing,1,1,5,14,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,70,60
+3,first,S65,selected,1,continuing,0,0,2,3,0.75,0.71,0.73,6,48,8,5,42,33,0.79,42,36,0.86,7,0.83,4.25,0.86,1991,0.75,2713,73,19,26,28,na,na,na,na,19,tbc,na,na,72,72
+3,first,S71,selected,1,withdrew,0,0,1,0,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,55,50
+3,first,S33,selected,1,continuing,1,1,6,18,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,60,64
+3,first,S25,selected,1,withdrew,0,0,1,0,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,58,53
+3,first,S19,selected,1,withdrew,0,0,3,0,0.73,0.75,0.74,8,80,10,6,42,36,0.86,46,45,0.98,10,0.88,5.92,0.91,1793,0.84,2201,73,21,29,23,na,na,na,na,13,tbc,na,na,60,51
+3,second,S77,selected,1,continuing,1,0,3,3,0.71,0.76,0.74,6,48,8,5,42,36,0.86,44,41,0.93,8,0.71,4.93,0.86,1610,0.96,2009,89,30,33,26,na,na,na,na,21,tbc,na,na,75,72
+3,second,S98,selected,1,continuing,1,0,2,1,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,62,46
+3,second,S31,selected,1,continuing,1,0,1,1,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,64,67
+3,second,S52,selected,1,continuing,1,0,4,6,0.76,0.76,0.76,6,54,9,5.5,41,32,0.78,44,38,0.86,8,0.64,4.86,0.72,2098,0.88,2009,48,10,17,21,na,na,na,na,24,tbc,na,na,71,68
+3,second,S39,selected,1,continuing,1,0,2,0,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,0.83,2306,65,13,26,26,na,na,na,na,tbc,tbc,na,na,67,68
+3,second,S84,selected,1,continuing,1,0,1,0,0.71,0.71,0.71,6,60,10,6,42,38,0.9,45,42,0.93,8,0.71,4.8,0.9,2716,0.74,3030,62,17,22,23,na,na,na,na,tbc,tbc,na,na,68,58
+3,second,S17,selected,1,continuing,1,0,4,4,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,51,44
+3,second,S03,selected,1,continuing,1,0,1,0,0.76,0.79,0.77,5,35,7,4.5,42,31,0.74,46,41,0.89,6,0.7,3.65,0.89,2317,0.88,2810,66,24,21,21,na,na,na,na,tbc,tbc,na,na,56,54
+3,second,S13,selected,1,continuing,1,0,2,1,0.79,0.73,0.76,8,80,10,6,23,14,0.61,43,37,0.86,5,0.63,2.2,0.54,1086,0.48,1379,83,23,30,30,na,na,na,na,tbc,tbc,na,na,58,50
+3,second,S07,selected,1,continuing,1,0,1,0,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,71,66
+3,second,S89,selected,1,continuing,1,0,1,0,0.7,0.74,0.72,6,48,8,5,39,32,0.86,41,40,0.98,8,0.79,6.22,0.84,4419,0.59,3189,69,16,20,33,na,na,na,na,tbc,tbc,na,na,54,51
+3,second,S16,selected,1,continuing,1,0,1,0,0.76,0.79,0.78,6,48,8,5,37,36,0.97,41,40,0.98,8,0.64,4.56,0.88,3263,0.71,2252,68,21,17,30,na,na,na,na,tbc,tbc,na,na,68,70
+3,second,S97,selected,1,continuing,1,0,2,1,0.75,0.68,0.71,8,88,11,6.5,42,37,0.88,46,45,0.98,8,0.79,4.66,0.93,2017,0.93,2345,47,14,19,14,na,na,na,na,tbc,tbc,na,na,na,na
+3,second,S85,selected,1,withdrew,0,0,4,4,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+3,second,S68,selected,1,continuing,1,0,3,2,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,tbc,tbc,na,na,na,na
+3,second,S10,selected,1,withdrew,0,1,4,18,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+3,second,S73,selected,1,continuing,1,0,4,1,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,85,72
+3,second,S49,selected,1,continuing,1,0,3,8,0.78,0.76,0.77,6,48,8,5,34,31,0.91,35,34,0.97,9,0.81,5.95,0.71,2794,0.55,2823,60,16,21,23,na,na,na,na,tbc,tbc,na,na,50,51
+3,second,S42,selected,1,continuing,1,0,3,2,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,55,63
+3,second,S18,selected,1,continuing,1,0,3,2,na,na,na,na,na,na,na,42,33,0.79,44,37,0.84,na,na,na,na,na,0.74,2348,65,22,20,23,na,na,na,na,tbc,tbc,na,na,70,67
+3,second,S92,selected,1,withdrew,0,0,3,12,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,34,na
+3,second,S79,selected,1,withdrew,0,0,3,12,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,tbc,tbc,na,na,na,na
+4,first,S70,selected,1,withdrew,1,0,4,10,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+4,first,S41,selected,1,withdrew,0,0,1,0,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+4,first,S63,selected,1,withdrew,0,0,2,2,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+4,first,S90,selected,1,withdrew,0,0,1,0,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+4,first,S60,selected,1,withdrew,0,0,1,0,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+4,first,S96,selected,1,continuing,1,1,5,14,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+4,first,S65,selected,1,continuing,0,0,2,3,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+4,first,S71,selected,1,withdrew,0,0,1,0,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+4,first,S33,selected,1,continuing,1,1,6,18,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+4,first,S25,selected,1,withdrew,0,0,1,0,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+4,first,S19,selected,1,withdrew,0,0,3,0,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+4,second,S77,selected,1,continuing,1,0,3,3,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+4,second,S98,selected,1,continuing,1,0,2,1,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+4,second,S31,selected,1,continuing,1,0,1,1,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+4,second,S52,selected,1,continuing,1,0,4,6,0.71,0.78,0.75,6,60,10,6,na,na,na,na,na,na,7,0.83,3.82,0.75,1919,0.78,1792,46,10,17,19,na,na,na,na,14,tbc,63.3,54.1,na,na
+4,second,S39,selected,1,continuing,1,0,2,0,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+4,second,S84,selected,1,continuing,1,0,1,0,0.73,0.762,0.75,6,54,9,5.5,na,na,na,na,na,na,8,0.79,4.84,0.84,2185,0.8,2455,58,18,21,19,na,na,na,na,14,tbc,66.6,65.7,na,na
+4,second,S17,selected,1,continuing,1,0,4,4,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+4,second,S03,selected,1,continuing,1,0,1,0,0.67,0.7,0.68,5,35,7,4.5,na,na,na,na,na,na,6,0.7,3.66,0.88,2156,0.89,2243,63,19,23,21,na,na,na,na,7,tbc,65.2,49.8,na,na
+4,second,S13,selected,1,continuing,1,0,2,1,0.73,0.7,0.71,6,60,10,6,na,na,na,na,na,na,6,0.8,na,0.7,1790,0.42,2211,72,21,27,24,na,na,na,na,12,tbc,63.8,61.8,na,na
+4,second,S07,selected,1,continuing,1,0,1,0,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+4,second,S89,selected,1,continuing,1,0,1,0,0.7,0.66,0.68,6,60,10,6,na,na,na,na,na,na,6,0.8,3.84,0.84,3234,0.79,2910,65,16,18,31,na,na,na,na,11,tbc,58.6,44.5,na,na
+4,second,S16,selected,1,continuing,1,0,1,0,0.73,0.68,0.71,6,54,9,5.5,na,na,na,na,na,na,8,0.79,4.18,0.92,2367,0.8,2202,71,23,22,26,na,na,na,na,15,tbc,61.2,57.7,na,na
+4,second,S97,selected,1,continuing,1,0,2,1,0.71,0.73,0.72,6,60,10,6,na,na,na,na,na,na,8,0.86,4.48,0.9,1636,0.96,2338,44,11,17,16,na,na,na,na,20,tbc,72.6,83,na,na
+4,second,S85,selected,1,withdrew,0,0,4,4,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+4,second,S68,selected,1,continuing,1,0,3,2,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+4,second,S10,selected,1,withdrew,0,1,4,18,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+4,second,S73,selected,1,continuing,1,0,4,1,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+4,second,S49,selected,1,continuing,1,0,3,8,0.78,0.75,0.76,6,48,8,5,na,na,na,na,na,na,9,0.81,6.21,0.88,3005,0.66,2671,55,13,17,25,na,na,na,na,11,tbc,missing,67,na,na
+4,second,S42,selected,1,continuing,1,0,3,2,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+4,second,S18,selected,1,continuing,1,0,3,2,0.71,0.71,0.71,8,88,11,6.5,na,na,na,na,na,na,7,0.75,4.09,0.84,2463,0.7,2233,67,22,23,22,na,na,na,na,13,tbc,68.3,77.4,na,na
+4,second,S92,selected,1,withdrew,0,0,3,12,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+4,second,S79,selected,1,withdrew,0,0,3,12,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na,na
+1,first,S99,rejected,0,na,0,0,na,na,0.7,0.75,0.72,6,48,8,5,35,31,0.89,46,44,0.94,na,na,na,0.95,2297,na,na,na,na,na,na,na,na,na,69.5,na,na,na,na,na,na
+1,first,S56,rejected,0,na,0,0,na,na,0.73,0.71,0.72,6,54,9,5.5,42,32,0.76,44,42,0.93,na,na,na,0.91,2769,na,na,na,na,na,na,na,na,na,61.5,na,na,na,na,na,na
+1,first,S28,rejected,0,na,0,0,na,na,0.75,0.76,0.75,6,60,10,6,29,25,0.86,46,43,0.91,na,na,na,0.92,3397,na,na,na,na,na,na,na,na,na,87,na,na,na,na,na,na
+1,first,S66,rejected,0,na,0,0,na,na,0.78,0.7,0.74,8,88,11,6.5,32,24,0.75,38,34,0.83,na,na,na,0.88,3202,na,na,na,na,na,na,na,na,na,79,na,na,na,na,na,na
+1,first,S72,rejected,0,na,0,0,na,na,0.62,0.48,0.55,5,35,7,4.5,33,29,0.88,42,40,0.93,na,na,na,0.97,3944,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,na,na
+1,first,S64,rejected,0,na,0,0,na,na,0.65,0.67,0.66,6,54,9,5.5,31,24,0.77,42,39,0.89,na,na,na,0.88,2279,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,na,na
+1,first,S54,rejected,0,na,0,0,na,na,0.71,0.6,0.66,5,40,8,5,25,19,0.76,34,33,0.95,na,na,na,0.92,6665,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,na,na
+1,first,S15,rejected,0,na,0,0,na,na,0.73,0.73,0.73,8,80,10,6,42,37,0.88,45,41,0.87,na,na,na,0.41,2505,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,na,na
+1,first,S95,rejected,0,na,0,0,na,na,0.7,0.73,0.71,6,54,9,5.5,38,31,0.82,46,45,0.97,na,na,na,0.95,3943,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,na,na
+1,first,S20,rejected,0,na,0,0,na,na,0.71,0.71,0.71,5,35,7,4.5,32,26,0.81,26,22,0.67,na,na,na,0.77,8240,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,na,na
+1,first,S24,rejected,0,na,0,0,na,na,0.76,0.75,0.75,6,48,8,5,31,19,0.61,43,40,0.9,na,na,na,0.79,3412,na,na,na,na,na,na,na,na,na,72,na,na,na,na,na,na
+1,first,S81,rejected,0,na,0,0,na,na,0.76,0.76,0.76,8,72,9,5.5,42,36,0.86,46,46,1,na,na,na,0.94,2147,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,na,na
+1,first,S29,rejected,0,na,0,0,na,na,0.73,0.62,0.67,5,35,7,4.5,27,21,0.78,22,17,0.38,na,na,na,0.52,3045,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,na,na
+1,first,S50,rejected,0,na,0,0,na,na,0.7,0.75,0.72,6,60,10,6,42,32,0.76,45,38,0.77,na,na,na,0.85,3771,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,na,na
+1,first,S91,rejected,0,na,0,0,na,na,0.76,0.75,0.75,6,54,9,5.5,32,24,0.75,43,41,0.93,na,na,na,0.95,3698,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,na,na
+1,first,S94,rejected,0,na,0,0,na,na,0.76,0.76,0.76,6,48,8,5,19,14,0.74,42,38,0.86,na,na,na,0.59,2754,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,na,na
+1,first,S62,rejected,0,na,0,0,na,na,0.65,0.67,0.66,6,54,9,5.5,42,29,0.69,43,40,0.9,na,na,na,0.92,4636,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,na,na
+1,first,S46,rejected,0,na,0,0,na,na,0.71,0.71,0.71,5,35,7,4.5,38,29,0.76,43,37,0.79,na,na,na,0.87,3934,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,na,na
+1,first,S76,rejected,0,na,0,0,na,na,0.65,0.73,0.69,5,40,8,5,38,33,0.87,39,35,0.84,na,na,na,0.8,4802,na,na,na,na,na,na,na,na,na,tbc,na,na,na,na,na,na
