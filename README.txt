@@ -7,13 +7,15 @@ DATA:
 
 SCRIPTS:
 
-`00-wrangling-setup` script contains a summary of the variables and missingness as well as pre-processing of the data file 
+`00-wrangling-setup.Rmd` script contains a summary of the variables and missingness as well as pre-processing of the data file 
 
-`01-group-analysis` script contains the selection and continuation analyses
+`01-selection-continuation.Rmd` script contains the selection and continuation analyses
 
-`02-change-over-time` script contains the change over time plots and analyses for the predictor variables
+`02-change-over-time.Rmd` script contains the change over time plots and analyses for the predictor variables
 
-`03-best-predictors` script contains the correlational plots and analyses between the predictor and outcome variables
+`03-bsl-sli-predictors.Rmd` script contains the correlational plots and analyses between the predictor and outcome variables
+
+All .Rmd files have an accompanying .html knitted output file.
 
 
 MATERIALS:
