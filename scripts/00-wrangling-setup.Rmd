@@ -1,7 +1,9 @@
 ---
 title: "Sign Language Interpreter Aptitude"
 subtitle: "00 - Wrangling Set-up"
-author: "anonymised for review"
+author:
+  - name: "Freya Watkins"
+    affiliation: "University of Birmingham"
 date: "`r format(Sys.Date(), '%d %B %Y')`"
 output:
   html_document:
@@ -15,7 +17,7 @@ output:
 
 # Setup
 ```{r setup, include=FALSE, message = FALSE, warning = FALSE}
-knitr::opts_chunk$set(echo = TRUE, cache = TRUE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, cache = FALSE)
 ```
 
 ## Load packages
@@ -31,114 +33,139 @@ library(plotrix) # for calculating standard error
 R.Version() 
 packageVersion('here')
 packageVersion('tidyverse')
+packageVersion('naniar')
 packageVersion('psych')
 ```
 
 ## Read in data
 ```{r read_in_data}
-#here::here()
+# here::here() # check we're working in the right place
 apt <- read_csv(here("data", "apt-data.csv"))
 apt <- as_tibble(apt)
 ```
 
+## Convert variables
+```{r, warning = F}
+spec(apt) # check current variable classes
+apt <- apt %>% mutate(across(c(self_rating:grade_terp), as.numeric)) # convert DVs to numeric
+apt <- apt %>% mutate(across(c(session:selection, continuation, L1_bsl), as.factor)) # convert IVs to factor
+```
+
 # Look at data
 ```{r look_at_data}
-head(apt)
-tail(apt)
-names(apt)
-summary(apt)
+head(apt) # look at first 6 rows
+tail(apt) # look at final 6 rows
+names(apt) # list all the column/variable names
+summary(apt) # summarise the variables 
 ```
 
 ## Overview of variables
-*session* - testing session (1-4)
-*group* - whether participants belonged to the first two cohorts or second two cohorts (first, second)     
-*ppt* - randomized participant id codes to ensure anonymity (betwee   S01-S99)         
-*selection* - whether participants were selected or rejected for the degree or not (selected, rejected)
-*selected* -  as above in numeric form (1=selected, 0=rejected)
-*continuation* - whether participants continued with the degree at the time of analysis (continuing, withdrew)
-*continue* - as above in numeric form (1=continuing, 0=withdrew)    
-*L1_bsl* - whether ppts were L1 signers of BSL or not (1=L1 BSL, 0=L2 BSL)    
-*self_rating* - initial BSL self-rating on likert scale (1-7) at session 1 
+**session** - testing session (1-4)  
+**group** - whether participants belonged to the first two cohorts or second two cohorts (first, second)  
+**ppt** - randomized participant ID codes to ensure anonymity (between S01-S99)  
+**selection** - whether participants were selected or rejected for the degree or not (selected, rejected)  
+**selected** -  as above, in numeric form (1=selected, 0=rejected)  
+**continuation** - whether participants continued with the degree at the time of analysis (continuing, withdrew)  
+**continue** - as above, in numeric form (1=continuing, 0=withdrew)  
+**L1_bsl** - whether ppts were L1 signers of BSL or not (1=L1 BSL, 0=L2 BSL)    
+**self_rating** - initial BSL self-rating on likert scale (1-7) at session 1  
+**nback_lett** - accuracy on the letter matching task of the dual N-Back (% as decimal 0-1)  
+**nback_spat** - accuracy on the spatial matching task of the dual N-Back (% as decimal 0-1)  
+**nback_comb** - combined accuracy on the dual N-Back task (average of nback_lett & nback_spat)  
+**corsi_bspan** - block span on the Corsi blocks task  
+**corsi_score** - score on the Corsi blocks task  
+**corsi_corr** - total correct trials on the Corsi blocks task  
+**corsi_mspan** - memory span on the Corsi blocks task (in length of sequence)  
+**kirk_ceil** - ceiling item on the Kirklees reading test (max 42)  
+**kirk_raw** - raw score on the Kirklees reading test (max 42)  
+**kirk_acc** - accuracy on the Kirklees reading test (% as decimal 0-1)  
+**kbit_ceil** - ceiling item on the KBIT-2 matrices task (max 46)  
+**kbit_raw** - raw score on the KBIT-2 matrices task (max 46)  
+**kbit_acc** - accuracy on the KBIT-2 matrices task (% as decimal 0-1)    
+**dspan_mem** - memory span on the Digit Span task (in digits)  
+**dspan_corr** - accuracy on the Digit Span task (% as decimal 0-1)  
+**dspan_time** - time taken on the Digit Span (in minutes, seconds as decimals)  
+**mr2d_acc** - accuracy on the 2D Mental Rotation task (% as decimal 0-1)     
+**mr2d_rt** - average reaction time of correct trials on the 2D Mental Rotation task (ms)   
+**mr2d_sats** - speed-accuracy trade-off score for the 2D Mental Rotation task (calculated below)  
+**mr3d_acc** - accuracy on the 3D Mental Rotation task (% as decimal 0-1)     
+**mr3d_rt** - average reaction time of correct trials on the 3D Mental Rotation task (ms)    
+**mr3d_sats** - speed-accuracy trade-off score for the 3D Mental Rotation task (calculated below)  
+**bis_tot** - total score on the Baratt Impulsiveness Scale (min 30, max 120)  
+**bis_att** - attention sub-score on the Baratt Impulsiveness Scale   
+**bis_mot** - motor sub-score on the Baratt Impulsiveness Scale    
+**bis_nplan** - non-planning sub-score on the Baratt Impulsiveness Scale  
+**mlat_raw** - raw score on the MLAT Number Learning task (max 43)  
+**mlat_acc** - accuracy on the MLAT Number Learning task (% as decimal 0-1)  
+**summ** - score on the summarising task (0-100, graded like UK university assignment)      
+**copy_sign** - score on the copy-sign task (0-96 points max)  
+**bsl_srt** - score on the BSL Sentence Reproduction Test (0-44)  
+**town_map** - score on the BSL Town Map task (not yet coded)  
+**terp_b2e** - score on the BSL to English interpreting task (0-100, UK grading system)  
+**terp_e2b** - score on the English to BSL interpreting task (0-100, UK grading system)  
+**grade_bsl** - BSL grade (average of all modules in that year, 0-100 UK grading system)  
+**grade_terp** - interpreting grade (average of all modules in that year, 0-100 UK grading system)  
 
-*nback_lett* -  
-*nback_spat* -  
-*nback_comb* -  
-*corsi_bspan* - 
-*corsi_score* - 
-*corsi_corr* -  
-*corsi_mspan*
-*kirk_ceil* -   
-*kirk_raw* -    
-*kirk_acc* -    
-*kbit_ceil* -   
-*kbit_raw* -    
-*kbit_acc* -    
-*dspan_mem* -   
-*dspan_corr* - 
-*dspan_time* -  
-*mr2d_acc* -    
-*mr2d_rt* -     
-*mr2d_sats* -   
-*mr3d_acc* -    
-*mr3d_rt* -     
-*mr3d_sats* -   
-*bis_tot* -    
-*bis_att* -     
-*bis_mot* -     
-*bis_nplan* -   
-*mlat_raw* -    
-*mlat_acc* -    
-*summ* -        
-*copy_sign* -   
-*bsl_srt* -    
-*town_map* -    
-*terp_b2e* -    
-*terp_e2b* -    
-*grade_bsl* -   
-*grade_terp* -  
-*comments* - 
+Let's check some facts about the dataset:
+```{r n_session}
+levels(apt$session)
+```
+There were four testing sessions.
 
+```{r n_ppt1}
+unique(apt$ppt)
+```
+There were 52 participants in total.
+
+```{r n_ppt2}
+apt %>% filter(selected==1) %>% nrow() / 4
+apt %>% filter(selected==0) %>% nrow()
+```
+There were 33 participants who were selected for the degree program and 19 who were rejected after interview.
 
 ## Summarise missingness
-```{r}
-apt %>% select(-session:-ppt, -comments) %>% 
-  naniar::miss_var_summary() # data is in long format though
 
+Due to high attrition and participants only completing specific tasks at each testing session, there is a lot of missing data. Let's try to summarise and visualise it.
+
+First let's list all predictor/outcome variables in decreasing order of missing data (%)
+```{r missingness}
+apt %>% select(-session:-ppt) %>% 
+  naniar::miss_var_summary()
+```
+The data is in long format, so some tasks appear to have a much higher degree of 'missingness' than is really the case, because we did not test all tasks at all sessions. E.g. the interpreting tasks were only carried out at the final testing session. We also include rows for ALL selected participants at ALL sessions for extra clarity, even though many dropped out of the degree and were not re-tested. Participants rejected after interview also only completed the initial set of tasks, so their data for other tasks is not really 'missing' either, but counted here.
+
+Next let's make the data in wide format, i.e. separate columns for each session per task
+```{r}
 apt_wide <- apt %>% 
   tidyr::pivot_wider(names_from = session, 
-                     values_from = c(nback_lett:comments))
+                     values_from = c(nback_lett:grade_terp)) # create wide data format
+```
 
-naniar::miss_var_summary(apt_wide)
+List all predictor/outcome variables in decreasing order of missing data (%) but this time per session
+```{r}
+naniar::miss_var_summary(apt_wide) 
+```
+Again, most of the variables where missingness is 100% is because this task was not tested at this session. Town Map data is missing because it has not been coded etc.
 
-vis_miss(apt) # visualise missingness
-vis_miss(apt_wide) # visualise missingness
+Now let's visualise the missingness:
+```{r}
+vis_miss(apt) # visualise missingness of long-format data
 vis_miss(apt, cluster = TRUE) # arrange rows according to missingness
+```
 
-# Show missingness on a row by row basis i.e. by participant & session
+Finally show the missingness on a row by row basis i.e. by participant & session
+```{r}
 gg_miss_case(apt)
 ```
 Not all of the missingness is a problem, for some variables we did not plan to test on all participants
 
-### Convert variables   
-
-Fix the variables that are character when they should be factor, or numeric:  
-```{r convert_variables}
-# convert session, group, ppt & status to factor
-apt <- mutate(apt, across(c("session", "group", "ppt", "selection", "continuation"), factor))
-
-# convert these character variables to numeric
-apt <- mutate(apt, across(c("L1_bsl", "age_s1", "self_rating", "dspan_time",
-                            "bis_tot", "bis_att","bis_mot", "bis_nplan", "summ",
-                            "copy_sign", "copy_sign", "bsl_srt", "town_map",
-                            "terp_b2e"), as.numeric))
-```
-
-
-Calculate speed-accuracy trade off-scores for mental rotation data:
-```{r speed-acc}
+## Calculate mental rotation SATS
+We will use the Balanced Integration Score by Liesefeld et al to calculate a speed-accuracy trade-off score for the mental rotation task data.
+```{r bis-sats}
 # Create speed accuracy trade-off score function (Balanced Integration Score; BIS)
 # (Liesefeld, Fu, & Zimmer, 2015; Liesefeld & Janczyk, in press)
 
+# create the BIS function
 BIS <- function(data) {
   n <- length(data$group)   # sample size to correct var()-function result (which uses n-1)
   srt <- sqrt( ((n-1)/n) * var(data$mean_rt_c) )  # sample standard deviation across all rts
@@ -157,10 +184,10 @@ mean_rt_c <- apt$mr2d_rt
 pc <- apt$mr2d_acc
 group <- apt$session
 ppt <- apt$ppt
-data <- data.frame(group,ppt,mean_rt_c,pc)
+data <- data.frame(group,ppt,mean_rt_c,pc) # put relevant cols in 'data' df
 data <- data %>% drop_na() # remove NAs
 
-# create speed-accuracy trade off score (SATS, to avoid confusion with Baratt Impulsivity Scale), rename variables back to fit with original tibble
+# create speed-accuracy trade off score (calling it SATS here, to avoid confusion with having two BIS acronyms in the dataset), rename variables back to fit with original tibble
 ( SATS_mr2d <- BIS(data) %>% dplyr::rename(c(session = group, 
                                              mr2d_acc = pc,
                                              mr2d_rt = mean_rt_c,
@@ -183,7 +210,6 @@ data <- data %>% drop_na() # remove NAs
 # join back to apt tibble
 apt <- full_join(apt, SATS_mr3d) %>% relocate(mr3d_sats, .after = mr3d_rt )
 ```
-
 Rename levels of Session for tables/plotting:  
 ```{r relevel_session}
 apt$session <- plyr::revalue(apt$session, c("1" = "pre-degree", 
@@ -192,8 +218,10 @@ apt$session <- plyr::revalue(apt$session, c("1" = "pre-degree",
                                             "4" = "3rd year"))
 ```
 
-# Export data 
-Export the wrangled data file for use in other analysis scripts as R data object:
-```{r}
+# Export wrangled data 
+Export the wrangled data file for use in other analysis scripts as an R data object:
+```{r export}
 saveRDS(apt, here("data", "apt-data.rds"))
 ```
+
+This concludes our initial exploration of the data and wrangling, in preparation for the three analysis scripts.

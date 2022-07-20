@@ -1,0 +1,1178 @@
+---
+title: "Sign Language Interpreter Aptitude"
+subtitle: "01 - Selection & Continuation Analysis"
+author:
+  - name: "Freya Watkins"
+    affiliation: "University of Birmingham"
+date: "`r format(Sys.Date(), '%d %B %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 5
+    number_sections: false
+    theme: flatly
+    highlight: haddock
+---
+
+# Setup
+```{r setup, include=FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, cache = FALSE)
+```
+
+## Load packages
+```{r load_packages, message = FALSE, warning = FALSE}
+library(here) # file organisation & folder location
+library(tidyverse) # data wrangling & plotting
+library(PupillometryR) # raincloud plots
+library(plotrix) # for calculating standard error
+library(scales) # scales on plots
+library(blorr) # for backward stepwise regression 
+```
+
+### R / package versions used
+```{r r_package_versions, message = FALSE, warning = FALSE}
+R.Version() 
+packageVersion('here')
+packageVersion('tidyverse')
+packageVersion('PupillometryR') 
+packageVersion('plotrix') 
+packageVersion('scales') 
+packageVersion('blorr') 
+```
+
+## Read pre-wrangled data 
+(see `00-wrangling-setup.Rmd` script)
+```{r read_in_data}
+here::here()
+apt <- readRDS(here("data", "apt-data.rds"))
+apt <- as_tibble(apt)
+head(apt)
+```
+
+## Plot theme
+Set up a theme for the plots:
+```{r plot-theme}
+theme_details <- theme_bw() + 
+    theme(panel.grid.major = element_blank(), 
+          panel.grid.minor = element_blank(),
+          panel.border = element_rect(colour = "black", size=0.5),
+          plot.title = element_text(face = "bold"),
+          axis.title.x = element_text(face = "bold"),
+          axis.title.y = element_text(face = "bold"),
+          axis.text.x = element_text(size=10, colour="black"),
+          axis.text.y = element_text(colour="black"),
+          legend.position = "none")
+```
+
+# Selection Analysis
+Here we are going to analyse data from session one to see what predicts being selected for the SLI degree 
+```{r selection-grouping}
+# filter out data from later sessions
+apt <- filter(apt, session == "pre-degree")
+
+apt %>% 
+  dplyr::group_by(selection) %>% 
+  count()
+```
+
+### Dual N-Back
+```{r nback_select}
+# Summary table
+apt %>% 
+  filter(!is.na(nback_comb)) %>% 
+  group_by(selection) %>% 
+  summarise(nback_comb_mean = mean(nback_comb), 
+            sd = sd(nback_comb),
+            se = std.error(nback_comb))
+
+# Raincloud plot
+apt %>% 
+  filter(!is.na(nback_comb)) %>% 
+  ggplot(aes(x = selection, y = nback_comb, group = selection)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(seed = 42, width = .15), 
+                        size = 0.5) +
+  scale_y_continuous(labels = percent_format(accuracy=1)) +
+  labs(title = "Combined accuracy on Dual N-Back Task by Group", 
+       x = "Group", y = "Accuracy")
+
+# Jitter plot  
+J1 <- apt %>% 
+  group_by(selection) %>% 
+  filter(!is.na(nback_comb)) %>% 
+  summarize(mean=mean(nback_comb), sd = sd(nback_comb), se=std.error(nback_comb)) %>%
+  ggplot(aes(x = selection, y = mean, fill = selection)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  coord_cartesian(ylim = c(0.5, 0.8)) +
+  theme_minimal() +
+  scale_y_continuous(labels = percent_format(accuracy=1)) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  labs(title = "Combined accuracy on Dual N-Back Task by Group", 
+       x = "Group", y = "Accuracy")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5) +
+  scale_y_continuous(labels = percent_format(accuracy=1))
+
+indiv <- apt %>% 
+  filter(!is.na(nback_comb)) %>% 
+  group_by(selection, ppt) %>% 
+  summarise(mean = mean(nback_comb)) #, sd = sd(nback_comb)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details ) 
+
+# ANOVA
+nback_select <- aov(nback_comb ~ selection, data = apt)
+summary(nback_select)
+```
+
+### Corsi Blocks
+```{r corsi_select}
+# Summary table
+apt %>% 
+  filter(!is.na(corsi_corr)) %>% 
+  group_by(selection) %>% 
+  summarise(corsi_corr_mean = mean(corsi_corr), 
+            sd = sd(corsi_corr),
+            se = std.error(corsi_corr))
+
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(corsi_corr)) %>% 
+  ggplot(aes(x = selection, y = corsi_corr, group = selection)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(seed = 42, width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(5, 15)) +
+  scale_y_continuous(labels = scales::number_format(accuracy = 1)) +
+  labs(title = "Correct Responses on Corsi Blocks Task by Group", 
+       x = "Group", y = "Correct Response") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(selection) %>% 
+  filter(!is.na(corsi_corr)) %>% 
+  summarize(mean=mean(corsi_corr), sd = sd(corsi_corr), se=std.error(corsi_corr)) %>%
+  ggplot(aes(x = selection, y = mean, fill = selection)) +
+  coord_cartesian(ylim = c(0, 15)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  labs(title = "Correct Responses on Corsi Blocks Task by Group", 
+       x = "Group", y = "Correct Response")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(corsi_corr)) %>% 
+  group_by(selection, ppt) %>% 
+  summarise(mean = mean(corsi_corr)) #, sd = sd(corsi_corr)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details )
+
+# ANOVA
+corsi_select <- aov(corsi_corr ~ selection, data = apt)
+summary(corsi_select)
+```
+
+### Kirklees Sentence Reading
+```{r kirk_select}
+# Summary table
+apt %>% 
+  filter(!is.na(kirk_acc)) %>% 
+  group_by(selection) %>% 
+  summarise(kirk_acc_mean = mean(kirk_acc), 
+            sd = sd(kirk_acc),
+            se = std.error(kirk_acc))
+
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(kirk_acc)) %>% 
+  ggplot(aes(x = selection, y = kirk_acc, group = selection)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(seed = 42, width = .15), 
+                        size = 0.5) +
+  coord_cartesian(ylim = c(0.45, 1)) +
+  scale_y_continuous(labels = percent_format(accuracy=1)) +
+  labs(title = "Accuracy on Kirklees Sentence Reading Task by Group", 
+       x = "Group", y = "Accuracy") )
+  
+# Jitter plot
+J1 <- apt %>% 
+  group_by(selection) %>% 
+  filter(!is.na(kirk_acc)) %>% 
+  summarize(mean=mean(kirk_acc), sd = sd(kirk_acc), se=std.error(kirk_acc)) %>%
+  ggplot(aes(x = selection, y = mean, fill = selection)) +
+  coord_cartesian(ylim = c(0, 1)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  scale_y_continuous(labels = percent_format(accuracy=1)) +
+  labs(title = "Accuracy on Kirklees Sentence Reading Task by Group", 
+       x = "Group", y = "Accuracy")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(kirk_acc)) %>% 
+  group_by(selection, ppt) %>% 
+  summarise(mean = mean(kirk_acc)) #, sd = sd(kirk_acc) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details ) 
+
+# ANOVA
+kirk_select <- aov(kirk_acc ~ selection, data = apt)
+
+summary(kirk_select)
+```
+
+### KBIT-2 Matrices
+```{r kbit_select}
+# Summary table
+apt %>% 
+  filter(!is.na(kbit_acc)) %>% 
+  group_by(selection) %>% 
+  summarise(kbit_acc_mean = mean(kbit_acc), 
+            sd = sd(kbit_acc),
+            se = std.error(kbit_acc))
+
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(kbit_acc)) %>% 
+  ggplot(aes(x = selection, y = kbit_acc, group = selection)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(seed = 42, width = .15), 
+                        size = 0.5) +
+  coord_cartesian(ylim = c(.65, 1)) +
+  scale_y_continuous(labels = percent_format(accuracy=1)) +
+  labs(title = "Accuracy on KBIT-2 Matrices Task by Group", 
+       x = "Group", y = "Accuracy") )
+  
+# Jitter plot
+J1 <- apt %>% 
+  group_by(selection) %>% 
+  filter(!is.na(kbit_acc)) %>% 
+  summarize(mean=mean(kbit_acc), 
+            sd = sd(kbit_acc), se=std.error(kbit_acc)) %>%
+  ggplot(aes(x = selection, y = mean, fill = selection)) +
+  coord_cartesian(ylim = c(.5, 1)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  scale_y_continuous(labels = percent_format(accuracy=1)) +
+  labs(title = "Accuracy on KBIT-2 Matrices Task by Group", 
+       x = "Group", y = "Accuracy")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(kbit_acc)) %>% 
+  group_by(selection, ppt) %>% 
+  summarise(mean = mean(kbit_acc)) #, sd = sd(kbit_acc) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details )
+
+# ANOVA
+kbit_select <- aov(kbit_acc ~ selection, data = apt)
+summary(kbit_select)
+# Scores on the KBIT-2 Matrices were slightly higher for selected participants, though this was marginally insignificant
+```
+
+### 2D Mental Rotation
+#### Accuracy
+```{r mr2d_acc_select}
+# Summary table
+apt %>% 
+  filter(!is.na(mr2d_acc)) %>% 
+  group_by(selection) %>% 
+  summarise(mr2d_acc_mean = mean(mr2d_acc), 
+            sd = sd(mr2d_acc),
+            se = std.error(mr2d_acc))
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(mr2d_acc)) %>% 
+  ggplot(aes(x = selected, y = mr2d_acc, group = selection)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(seed = 42, width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(0, 1)) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  labs(title = "Accuracy on 2D Mental Rotation Task by Group", 
+       x = "Group", y = "Accuracy") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(selection) %>% 
+  filter(!is.na(mr2d_acc)) %>% 
+  summarize(mean=mean(mr2d_acc), sd = sd(mr2d_acc), se=std.error(mr2d_acc)) %>%
+  ggplot(aes(x = selection, y = mean, fill = selection)) +
+  coord_cartesian(ylim = c(0, 1)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  labs(title = "Accuracy on 2D Mental Rotation Task by Group", 
+       x = "Group", y = "Accuracy")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(mr2d_acc)) %>% 
+  group_by(selection, ppt) %>% 
+  summarise(mean = mean(mr2d_acc)) #, sd = sd(mr2d_acc)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details ) 
+
+# ANOVA
+mr2d_acc_select <- aov(mr2d_acc ~ selection, data = apt)
+summary(mr2d_acc_select)
+```
+
+#### Reaction Time
+```{r mr2d_rt_select}
+# Summary table
+apt %>% 
+  filter(!is.na(mr2d_rt)) %>% 
+  group_by(selection) %>% 
+  summarise(mr2d_rt_mean = mean(mr2d_rt), 
+            sd = sd(mr2d_rt),
+            se = std.error(mr2d_rt))
+
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(mr2d_rt)) %>% 
+  ggplot(aes(x = selection, y = mr2d_rt, group = selection)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(seed = 42, width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(0, 9000)) +
+  labs(title = "Reaction Time on 2D Mental Rotation Task by Group", 
+       x = "Group", y = "RT (ms)") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(selection) %>% 
+  filter(!is.na(mr2d_rt)) %>% 
+  summarize(mean=mean(mr2d_rt), sd = sd(mr2d_rt), se=std.error(mr2d_rt)) %>%
+  ggplot(aes(x = selection, y = mean, fill = selection)) +
+  coord_cartesian(ylim = c(0, 9000)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  labs(title = "Reaction Time on 2D Mental Rotation Task by Group", 
+       x = "Group", y = "RT (ms)")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(mr2d_rt)) %>% 
+  group_by(selection, ppt) %>% 
+  summarise(mean = mean(mr2d_rt)) #, sd = sd(mr2d_rt)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details )
+
+# ANOVA
+mr2d_rt_select <- aov(mr2d_rt ~ selection, data = apt)
+summary(mr2d_rt_select)
+```
+
+#### Speed-Accuracy Trade-off Score
+```{r mr2d-sats_select}
+# Summary table
+apt %>% 
+  filter(!is.na(mr2d_sats)) %>% 
+  group_by(selection) %>% 
+  summarise(mr2d_sats_mean = mean(mr2d_sats), 
+            sd = sd(mr2d_sats),
+            se = std.error(mr2d_sats))
+
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(mr2d_sats)) %>% 
+  ggplot(aes(x = selection, y = mr2d_sats, group = selection)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(seed = 42, width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(-5, 5)) +
+  labs(title = "Speed-Accuracy Trade-off Score on 2D Mental Rotation Task by Group", 
+       x = "Group", 
+       y = "Speed-Accuracy Trade-off Score\n(Balanced Integration Score)") )
+
+# Jitter plot 
+# maybe not so good for a trade-off score with bars above/below y=0 ?
+
+J1 <- apt %>% 
+  group_by(selection) %>% 
+  filter(!is.na(mr2d_sats)) %>% 
+  summarize(mean=mean(mr2d_sats), sd = sd(mr2d_sats), se=std.error(mr2d_sats)) %>%
+  ggplot(aes(x = selection, y = mean, fill = selection)) +
+  coord_cartesian(ylim = c(-4, 2)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  geom_hline(yintercept = 0) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  labs(title = "Performance on 2D Mental Rotation Task by Group", 
+       x = "Group", y = "Speed-Accuracy Trade-Off score")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(mr2d_sats)) %>% 
+  group_by(selection, ppt) %>% 
+  summarise(mean = mean(mr2d_sats)) #, sd = sd(mr2d_sats)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details )
+
+# ANOVA
+mr2d_select <- aov(mr2d_sats ~ selection, data = apt)
+summary(mr2d_select)
+```
+### BSL fluency self-ratings 
+```{r}
+# Summary table
+apt %>% 
+  filter(!is.na(self_rating)) %>% 
+  group_by(selection) %>% 
+  summarise(self_rating_mean = mean(self_rating), 
+            sd = sd(self_rating),
+            se = std.error(self_rating))
+
+# Raincloud plot
+apt %>% 
+  filter(!is.na(self_rating)) %>% 
+  ggplot(aes(x = selection, y = self_rating, group = selection)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(seed = 42, width = .15), 
+                        size = 0.5) +
+  labs(title = "BSL fluency self-ratings by Group", 
+       x = "Group", y = "BSL self-rating")
+
+# Jitter plot  
+J1 <- apt %>% 
+  group_by(selection) %>% 
+  filter(!is.na(self_rating)) %>% 
+  summarize(mean=mean(self_rating), sd = sd(self_rating), se=std.error(self_rating)) %>%
+  ggplot(aes(x = selection, y = mean, fill = selection)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  coord_cartesian(ylim = c(0, 7)) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  labs(title = "BSL fluency self-ratings by Group", 
+       x = "Group", y = "BSL self-rating")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5) +
+  scale_y_continuous()
+
+indiv <- apt %>% 
+  filter(!is.na(self_rating)) %>% 
+  group_by(selection, ppt) %>% 
+  summarise(mean = mean(self_rating)) 
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details ) 
+
+# ANOVA
+rating_select <- aov(self_rating ~ selection, data = apt)
+summary(rating_select)
+
+# BSL self-rating was a significant predictor of selection for the degree
+
+apt %>% 
+  filter(copy_sign != "NA") %>% 
+  summarize(RSq=(cor(copy_sign, 
+                       self_rating))^2)
+ 
+cs0_sr0 <- lm(copy_sign ~ self_rating, data = apt)
+summary(cs0_sr0) 
+# Initial copy-sign task is significantly correlated with initial self-ratings
+```
+
+### Selection model
+Which initial assessments best predict being selected for the degree?
+```{r selected-model}
+apt_pilot <- apt %>% filter(group == "first") # create df with just first cohort ppts
+
+# Fit linear model based on Dual N-Back, Corsi, Kirklees, KBIT-2, 2D MR & BSL self-rating predictors
+( selected_mdl <- glm(selected ~ nback_comb + corsi_corr + 
+                                 kirk_acc + kbit_acc +
+                                 mr2d_sats + self_rating, 
+                                 family = "binomial", 
+                                 data = apt_pilot) ) 
+summary(selected_mdl)
+
+# Backward stepwise regression for glm models
+blr_step_p_backward(selected_mdl, prem = 0.1)
+
+# Suggests we should remove: kbit, kirk, nback and corsi
+# this leaves: 2D-MR and BSL self-rating
+
+( selected_mdl_final <- glm(selected ~ mr2d_sats + self_rating, 
+                                 family = "binomial", 
+                                 data = apt_pilot) )
+summary(selected_mdl_final)
+# Re-running a logistic regression model with just the predictors from the backward stepwise regression gives us the same results
+```
+
+This concludes the Selection Analysis.
+
+########################
+
+# Continuation Analysis
+Now we are going to analyse data from those selected to see if any tasks predict continuing with the SLI degree
+```{r continue-grouping}
+apt <- filter(apt, selection == "selected")
+
+apt %>% 
+  dplyr::group_by(continuation) %>% 
+  count()
+
+apt$continuation <- fct_relevel(apt$continuation, "continuing", after=2)
+levels(apt$continuation)
+```
+
+### Dual N-Back
+```{r nback_comb}
+# Summary table
+apt %>% 
+  filter(!is.na(nback_comb)) %>% 
+  group_by(continuation) %>% 
+  summarise(nback_comb_mean = mean(nback_comb), 
+            sd = sd(nback_comb),
+            se = std.error(nback_comb))
+
+# Raincloud plot
+apt %>% 
+  filter(!is.na(nback_comb)) %>% 
+  ggplot(aes(x = continuation, y = nback_comb, group = continuation)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(seed = 42, width = .15), 
+                        size = 0.5) +
+  scale_y_continuous(labels = percent_format(accuracy=1)) +
+  labs(title = "Combined accuracy on Dual N-Back Task by Group", 
+       x = "Group", y = "Accuracy")
+
+# Jitter plot  
+J1 <- apt %>% 
+  group_by(continuation) %>% 
+  filter(!is.na(nback_comb)) %>% 
+  summarize(mean=mean(nback_comb), sd = sd(nback_comb), se=std.error(nback_comb)) %>%
+  ggplot(aes(x = continuation, y = mean, fill = continuation)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  coord_cartesian(ylim = c(0.5, 0.8)) +
+  theme_minimal() +
+  scale_y_continuous(labels = percent_format(accuracy=1)) +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  labs(title = "Combined accuracy on Dual N-Back Task by Group", 
+       x = "Group", y = "Accuracy")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5) +
+  scale_y_continuous(labels = percent_format(accuracy=1))
+
+indiv <- apt %>% 
+  filter(!is.na(nback_comb)) %>% 
+  group_by(continuation, ppt) %>% 
+  summarise(mean = mean(nback_comb)) #, sd = sd(nback_comb)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details ) 
+```
+
+### Corsi Blocks
+```{r corsi_corr}
+# Summary table
+apt %>% 
+  filter(!is.na(corsi_corr)) %>% 
+  group_by(continuation) %>% 
+  summarise(corsi_corr_mean = mean(corsi_corr), 
+            sd = sd(corsi_corr),
+            se = std.error(corsi_corr))
+
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(corsi_corr)) %>% 
+  ggplot(aes(x = continuation, y = corsi_corr, group = continuation)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(seed = 42, width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(5, 15)) +
+  scale_y_continuous(labels = scales::number_format(accuracy = 1)) +
+  labs(title = "Correct Responses on Corsi Blocks Task by Group", 
+       x = "Group", y = "Correct Response") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(continuation) %>% 
+  filter(!is.na(corsi_corr)) %>% 
+  summarize(mean=mean(corsi_corr), sd = sd(corsi_corr), se=std.error(corsi_corr)) %>%
+  ggplot(aes(x = continuation, y = mean, fill = continuation)) +
+  coord_cartesian(ylim = c(0, 15)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  labs(title = "Correct Responses on Corsi Blocks Task by Group", 
+       x = "Group", y = "Correct Response")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(corsi_corr)) %>% 
+  group_by(continuation, ppt) %>% 
+  summarise(mean = mean(corsi_corr)) #, sd = sd(corsi_corr)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details )
+
+# ANOVA
+corsi_continue <- aov(corsi_corr ~ continuation, data = apt)
+summary(corsi_continue)
+# Scores on the Corsi Blocks task were slightly higher for continuing participants, though this was marginally insignificant
+```
+
+
+### Kirklees Sentence Reading
+```{r kirk_acc}
+# Summary table
+apt %>% 
+  filter(!is.na(kirk_acc)) %>% 
+  group_by(continuation) %>% 
+  summarise(kirk_acc_mean = mean(kirk_acc), 
+            sd = sd(kirk_acc),
+            se = std.error(kirk_acc))
+
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(kirk_acc)) %>% 
+  ggplot(aes(x = continuation, y = kirk_acc, group = continuation)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(seed = 42, width = .15), 
+                        size = 0.5) +
+  coord_cartesian(ylim = c(0.45, 1)) +
+  scale_y_continuous(labels = percent_format(accuracy=1)) +
+  labs(title = "Accuracy on Kirklees Sentence Reading Task by Group", 
+       x = "Group", y = "Accuracy") )
+  
+# Jitter plot
+J1 <- apt %>% 
+  group_by(continuation) %>% 
+  filter(!is.na(kirk_acc)) %>% 
+  summarize(mean=mean(kirk_acc), sd = sd(kirk_acc), se=std.error(kirk_acc)) %>%
+  ggplot(aes(x = continuation, y = mean, fill = continuation)) +
+  coord_cartesian(ylim = c(0, 1)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  scale_y_continuous(labels = percent_format(accuracy=1)) +
+  labs(title = "Accuracy on Kirklees Sentence Reading Task by Group", 
+       x = "Group", y = "Accuracy")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(kirk_acc)) %>% 
+  group_by(continuation, ppt) %>% 
+  summarise(mean = mean(kirk_acc)) #, sd = sd(kirk_acc) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details ) 
+```
+
+### KBIT-2 Matrices
+```{r kbit_acc}
+# Summary table
+apt %>% 
+  filter(!is.na(kbit_acc)) %>% 
+  group_by(continuation) %>% 
+  summarise(kbit_acc_mean = mean(kbit_acc), 
+            sd = sd(kbit_acc),
+            se = std.error(kbit_acc))
+
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(kbit_acc)) %>% 
+  ggplot(aes(x = continuation, y = kbit_acc, group = continuation)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(seed = 42, width = .15), 
+                        size = 0.5) +
+  coord_cartesian(ylim = c(.65, 1)) +
+  scale_y_continuous(labels = percent_format(accuracy=1)) +
+  labs(title = "Accuracy on KBIT-2 Matrices Task by Group", 
+       x = "Group", y = "Accuracy") )
+  
+# Jitter plot
+J1 <- apt %>% 
+  group_by(continuation) %>% 
+  filter(!is.na(kbit_acc)) %>% 
+  summarize(mean=mean(kbit_acc), 
+            sd = sd(kbit_acc), se=std.error(kbit_acc)) %>%
+  ggplot(aes(x = continuation, y = mean, fill = continuation)) +
+  coord_cartesian(ylim = c(.5, 1)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  scale_y_continuous(labels = percent_format(accuracy=1)) +
+  labs(title = "Accuracy on KBIT-2 Matrices Task by Group", 
+       x = "Group", y = "Accuracy")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(kbit_acc)) %>% 
+  group_by(continuation, ppt) %>% 
+  summarise(mean = mean(kbit_acc)) #, sd = sd(kbit_acc) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details )
+```
+
+### 2D Mental Rotation
+#### Accuracy
+```{r mr2d_acc}
+# Summary table
+apt %>% 
+  filter(!is.na(mr2d_acc)) %>% 
+  group_by(continuation) %>% 
+  summarise(mr2d_acc_mean = mean(mr2d_acc), 
+            sd = sd(mr2d_acc),
+            se = std.error(mr2d_acc))
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(mr2d_acc)) %>% 
+  ggplot(aes(x = selected, y = mr2d_acc, group = continuation)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(seed = 42, width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(0, 1)) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  labs(title = "Accuracy on 2D Mental Rotation Task by Group", 
+       x = "Group", y = "Accuracy") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(continuation) %>% 
+  filter(!is.na(mr2d_acc)) %>% 
+  summarize(mean=mean(mr2d_acc), sd = sd(mr2d_acc), se=std.error(mr2d_acc)) %>%
+  ggplot(aes(x = continuation, y = mean, fill = continuation)) +
+  coord_cartesian(ylim = c(0, 1)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  labs(title = "Accuracy on 2D Mental Rotation Task by Group", 
+       x = "Group", y = "Accuracy")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(mr2d_acc)) %>% 
+  group_by(continuation, ppt) %>% 
+  summarise(mean = mean(mr2d_acc)) #, sd = sd(mr2d_acc)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details ) 
+```
+
+#### Reaction Time
+```{r mr2d_rt}
+# Summary table
+apt %>% 
+  filter(!is.na(mr2d_rt)) %>% 
+  group_by(continuation) %>% 
+  summarise(mr2d_rt_mean = mean(mr2d_rt), 
+            sd = sd(mr2d_rt),
+            se = std.error(mr2d_rt))
+
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(mr2d_rt)) %>% 
+  ggplot(aes(x = continuation, y = mr2d_rt, group = continuation)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(seed = 42, width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(0, 9000)) +
+  labs(title = "Reaction Time on 2D Mental Rotation Task by Group", 
+       x = "Group", y = "RT (ms)") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(continuation) %>% 
+  filter(!is.na(mr2d_rt)) %>% 
+  summarize(mean=mean(mr2d_rt), sd = sd(mr2d_rt), se=std.error(mr2d_rt)) %>%
+  ggplot(aes(x = continuation, y = mean, fill = continuation)) +
+  coord_cartesian(ylim = c(0, 9000)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  labs(title = "Reaction Time on 2D Mental Rotation Task by Group", 
+       x = "Group", y = "RT (ms)")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(mr2d_rt)) %>% 
+  group_by(continuation, ppt) %>% 
+  summarise(mean = mean(mr2d_rt)) #, sd = sd(mr2d_rt)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details )
+```
+
+#### Speed-Accuracy Trade-off Score
+```{r mr2d-sats}
+# Summary table
+apt %>% 
+  filter(!is.na(mr2d_sats)) %>% 
+  group_by(continuation) %>% 
+  summarise(mr2d_sats_mean = mean(mr2d_sats), 
+            sd = sd(mr2d_sats),
+            se = std.error(mr2d_sats))
+
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(mr2d_sats)) %>% 
+  ggplot(aes(x = continuation, y = mr2d_sats, group = continuation)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(seed = 42, width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(-5, 5)) +
+  labs(title = "Speed-Accuracy Trade-off Score on 2D Mental Rotation Task by Group", 
+       x = "Group", 
+       y = "Speed-Accuracy Trade-off Score\n(Balanced Integration Score)") )
+
+# Jittered bar plot not so good for a trade-off score with bars above/below y=0
+```
+
+### 3D Mental Rotation
+#### Accuracy
+```{r mr3d_acc}
+# Summary table
+apt %>% 
+  filter(!is.na(mr3d_acc)) %>% 
+  group_by(continuation) %>% 
+  summarise(mr3d_acc_mean = mean(mr3d_acc), 
+            sd = sd(mr3d_acc),
+            se = std.error(mr3d_acc))
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(mr3d_acc)) %>% 
+  ggplot(aes(x = selected, y = mr3d_acc, group = continuation)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(seed = 42, width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(0, 1)) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  labs(title = "Accuracy on 3d Mental Rotation Task by Group", 
+       x = "Group", y = "Accuracy") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(continuation) %>% 
+  filter(!is.na(mr3d_acc)) %>% 
+  summarize(mean=mean(mr3d_acc), sd = sd(mr3d_acc), se=std.error(mr3d_acc)) %>%
+  ggplot(aes(x = continuation, y = mean, fill = continuation)) +
+  coord_cartesian(ylim = c(0, 1)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
+  labs(title = "Accuracy on 3d Mental Rotation Task by Group", 
+       x = "Group", y = "Accuracy")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(mr3d_acc)) %>% 
+  group_by(continuation, ppt) %>% 
+  summarise(mean = mean(mr3d_acc)) #, sd = sd(mr3d_acc)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details ) 
+```
+
+#### Reaction Time
+```{r mr3d_rt}
+# Summary table
+apt %>% 
+  filter(!is.na(mr3d_rt)) %>% 
+  group_by(continuation) %>% 
+  summarise(mr3d_rt_mean = mean(mr3d_rt), 
+            sd = sd(mr3d_rt),
+            se = std.error(mr3d_rt))
+
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(mr3d_rt)) %>% 
+  ggplot(aes(x = continuation, y = mr3d_rt, group = continuation)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(seed = 42, width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(0, 9000)) +
+  labs(title = "Reaction Time on 3d Mental Rotation Task by Group", 
+       x = "Group", y = "RT (ms)") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(continuation) %>% 
+  filter(!is.na(mr3d_rt)) %>% 
+  summarize(mean=mean(mr3d_rt), sd = sd(mr3d_rt), se=std.error(mr3d_rt)) %>%
+  ggplot(aes(x = continuation, y = mean, fill = continuation)) +
+  coord_cartesian(ylim = c(0, 5000)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  labs(title = "Reaction Time on 3d Mental Rotation Task by Group", 
+       x = "Group", y = "RT (ms)")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(mr3d_rt)) %>% 
+  group_by(continuation, ppt) %>% 
+  summarise(mean = mean(mr3d_rt)) #, sd = sd(mr3d_rt)) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details )
+```
+
+#### Speed-Accuracy Trade-off Score
+```{r mr3d-sats}
+# Summary table
+apt %>% 
+  filter(!is.na(mr3d_sats)) %>% 
+  group_by(continuation) %>% 
+  summarise(mr3d_sats_mean = mean(mr3d_sats), 
+            sd = sd(mr3d_sats),
+            se = std.error(mr3d_sats))
+
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(mr3d_sats)) %>% 
+  ggplot(aes(x = continuation, y = mr3d_sats, group = continuation)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(seed = 42, width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(-5, 5)) +
+  labs(title = "Speed-Accuracy Trade-off Score on 3d Mental Rotation Task by Group", 
+       x = "Group", 
+       y = "Speed-Accuracy Trade-off Score\n(Balanced Integration Score)") )
+
+# Jittered bar plot not so good for a trade-off score with bars above/below y=0
+```
+
+### Digit Span
+```{r dspan_acc}
+# Summary table
+apt %>% 
+  filter(!is.na(dspan_corr)) %>% 
+  group_by(continuation) %>% 
+  summarise(dspan_acc_mean = mean(dspan_corr), 
+            sd = sd(dspan_corr),
+            se = std.error(dspan_corr))
+
+# Raincloud plot
+( R1 <- apt %>% 
+  filter(!is.na(dspan_corr)) %>% 
+  ggplot(aes(x = continuation, y = dspan_corr, 
+             group = continuation)) +
+  geom_flat_violin(position = position_nudge(x = .25, y = 0),
+                   adjust = 2, trim = TRUE, alpha = 0.3) +
+  geom_point(position = position_jitter(seed = 42, width = .15), 
+                        size = 0.5)  +
+  coord_cartesian(ylim = c(0.5, 1)) +
+  labs(title = "Digit Span by Group", 
+       x = "Group", 
+       y = "Digit Span Accuracy)") )
+
+# Jitter plot
+J1 <- apt %>% 
+  group_by(continuation) %>% 
+  filter(!is.na(dspan_corr)) %>% 
+  summarize(mean=mean(dspan_corr), 
+            sd = sd(dspan_corr), se=std.error(dspan_corr)) %>%
+  ggplot(aes(x = continuation, y = mean, fill = continuation)) +
+  coord_cartesian(ylim = c(.5, 1)) +
+  geom_bar(stat = 'identity', position = position_dodge()) +
+  theme_minimal() +
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  scale_y_continuous(labels = percent_format(accuracy=1)) +
+  labs(title = "Digit Span Accuracy", 
+       x = "Group", y = "Accuracy")
+
+limits <- aes(ymax = mean + se, ymin = mean - se)
+J2 <- J1 + geom_errorbar(position = position_dodge(), 
+                          limits, size = 0.5, width = 0.5)
+
+indiv <- apt %>% 
+  filter(!is.na(dspan_corr)) %>% 
+  group_by(continuation, ppt) %>% 
+  summarise(mean = mean(dspan_corr)) #, sd = sd(dspan_corr) # requires trial-level data
+
+pd <- position_dodge(0.5)
+J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8, 
+                       shape = 19, position = pd) +
+    geom_line(data = indiv, aes(group = ppt),
+                      size = 0.1, position = pd)
+
+( J4 <- J3 + theme_details )
+```
+
+### Continuation model
+Which initial assessments best predict remaining in the degree?
+```{r continue-model}
+# fit logistic regression model
+( continue_mdl <- glm(continue ~ nback_comb + corsi_corr + 
+                                 kirk_acc + kbit_acc +
+                                 self_rating,
+                                 family = binomial, 
+                                 data = apt) ) 
+summary(continue_mdl)
+
+# Backward stepwise regression for glm models
+blorr::blr_step_p_backward(continue_mdl, prem = 0.1)
+# Suggests we should remove: nback, kirk, kbit, self-rating
+# this leaves just: corsi
+
+( continue_mdl_final <- glm(continue ~ corsi_corr, 
+                                 family = "binomial", 
+                                 data = apt) )
+summary(continue_mdl_final)
+# Re-running a logistic regression model with just the predictor from the backward stepwise regression gives us the same results
+```
+
+This concludes our Continuation analysis.

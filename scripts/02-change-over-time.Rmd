@@ -1,6 +1,6 @@
 ---
 title: "Sign Language Interpreter Aptitude"
-subtitle: "02 - Change over Time Analysis"
+subtitle: "02 - Change over time analysis"
 author:
   - name: "Freya Watkins"
     affiliation: "University of Birmingham"
@@ -17,7 +17,7 @@ output:
 
 # Setup
 ```{r setup, include=FALSE, message = FALSE, warning = FALSE}
-knitr::opts_chunk$set(echo = TRUE, cache = FALSE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE, cache = FALSE)
 ```
 
 ## Load packages
@@ -26,11 +26,12 @@ library(here) # file organisation & folder location
 library(tidyverse) # data wrangling & plotting
 library(PupillometryR) # raincloud plots
 library(sdamr) # simultaneously nudge + jitter plot points
-library(plotrix) # for calculating standard error
+library(plotrix) # calculating standard error
 library(scales) # scales on plots
-library(patchwork) # for combining plots
-library(lme4) # for linear mixed models
-library(sjPlot) # for lmm output
+library(patchwork) # combining plots
+library(lme4) # linear mixed models
+library(sjPlot) # lmm output
+library(effsize) # effect sizes
 ```
 
 ### R / package versions used
@@ -45,12 +46,13 @@ packageVersion('scales')
 packageVersion('patchwork')
 packageVersion('lme4') 
 packageVersion('sjPlot')
+packageVersion('effsize')
 ```
 
 ## Read pre-wrangled data 
 (see `00-wrangling-setup.Rmd` script)
 ```{r read_in_data}
-here::here()
+# here::here() # Check we're working in the right place
 apt <- readRDS(here("data", "apt-data.rds"))
 apt <- as_tibble(apt)
 head(apt)
@@ -66,10 +68,17 @@ Filter out participants with deaf family members / L1 BSL
 apt <- apt %>% filter(L1_bsl != 1)
 ```
 
+Convert data from long format to wide format
+```{r}
+apt_wide <- apt %>% 
+  tidyr::pivot_wider(names_from = session,
+                     values_from = c(nback_lett:grade_terp))
+```
 # Summary tables
 
 ### Dual N-Back
 ```{r nback_summary}
+# Dual N-Back letter accuracy
 apt %>% 
   filter(!is.na(nback_lett)) %>% 
   group_by(session) %>% 
@@ -77,6 +86,7 @@ apt %>%
             sd = sd(nback_lett),
             se = std.error(nback_lett))
 
+# Dual N-Back spatial accuracy
 apt %>% 
   filter(!is.na(nback_spat)) %>% 
   group_by(session) %>% 
@@ -84,6 +94,7 @@ apt %>%
             sd = sd(nback_spat),
             se = std.error(nback_spat))
 
+# Dual N-Back combined accuracy
 apt %>% 
   filter(!is.na(nback_comb)) %>% 
   group_by(session) %>% 
@@ -94,6 +105,7 @@ apt %>%
 
 ### Corsi Blocks
 ```{r corsi_summary}
+# Corsi Blocks block span
 apt %>% 
   filter(!is.na(corsi_bspan)) %>% 
   group_by(session) %>% 
@@ -101,6 +113,7 @@ apt %>%
             sd = sd(corsi_bspan),
             se = std.error(corsi_bspan))
 
+# Corsi Blocks total score
 apt %>% 
   filter(!is.na(corsi_score)) %>% 
   group_by(session) %>% 
@@ -108,6 +121,7 @@ apt %>%
             sd = sd(corsi_score),
             se = std.error(corsi_score))
 
+# Corsi Blocks correct responses
 apt %>% 
   filter(!is.na(corsi_corr)) %>% 
   group_by(session) %>% 
@@ -115,6 +129,7 @@ apt %>%
             sd = sd(corsi_corr),
             se = std.error(corsi_corr))
 
+# Corsi Blocks memory span
 apt %>% 
   filter(!is.na(corsi_mspan)) %>% 
   group_by(session) %>% 
@@ -125,6 +140,7 @@ apt %>%
 
 ### Kirklees Sentence Reading
 ```{r kirklees_summary}
+# Kirklees ceiling score
 apt %>% 
   filter(!is.na(kirk_ceil)) %>% 
   group_by(session) %>% 
@@ -132,6 +148,7 @@ apt %>%
             sd = sd(kirk_ceil),
             se = std.error(kirk_ceil))
 
+# Kirklees raw score
 apt %>% 
   filter(!is.na(kirk_raw)) %>% 
   group_by(session) %>% 
@@ -139,6 +156,7 @@ apt %>%
             sd = sd(kirk_raw),
             se = std.error(kirk_raw))
 
+# Kirklees accuracy
 apt %>% 
   filter(!is.na(kirk_acc)) %>% 
   group_by(session) %>% 
@@ -149,6 +167,7 @@ apt %>%
 
 ### KBIT-2 Matrices
 ```{r kbit_summary}
+# KBIT-2 Matrices ceiling score
 apt %>% 
   filter(!is.na(kbit_ceil)) %>% 
   group_by(session) %>% 
@@ -156,6 +175,7 @@ apt %>%
             sd = sd(kbit_ceil),
             se = std.error(kbit_ceil))
 
+# KBIT-2 Matrices raw score
 apt %>% 
   filter(!is.na(kbit_raw)) %>% 
   group_by(session) %>% 
@@ -163,6 +183,7 @@ apt %>%
             sd = sd(kbit_raw),
             se = std.error(kbit_raw))
 
+# KBIT-2 Matrices accuracy
 apt %>% 
   filter(!is.na(kbit_acc)) %>% 
   group_by(session) %>% 
@@ -173,6 +194,7 @@ apt %>%
 
 ### Digit Span
 ```{r dspan_summary}
+# Digit Span memory span
 apt %>% 
   filter(!is.na(dspan_mem)) %>% 
   group_by(session) %>% 
@@ -180,6 +202,7 @@ apt %>%
             sd = sd(dspan_mem),
             se = std.error(dspan_mem))
 
+# Digit Span accuracy
 apt %>% 
   filter(!is.na(dspan_corr)) %>% 
   group_by(session) %>% 
@@ -190,6 +213,7 @@ apt %>%
 
 ### 2D Mental Rotation
 ```{r 2dmr_summary}
+# 2D Mental Rotation accuracy
 apt %>% 
   filter(!is.na(mr2d_acc)) %>% 
   group_by(session) %>% 
@@ -197,6 +221,7 @@ apt %>%
             sd = sd(mr2d_acc),
             se = std.error(mr2d_acc))
 
+# 2D Mental Rotation reaction time
 apt %>% 
   filter(!is.na(mr2d_rt)) %>% 
   group_by(session) %>% 
@@ -204,6 +229,7 @@ apt %>%
             sd = sd(mr2d_rt),
             se = std.error(mr2d_rt))
 
+# 2D Mental Rotation speed-accuracy trade-off score
 apt %>% 
   filter(!is.na(mr2d_sats)) %>% 
   group_by(session) %>% 
@@ -214,6 +240,7 @@ apt %>%
 
 ### 3D Mental Rotation
 ```{r 3dmr_summary}
+# 3D Mental Rotation accuracy
 apt %>% 
   filter(!is.na(mr3d_acc)) %>% 
   group_by(session) %>% 
@@ -221,6 +248,7 @@ apt %>%
             sd = sd(mr3d_acc),
             se = std.error(mr3d_acc))
 
+# 3D Mental Rotation reaction time
 apt %>% 
   filter(!is.na(mr3d_rt)) %>% 
   group_by(session) %>% 
@@ -228,6 +256,7 @@ apt %>%
             sd = sd(mr3d_rt),
             se = std.error(mr3d_rt))
 
+# 3D Mental Rotation speed-accuracy trade-off score
 apt %>% 
   filter(!is.na(mr3d_sats)) %>% 
   group_by(session) %>% 
@@ -236,8 +265,9 @@ apt %>%
             se = std.error(mr3d_sats))
 ```
 
-### Barratt Impulsivity Scale
+### Barratt Impulsiveness Scale
 ```{r bis_summary}
+# BIS total score
 apt %>% 
   filter(!is.na(bis_tot)) %>% 
   group_by(session) %>% 
@@ -245,6 +275,7 @@ apt %>%
             sd = sd(bis_tot),
             se = std.error(bis_tot))
 
+# BIS attention sub-score
 apt %>% 
   filter(!is.na(bis_att)) %>% 
   group_by(session) %>% 
@@ -252,6 +283,7 @@ apt %>%
             sd = sd(bis_att),
             se = std.error(bis_att))
 
+# BIS motor sub-score
 apt %>% 
   filter(!is.na(bis_mot)) %>% 
   group_by(session) %>% 
@@ -259,6 +291,7 @@ apt %>%
             sd = sd(bis_mot),
             se = std.error(bis_mot))
 
+# BIS non-planning sub-score
 apt %>% 
   filter(!is.na(bis_nplan)) %>% 
   group_by(session) %>% 
@@ -267,13 +300,11 @@ apt %>%
             se = std.error(bis_nplan))
 ```
 
-### Others
-Data for the MLAT Number Learning task and the Summarising Task were only collected at session 1 for two of three cohorts only, so there is no change over time to plot. The Barratt Impulsivity Scale was only collected at sessions three and four and no change over time was predicted.
+### Other predictors
+Data for the MLAT Number Learning task and the Summarising Task were only collected at session 1 for two of three cohorts only, so there is no change over time to plot. The Barratt Impulsiveness Scale was only collected at sessions three and four, so no change over time was predicted.
 
 # Plots
-
-Let's plot the linguistic & cognitive assessments over time 
-
+Let's plot the changes in the linguistic & cognitive predictor assessments over time
 ```{r plot-theme}
 # set up a theme for the plots
 theme_details <- theme_bw() + 
@@ -291,6 +322,8 @@ pd <- position_dodge(0.5)
 ```
 
 ### Dual N-Back
+How does performance on the Dual N-Back task change over time?
+
 #### Letter matching
 ```{r nback_lett}
 # Raincloud plot
@@ -299,7 +332,7 @@ pd <- position_dodge(0.5)
   ggplot(aes(x = session, y = nback_lett, group = session, fill = session)) +
   geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+  geom_point(position = position_jitternudge(seed=42,jitter.width = .4, nudge.x = -.15), 
                         size = 2, shape = 21) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   scale_y_continuous(labels = percent_format(accuracy=1)) +
@@ -347,7 +380,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   ggplot(aes(x = session, y = nback_spat, group = session, fill = session)) +
   geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+  geom_point(position = position_jitternudge(seed=42,jitter.width = .4, nudge.x = -.15), 
                         size = 2, shape = 21) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
   scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
@@ -395,9 +428,11 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   ggplot(aes(x = session, y = nback_comb, group = session, fill = session)) +
   geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+  geom_point(position = position_jitternudge(seed=42,jitter.width = .4, nudge.x = -.15), 
                         size = 2, shape = 21) +
-  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
+  scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  scale_x_discrete(labels = c('pre-degree\nn=30', '1st year\nn=10',
+                              '2nd year\nn=11', '3rd year\nn=9')) +
   scale_y_continuous(labels = percent_format(accuracy=1)) +
   labs(title = "a) Multimodal Working Memory by Session", 
        x = "Session", y = "Dual N-Back Accuracy") +
@@ -436,8 +471,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ```
 
 ### Corsi Blocks
-
-How does Accuracy on the Corsi Blocks task change over time?
+How does performance on the Corsi Blocks task change over time?
 ```{r corsi_corr}
 # Raincloud plot
 ( fig3b <- apt %>% 
@@ -445,10 +479,12 @@ How does Accuracy on the Corsi Blocks task change over time?
   ggplot(aes(x = session, y = corsi_corr, group = session, fill = session)) +
   geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+  geom_point(position = position_jitternudge(seed=42,jitter.width = .4, nudge.x = -.15), 
                         size = 2, shape = 21) +
   coord_cartesian(ylim = c(5, 15)) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
+  scale_x_discrete(labels = c('pre-degree\nn=30', '1st year\nn=11',
+                              '2nd year\nn=11', '3rd year\nn=9')) +
   scale_y_continuous(labels = scales::number_format(accuracy = 1)) +
   labs(title = "b) Visuospatial Working Memory by Session", 
        x = "Session", y = "Corsi Blocks Correct Responses") +
@@ -486,7 +522,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 
 
 ### Kirklees Sentence Reading
-How does Accuracy on the Kirklees Sentence Reading task change over time?
+How does performance on the Kirklees Sentence Reading task change over time?
 ```{r kirk_acc}
 # Raincloud plot
 ( R1 <- apt %>% 
@@ -494,7 +530,7 @@ How does Accuracy on the Kirklees Sentence Reading task change over time?
   ggplot(aes(x = session, y = kirk_acc, group = session, fill = session)) +
   geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+  geom_point(position = position_jitternudge(seed=42,jitter.width = .4, nudge.x = -.15), 
                         size = 2, shape = 21) +
   coord_cartesian(ylim = c(0.45, 1)) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
@@ -535,8 +571,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ```
 
 ### KBIT-2 Matrices
-How does Accuracy on the KBIT-2 Matrices task change over time? 
-
+How does performance on the KBIT-2 Matrices task change over time? 
 ```{r kbit_acc}
 # Raincloud plot
 ( R1 <- apt %>% 
@@ -544,7 +579,7 @@ How does Accuracy on the KBIT-2 Matrices task change over time?
   ggplot(aes(x = session, y = kbit_acc, group = session, fill = session)) +
   geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+  geom_point(position = position_jitternudge(seed=42,jitter.width = .4, nudge.x = -.15), 
                         size = 2, shape = 21) +
   coord_cartesian(ylim = c(.65, 1)) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +  
@@ -586,6 +621,8 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ```
 
 ### Digit Span
+How does performance on the Digit Span task change over time?
+
 #### Accuracy
 ```{r dspan_corr}
 # Raincloud plot
@@ -594,10 +631,12 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   ggplot(aes(x = session, y = dspan_corr, group = session, fill = session)) +
   geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+  geom_point(position = position_jitternudge(seed=42,jitter.width = .4, nudge.x = -.15), 
                         size = 2, shape = 21) +
   coord_cartesian(ylim = c(0.5, 0.9)) +
-  scale_fill_manual(values = c("#7bccc4", "#43a2ca", "#0868ac", "#bae4bc")) +  
+  scale_fill_manual(values = c("#7bccc4", "#43a2ca", "#0868ac", "#bae4bc")) + 
+  scale_x_discrete(labels = c('pre-degree\nn=18', '1st year\nn=0',
+                              '2nd year\nn=11', '3rd year\nn=9')) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1L)) +
   labs(title = "c) Auditory Working Memory by Session", 
        x = "Session", y = "Digit Span Accuracy") +
@@ -648,7 +687,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   ggplot(aes(x = session, y = dspan_mem, group = session, fill = session)) +
   geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+  geom_point(position = position_jitternudge(seed=42,jitter.width = .4, nudge.x = -.15), 
                         size = 2, shape = 21) +
   coord_cartesian(ylim = c(4, 11)) +
   scale_fill_manual(values = c("#7bccc4", "#43a2ca", "#0868ac", "#bae4bc")) +   
@@ -690,6 +729,8 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 
 
 ### 2D Mental Rotation
+How does performance on the 2D Mental Rotation task change over time?
+
 #### Accuracy
 ```{r mr2d_acc}
 # Raincloud plot
@@ -698,7 +739,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   ggplot(aes(x = session, y = mr2d_acc, group = session, fill = session)) +
   geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+  geom_point(position = position_jitternudge(seed=42,jitter.width = .4, nudge.x = -.15), 
                         size = 2, shape = 21) +
   coord_cartesian(ylim = c(0.5, 1)) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
@@ -742,11 +783,11 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   filter(!is.na(mr2d_acc)) %>% 
   ggplot(aes(x = session, y = mr2d_acc, group = session, fill = session)) +
   geom_point(data=indiv, aes(x = session, y = mean, group = ppt),
-             position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+             position = position_jitternudge(seed=42,jitter.width = .4, nudge.x = -.15), 
                         size = 2, shape = 21) +
   geom_line(data = indiv, aes(x = session, y = mean, group = ppt),
                       size = 0.1, alpha = 0.3, 
-            position = position_jitternudge(jitter.width = .4, nudge.x = -.15)) +
+            position = position_jitternudge(seed=42,jitter.width = .4, nudge.x = -.15)) +
   geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
   coord_cartesian(ylim = c(0.5, 1)) +
@@ -766,7 +807,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   ggplot(aes(x = session, y = mr2d_rt, group = session, fill = session)) +
   geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+  geom_point(position = position_jitternudge(seed=42,jitter.width = .4, nudge.x = -.15), 
                         size = 2, shape = 21) +
   coord_cartesian(ylim = c(0, 8500)) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
@@ -814,7 +855,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
                       size = 0.1, alpha = 0.3, position = pd) +
   geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+  geom_point(position = position_jitternudge(seed=42,jitter.width = .4, nudge.x = -.15), 
                         size = 2, shape = 21) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   coord_cartesian(ylim = c(0, 4500)) +
@@ -833,7 +874,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   geom_hline(yintercept = 0, alpha = 0.4, linetype = "dashed") +
   geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+  geom_point(position = position_jitternudge(seed=42,jitter.width = .4, nudge.x = -.15), 
                         size = 2, shape = 21) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   coord_cartesian(ylim = c(-3, 3)) +
@@ -881,7 +922,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
                       size = 0.1, alpha = 0.5, position = pd) +
   geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+  geom_point(position = position_jitternudge(seed=42,jitter.width = .4, nudge.x = -.15), 
                         size = 2, shape = 21) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
   coord_cartesian(ylim = c(-3, 2)) +
@@ -892,6 +933,8 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ```
 
 ### 3D Mental Rotation
+How does performance on the 3D Mental Rotation task change over time?
+
 #### Accuracy
 ```{r mr3d_acc}
 # Raincloud plot
@@ -901,7 +944,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   ggplot(aes(x = session, y = mr3d_acc, group = session, fill = session)) +
   geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+  geom_point(position = position_jitternudge(seed=42,jitter.width = .4, nudge.x = -.15), 
                         size = 2, shape = 21) +
   coord_cartesian(ylim = c(0, 1)) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
@@ -952,7 +995,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   ggplot(aes(x = session, y = mr3d_rt, group = session, fill = session)) +
   geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+  geom_point(position = position_jitternudge(seed=42,jitter.width = .4, nudge.x = -.15), 
                         size = 2, shape = 21) +
   coord_cartesian(ylim = c(0, 4500)) +
   scale_fill_manual(values = c("#bae4bc", "#43a2ca", "#0868ac")) +
@@ -1016,7 +1059,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   geom_hline(yintercept = 0, alpha = .3) +
   geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+  geom_point(position = position_jitternudge(seed=42,jitter.width = .4, nudge.x = -.15), 
                         size = 2, shape = 21) +
   coord_cartesian(ylim = c(-4, 3)) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
@@ -1063,22 +1106,25 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
   geom_hline(yintercept = 0, alpha = 0.4, linetype = "dashed") +
   geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitternudge(jitter.width = .3, nudge.x = -.15), 
+  geom_point(position = position_jitternudge(seed=42,jitter.width = .3, nudge.x = -.15), 
                         size = 2, shape = 21) +
   scale_fill_manual(values = c("#bae4bc", "#7bccc4", "#43a2ca", "#0868ac")) +
+  scale_x_discrete(labels = c('pre-degree\nn=21', '1st year\nn=2',
+                              '2nd year\nn=13', '3rd year\nn=9')) +  
   coord_cartesian(ylim = c(-4, 3)) +
   labs(title = "d) 3D Mental Rotation by Session", 
        x = "Session", y = "Speed-Accuracy Trade-off Score") +
   theme_details )
 ```
+
 Combine plots for Figure 3 using patchwork:
 ```{r}
 fig3 <- (fig3a | fig3b)/(fig3c | fig3d)
 ggsave("plots/Fig3.jpeg", plot=fig3, width = 12, height = 8, units = "in")
 ```
 
-### Barratt Impulsivity Scale
-#### Total Score
+### Barratt Impulsiveness Scale
+How does performance on the BIS change over time?
 ```{r bis_tot}
 # Raincloud plot
 ( R1 <- apt %>% 
@@ -1087,11 +1133,11 @@ ggsave("plots/Fig3.jpeg", plot=fig3, width = 12, height = 8, units = "in")
   ggplot(aes(x = session, y = bis_tot, group = session, fill = session)) +
   geom_flat_violin(position = position_nudge(x = .1, y = 0),
                    adjust = 2, trim = TRUE, alpha = 1) +
-  geom_point(position = position_jitternudge(jitter.width = .4, nudge.x = -.15), 
+  geom_point(position = position_jitternudge(seed=42,jitter.width = .4, nudge.x = -.15), 
                         size = 2, shape = 21) +
   scale_fill_manual(values = c("#43a2ca", "#0868ac")) +
   coord_cartesian(ylim = c(0, 100)) +
-  labs(title = "Total Score on Barratt Impulsivity Scale by Session", 
+  labs(title = "Total Score on Barratt Impulsiveness Scale by Session", 
        x = "Session", y = "Total Score") )
 
 # Jitter plot
@@ -1105,7 +1151,7 @@ J1 <- apt %>%
   geom_bar(stat = 'identity', position = position_dodge()) +
   theme_minimal() +
   scale_fill_manual(values = c("#43a2ca", "#0868ac")) +
-  labs(title = "Total Score on Barratt Impulsivity Scale by Session", 
+  labs(title = "Total Score on Barratt Impulsiveness Scale by Session", 
        x = "Session", y = "Total Score")
 
 limits <- aes(ymax = mean + se, ymin = mean - se)
@@ -1127,7 +1173,7 @@ J3 <- J2 + geom_point(data=indiv, aes(group = ppt), size = 0.8,
 ```
 
 # Models
-Does performance on these cognitive and linguistic assessments change over time?
+Having summarised and plotted the data, now let's fit models to see whether session is a predictor of changes in the performance on each of the cognitive and linguistic assessments. We add BSL self-rating as a co-efficient
               
 ## Dual N-Back
 ```{r nback-mdl}
@@ -1137,6 +1183,12 @@ Does performance on these cognitive and linguistic assessments change over time?
 
 summary(nback_comb_mdl)
 tab_model(nback_comb_mdl, show.aic = T)
+
+# calculate effect size
+a <- apt_wide %>% 
+  filter(`nback_comb_pre-degree`!= "NA") %>% 
+  filter(`nback_comb_2nd year` != "NA")
+cohen.d(a$`nback_comb_pre-degree`, a$`nback_comb_2nd year`)
 
 ( nback_lett_mdl <- lmer(nback_lett ~ session + self_rating + (1|ppt), 
                   data = apt) ) 
@@ -1159,17 +1211,25 @@ tab_model(nback_spat_mdl, show.aic = T)
 
 summary(corsi_corr_mdl)
 tab_model(corsi_corr_mdl, show.aic = T)
+
+# effect size
+a <- apt_wide %>% 
+  filter(`corsi_corr_pre-degree`!= "NA") %>% 
+  filter(`corsi_corr_1st year` != "NA")
+cohen.d(a$`corsi_corr_pre-degree`, a$`corsi_corr_1st year`)
 ```
 
 ## Kirklees Sentence Reading
 ```{r kirk-mdl}
 # Does session predict Kirklees Sentence Reading results?
 ( kirk_mdl <- lmer(kirk_acc ~ session + self_rating +
-                   age_s1 + (1|ppt), 
+                   #age_s1 + # removing age from public script for data protection reasons
+                   (1|ppt), 
                    data = apt) ) 
 
 summary(kirk_mdl)
 tab_model(kirk_mdl, show.aic = T)
+# NB these results are very slightly different to those reported in the manuscript, due to the removal of age as a co-variate to protect participant anonymity
 ```
 
 ## KBIT-2 Matrices
@@ -1195,16 +1255,29 @@ tab_model(dspan_corr_mdl, show.aic = T)
                   data = apt) ) 
 
 summary(dspan_mem_mdl)
+
+# effect size
+a <- apt_wide %>% 
+  filter(`dspan_corr_pre-degree`!= "NA") %>% 
+  filter(`dspan_corr_3rd year` != "NA")
+cohen.d(a$`dspan_corr_pre-degree`, a$`dspan_corr_3rd year`)
 ```
 
 ## 2D Mental Rotation
 ```{r mr2d-mdl}
-# Does session predict 2D Mental Rotation results?
+# Does session predict 2D Mental Rotation SATS?
 ( mr2d_sats_mdl <- lmer(mr2d_sats ~ session + self_rating + (1|ppt), 
                   data = apt) ) 
 
 summary(mr2d_sats_mdl)
 tab_model(mr2d_sats_mdl, show.aic = T)
+
+# effect size
+a <- apt_wide %>% 
+  filter(`mr2d_sats_pre-degree`!= "NA") %>% 
+  filter(`mr2d_sats_3rd year` != "NA")
+cohen.d(a$`mr2d_sats_pre-degree`, a$`mr2d_sats_3rd year`)
+# cannot calculate, not all participants completed this task at all sessions
 
 ( mr2d_acc_mdl <- lmer(mr2d_acc ~ session + self_rating + (1|ppt), 
                   data = apt) ) 
@@ -1217,6 +1290,12 @@ tab_model(mr2d_acc_mdl, show.aic = T)
 
 summary(mr2d_rt_mdl)
 tab_model(mr2d_rt_mdl, show.aic = T)
+
+# effect size
+a <- apt_wide %>% 
+  filter(`mr2d_rt_pre-degree`!= "NA") %>% 
+  filter(`mr2d_rt_1st year` != "NA")
+cohen.d(a$`mr2d_rt_pre-degree`, a$`mr2d_rt_1st year`)
 ```
 
 ## 3D Mental Rotation
@@ -1227,27 +1306,75 @@ tab_model(mr2d_rt_mdl, show.aic = T)
 summary(mr3d_sats_mdl)
 tab_model(mr3d_sats_mdl, show.aic = T)
 
+# effect sizes
+a <- apt_wide %>% 
+  filter(`mr3d_sats_pre-degree`!= "NA") %>% 
+  filter(`mr3d_sats_1st year` != "NA")
+cohen.d(a$`mr3d_sats_pre-degree`, a$`mr3d_sats_1st year`)
+
+a <- apt_wide %>% 
+  filter(`mr3d_sats_pre-degree`!= "NA") %>% 
+  filter(`mr3d_sats_2nd year` != "NA")
+cohen.d(a$`mr3d_sats_pre-degree`, a$`mr3d_sats_2nd year`)
+
+a <- apt_wide %>% 
+  filter(`mr3d_sats_pre-degree`!= "NA") %>% 
+  filter(`mr3d_sats_3rd year` != "NA")
+cohen.d(a$`mr3d_sats_pre-degree`, a$`mr3d_sats_3rd year`)
+
 ( mr3d_acc_mdl <- lmer(mr3d_acc ~ session + self_rating + (1|ppt), 
                   data = apt) ) 
 summary(mr3d_acc_mdl)
 tab_model(mr3d_acc_mdl, show.aic = T)
 
+a <- apt_wide %>% 
+  filter(`mr3d_acc_pre-degree`!= "NA") %>% 
+  filter(`mr3d_acc_1st year` != "NA")
+cohen.d(a$`mr3d_acc_pre-degree`, a$`mr3d_acc_3rd year`)
+
 ( mr3d_rt_mdl <- lmer(mr3d_rt ~ session + self_rating + (1|ppt), 
                   data = apt) ) 
 summary(mr3d_rt_mdl)
 tab_model(mr3d_rt_mdl, show.aic = T)
+
+a <- apt_wide %>% 
+  filter(`mr3d_rt_pre-degree`!= "NA") %>% 
+  filter(`mr3d_rt_1st year` != "NA")
+cohen.d(a$`mr3d_rt_pre-degree`, a$`mr3d_rt_1st year`)
+
+a <- apt_wide %>% 
+  filter(`mr3d_rt_pre-degree`!= "NA") %>% 
+  filter(`mr3d_rt_2nd year` != "NA")
+cohen.d(a$`mr3d_rt_pre-degree`, a$`mr3d_rt_2nd year`)
+
+a <- apt_wide %>% 
+  filter(`mr3d_rt_pre-degree`!= "NA") %>% 
+  filter(`mr3d_rt_3rd year` != "NA")
+cohen.d(a$`mr3d_rt_pre-degree`, a$`mr3d_rt_3rd year`)
 ```
 
-## Barratt Impulsivity Scale
+## Barratt Impulsiveness Scale
 ```{r bis-mdl}
 # relevel session because data only for 2nd year vs 3rd year
 apt$session <- fct_relevel(apt$session, "2nd year", after = 0)
 
-# Does session predict Barratt Impulsivity Scale results?
+apt_bis <- apt %>% filter(session != "1st year") # only 2 ppts at 2nd session>filter out
+
+# Does session predict Barratt Impulsiveness Scale results?
 ( bis_mdl <- lmer(bis_tot ~ session + self_rating + (1|ppt), 
-                  data = apt) ) 
+                  data = apt_bis) ) 
 
 summary(bis_mdl)
+tab_model(bis_mdl, show.aic = T)
+
+# effect size
+a <- apt_wide %>% 
+  filter(`bis_tot_2nd year` != "NA") %>% 
+  filter(`bis_tot_3rd year` != "NA")
+cohen.d(a$`bis_tot_2nd year`, a$`bis_tot_3rd year`)
+
 # relevel back again 
 apt$session <- fct_relevel(apt$session, "2nd year", after = 2)
 ```
+
+This concludes our Change over time analysis.
