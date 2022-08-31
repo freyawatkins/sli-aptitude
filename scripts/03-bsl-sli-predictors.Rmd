@@ -69,17 +69,19 @@ apt_wide <- apt %>%
 # Plots & correlations
 ```{r plot-theme}
 # set up a theme for the plots
-theme_details <- theme_bw() + 
-    theme(panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(),
-          panel.border = element_rect(colour = "black", size = 0.5),
-          plot.title = element_text(size = 15, face = "bold"),
-          plot.title.position = "plot",
-          axis.title.x = element_text(size = 14, face = "bold"),
-          axis.title.y = element_text(size = 14, face = "bold"),
-          axis.text.x = element_text(size = 14, colour = "black"),
-          axis.text.y = element_text(size = 14, colour = "black"),
-          legend.position = "none")
+theme_details <- theme_bw() +
+  theme(
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.border = element_rect(colour = "black", size = 0.5),
+    plot.title = element_text(size = 15, face = "bold"),
+    plot.title.position = "plot",
+    axis.title.x = element_text(size = 14, face = "bold"),
+    axis.title.y = element_text(size = 14, face = "bold"),
+    axis.text.x = element_text(size = 14, colour = "black"),
+    axis.text.y = element_text(size = 14, colour = "black"),
+    legend.position = "none"
+  )
 ```
 
 ### BSL: predicted impact
@@ -93,11 +95,14 @@ First we look at the predictor variables which we hypothesised may have a relati
 apt_wide %>%
   ggplot(aes(x = `corsi_corr_pre-degree`, y = `grade_bsl_1st year`)) +
   geom_point(size = 2) +
-  geom_smooth(method= "lm") +
-  theme_minimal() + theme_details + 
-  labs(title = "Initial visuospatial skill vs. 1st year BSL grades", 
-       y = "1st year BSL grade", 
-       x = "Initial Corsi Blocks score")
+  geom_smooth(method = "lm") +
+  theme_minimal() +
+  theme_details +
+  labs(
+    title = "Initial visuospatial skill vs. 1st year BSL grades",
+    y = "1st year BSL grade",
+    x = "Initial Corsi Blocks score"
+  )
 
 a <- apt_wide %>% 
   filter(`corsi_corr_pre-degree`!= "NA") %>% 
